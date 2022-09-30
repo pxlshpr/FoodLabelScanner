@@ -43,7 +43,7 @@ extension RecognizedTextSet {
             }
             
             let attributeText = AttributeText(attribute: attribute, text: text)
-            let valueText = ValueText(value: value.0, text: value.1)
+            let valueText = ValueText(value: value.0, text: value.1, attributeText: text)
             let observation = Observation(attributeText: attributeText, valueText1: valueText)
             observations.append(observation)
         }
