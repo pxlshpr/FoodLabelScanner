@@ -11,7 +11,7 @@ public struct FoodLabelScanner {
         self.contentSize = contentSize ?? image.size
     }
     
-    public func getScanResults() async throws -> ScanResult {
+    public func scan() async throws -> ScanResult {
         let textSet = try await image.recognizedTextSet(for: .accurate, inContentSize: contentSize)
         
         let observations = textSet.inlineObservations
@@ -43,7 +43,7 @@ extension RecognizedTextSet {
             }
             
             let attributeText = AttributeText(attribute: attribute, text: text)
-            let valueText = ValueText(value: value, text: text)
+            let valueText = ValueText(value: value.0, text: value.1)
             let observation = Observation(attributeText: attributeText, valueText1: valueText)
             observations.append(observation)
         }
@@ -52,11 +52,11 @@ extension RecognizedTextSet {
 }
 
 extension Array where Element == [RecognizedText] {
-    var firstValue: Value? {
+    var firstValue: (Value, RecognizedText)? {
         for column in self {
             for text in column {
                 if let value = Value.detectSingleValue(in: text.string) {
-                    return value
+                    return (value, text)
                 }
             }
         }
