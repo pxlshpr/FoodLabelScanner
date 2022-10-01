@@ -1,5 +1,6 @@
 import SwiftUI
 import VisionSugar
+import CoreMedia
 
 public struct FoodLabelScanner {
     
@@ -34,4 +35,26 @@ public struct FoodLabelScanner {
             return textSet.tabularObservations
         }
     }
+}
+
+public struct FoodLabelLiveScanner {
+    
+    var sampleBuffer: CMSampleBuffer
+
+    public init(sampleBuffer: CMSampleBuffer) {
+        self.sampleBuffer = sampleBuffer
+    }
+    
+    public func scan() async throws -> ScanResult {
+        let textSet = try await sampleBuffer.recognizedTextSet(for: .accurate, inContentSize: UIScreen.main.bounds.size)
+        
+        let observations = textSet.inlineObservations
+//        let observations = getObservations(from: textSet)
+        return ScanResult(
+            serving: observations.serving,
+            nutrients: observations.nutrients,
+            texts: ScanResult.Texts(accurate: textSet.texts, accurateWithoutLanguageCorrection: [], fast: [])
+        )
+    }
+
 }
