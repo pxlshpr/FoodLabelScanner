@@ -2,9 +2,17 @@ import Foundation
 import VisionSugar
 
 public struct ScanResultSet: Codable {
+    public let id: UUID
     public let inline: ScanResult
     public let tabular: ScanResult
     public let texts: [RecognizedText]
+    
+    init(id: UUID = UUID(), inline: ScanResult, tabular: ScanResult, texts: [RecognizedText]) {
+        self.id = id
+        self.inline = inline
+        self.tabular = tabular
+        self.texts = texts
+    }
 }
 
 public struct ScanResult: Codable {
