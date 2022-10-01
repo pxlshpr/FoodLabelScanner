@@ -313,6 +313,15 @@ extension Attribute {
         }
     }
     
+    var supportsTotalLabel: Bool {
+        switch self {
+        case .fat, .carbohydrate:
+            return true
+        default:
+            return false
+        }
+    }
+
     var nextAttributes: [Attribute]? {
         switch self {
         case .servingAmount:

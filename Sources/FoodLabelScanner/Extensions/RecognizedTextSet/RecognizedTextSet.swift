@@ -48,5 +48,20 @@ extension RecognizedTextSet {
         print("🧮 Ratio is: \(ratio)")
         return ratio >= 0.75
     }
+    
+    func texts(for attribute: Attribute) -> [RecognizedText] {
+        var texts: [RecognizedText] = []
+        for text in texts {
+            let attributes = Attribute.detect(in: text.string)
+            guard attributes.contains(.energy),
+                  !texts.contains(where: { $0.string == text.string } )
+            else {
+                continue
+            }
+            texts.append(text)
+        }
+        return texts
+    }
 }
+
 

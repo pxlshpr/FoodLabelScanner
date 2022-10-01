@@ -3,13 +3,13 @@ import XCTest
 
 final class FoodLabelScannerTests: XCTestCase {
     func test() async throws {
-        guard let path = Bundle.module.path(forResource: "083C5BAA-2DDA-42E5-8A6C-DCD1A3E5B7E1", ofType: "jpg"),
+        guard let path = Bundle.module.path(forResource: "81942184-145C-4858-884A-8A76B9BD6498", ofType: "jpg"),
               let image = UIImage(contentsOfFile: path)
         else {
             XCTFail("Couldn't get image")
             return
         }
 
-        let results = try await FoodLabelScanner(image: image).getScanResults()
+        let results = try await FoodLabelScanner(image: image).scan()
     }
 }

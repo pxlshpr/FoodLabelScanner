@@ -158,5 +158,11 @@ extension NutrientArtefact {
     }
 }
 
-let defaultUUID = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
-let defaultText = RecognizedText(id: defaultUUID, rectString: "", boundingBoxString: "", candidates: [])
+extension Nutrient {
+    func observation(forInlineText text: RecognizedText) -> Observation {
+        let attributeText = AttributeText(attribute: attribute, text: text)
+        let valueText = ValueText(value: value, text: text)
+        return Observation(attributeText: attributeText, valueText1: valueText)
+    }
+}
+

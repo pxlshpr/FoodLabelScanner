@@ -225,3 +225,14 @@ struct NumberRegex {
     static let isFraction = #"^([0-9]+)\/([0-9]+)"#
 }
 
+
+
+extension Value {
+    var energyAmountInCalories: Double {
+        if let unit = unit, unit == .kj {
+            return amount / KcalsPerKilojule
+        } else {
+            return amount
+        }
+    }
+}
