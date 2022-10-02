@@ -224,8 +224,16 @@ extension Attribute {
         }
     }
     
+    public var isLabelAttribute: Bool {
+        switch self {
+        case .nutrientLabelTotal:
+            return true
+        default:
+            return false
+        }
+    }
     public var isNutrientAttribute: Bool {
-        !isHeaderAttribute && !isServingAttribute && !isTableAttribute
+        !isHeaderAttribute && !isServingAttribute && !isTableAttribute && !isLabelAttribute
     }
 
     var childrenAttributes: [Attribute] {
