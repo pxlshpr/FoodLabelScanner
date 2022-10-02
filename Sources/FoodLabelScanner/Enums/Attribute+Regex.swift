@@ -187,8 +187,12 @@ extension Attribute {
             "of which saturates", "saturi", "saturados", "gras satures", "sat. fat", "kwasy nasycone", "grasi saturati", "sociosios"
         ]
 
-        static let totalFat = #"^.*(\#(totalFatOptions.joined(separator: "|"))).*$"#
-//        static let totalFat = #"(^| )(\#(totalFatOptions.joined(separator: "|"))).*$"#
+//        static let totalFat = #"^.*(\#(totalFatOptions.joined(separator: "|"))).*$"#
+
+        static let fatOutOfContext = #".*(energy from fat|calories from fat).*"#
+        static let fatOnly = #"^.*(\#(totalFatOptions.joined(separator: "|"))).*$"#
+        static let totalFat = #"^(?=\#(fatOnly))(?!\#(fatOutOfContext)).*$"#
+
         static let saturatedFatOnly = #"^.*(\#(saturatedFatOptions.joined(separator: "|"))).*$"#
         static let transFat = #"^.*trans.*$"#
         static let monounsaturatedFat = #"^.*mono(-|)unsaturat.*$"#
