@@ -13,7 +13,8 @@ extension RecognizedTextSet {
         let observations = tabularObservations
         return ScanResult(
             serving: observations.serving,
-            nutrients: observations.nutrients
+            nutrients: observations.nutrients,
+            texts: texts
         )
     }
 }

@@ -1,31 +1,20 @@
 import Foundation
 import VisionSugar
 
-public struct ScanResultSet: Codable {
-    public let id: UUID
-    public let inline: ScanResult
-    public let tabular: ScanResult
-    public let texts: [RecognizedText]
-    
-    init(id: UUID = UUID(), inline: ScanResult, tabular: ScanResult, texts: [RecognizedText]) {
-        self.id = id
-        self.inline = inline
-        self.tabular = tabular
-        self.texts = texts
-    }
-}
-
 public struct ScanResult: Codable {
     public let id: UUID
     public let serving: Serving?
     public let nutrients: Nutrients
+    public let texts: [RecognizedText]
     
-    init(id: UUID = UUID(), serving: Serving?, nutrients: Nutrients) {
+    init(id: UUID = UUID(), serving: Serving?, nutrients: Nutrients, texts: [RecognizedText]) {
         self.id = id
         self.serving = serving
         self.nutrients = nutrients
+        self.texts = texts
     }
 }
+
 extension ScanResult {
     //MARK: Serving
     public struct Serving: Codable {

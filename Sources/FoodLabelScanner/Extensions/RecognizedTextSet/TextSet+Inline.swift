@@ -32,7 +32,8 @@ extension RecognizedTextSet {
         let observations = inlineObservations
         return ScanResult(
             serving: observations.serving,
-            nutrients: observations.nutrients
+            nutrients: observations.nutrients,
+            texts: texts
         )
     }
 }
