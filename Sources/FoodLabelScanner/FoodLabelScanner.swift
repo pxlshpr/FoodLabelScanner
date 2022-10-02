@@ -42,14 +42,19 @@ public struct FoodLabelScanner {
             print("🥕 using inline as its complete")
             return inline
         }
-        
+
+        print("🥕 not using inline yet as the energy/macro values aren't present or don't equate")
+
         let tabular = textSet.tabularObservations
-        guard tabular.isPreferred(to: inline) else {
-            print("🥕 using inline as its preferred to tabular")
-            return inline
-        }
-        print("🥕 using tabular as its preferred to inline")
+        print("🥕 using tabular indiscriminately")
         return tabular
+        
+//        guard tabular.isPreferred(to: inline) else {
+//            print("🥕 using inline as its preferred to tabular")
+//            return inline
+//        }
+//        print("🥕 using tabular as its preferred to inline")
+//        return tabular
     }
 }
 
