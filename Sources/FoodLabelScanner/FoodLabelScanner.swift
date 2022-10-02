@@ -53,7 +53,7 @@ public struct FoodLabelScanner {
             print("🥕 using inline (\(inline.nutrientsCount) nutrients) as its preferred to tabular (\(tabular.nutrientsCount) nutrients)")
             return inline
         }
-        print("🥕 using tabular as its preferred to inline")
+        print("🥕 using tabular (\(tabular.nutrientsCount) nutrients) as its preferred to inline (\(inline.nutrientsCount) nutrients)")
         return tabular
     }
 }
