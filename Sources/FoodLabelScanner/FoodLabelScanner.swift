@@ -50,7 +50,7 @@ public struct FoodLabelScanner {
 //        return tabular
         
         guard tabular.isPreferred(to: inline) else {
-            print("🥕 using inline (\(inline.count) observations) as its preferred to tabular (\(tabular.count) observations)")
+            print("🥕 using inline (\(inline.nutrientsCount) nutrients) as its preferred to tabular (\(tabular.nutrientsCount) nutrients)")
             return inline
         }
         print("🥕 using tabular as its preferred to inline")
@@ -67,7 +67,11 @@ extension Array where Element == Observation {
          - [x]  It has the same or more number of observations than the `inlineResult`
      */
     func isPreferred(to observations: [Observation]) -> Bool {
-        self.count >= observations.count
+        self.nutrientsCount >= observations.nutrientsCount
+    }
+    
+    var nutrientsCount: Int {
+        filter({ $0.attribute.isNutrientAttribute }).count
     }
     
     /**
