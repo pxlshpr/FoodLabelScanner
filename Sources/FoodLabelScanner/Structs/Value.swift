@@ -210,9 +210,9 @@ extension Value: Hashable {
 extension Value: CustomStringConvertible {
     public var description: String {
         if let unit = unit {
-            return "\(amount) \(unit.description)"
+            return "\(amount.cleanAmount) \(unit.description)"
         } else {
-            return "\(amount)"
+            return "\(amount.cleanAmount)"
         }
     }
 }
