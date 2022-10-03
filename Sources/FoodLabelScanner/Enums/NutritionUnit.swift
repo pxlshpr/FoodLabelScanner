@@ -22,7 +22,7 @@ public enum NutritionUnit: Int, CaseIterable, Codable {
         return nil
     }
     
-    var isEnergy: Bool {
+    public var isEnergy: Bool {
         self == .kcal || self == .kj
     }
     
