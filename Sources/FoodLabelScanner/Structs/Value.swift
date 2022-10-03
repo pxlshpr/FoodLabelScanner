@@ -105,7 +105,7 @@ public struct Value: Codable {
 extension Value {
     
     ///Prioritises value with unit if only 1 is found, otherwise returning the first value
-    static func detectSingleValue(in string: String) -> Value? {
+    public static func detectSingleValue(in string: String) -> Value? {
         let values = Self.detect(in: string)
         if values.containingUnit.count == 1 {
             return values.containingUnit.first
@@ -114,7 +114,7 @@ extension Value {
         }
     }
 
-    static func detect(in string: String) -> [Value] {
+    public static func detect(in string: String) -> [Value] {
         detect(in: string, withPositions: false).map { $0.0 }
     }
     
