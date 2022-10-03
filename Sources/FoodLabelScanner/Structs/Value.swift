@@ -154,6 +154,12 @@ extension Value {
         if string.hasSuffix("Omcg") {
             string = string.replacingLastOccurrence(of: "Omcg", with: "0mcg")
         }
+        
+        /// Replaces fractional values with their true values
+        string = string.replacingOccurrences(of: "1/2", with: "0.5")
+        string = string.replacingOccurrences(of: "1/3", with: "0.3333")
+        string = string.replacingOccurrences(of: "1/4", with: "0.25")
+        string = string.replacingOccurrences(of: "1/5", with: "0.2")
 
         /// If we encouner strings such as `(%5 (A pall clues )) a` — which is usually how daily values in arabic is read—don't extract values from it
 //        guard !string.matchesRegex("%[0-9]+") else {

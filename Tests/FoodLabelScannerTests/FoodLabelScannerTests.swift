@@ -10,6 +10,9 @@ final class FoodLabelScannerTests: XCTestCase {
             return
         }
 
+        let string = "Serving Size 1/2 cup (88g)"
+        let values = Value.detect(in: string)
+        print("Got: \(values)")
         let results = try await FoodLabelScanner(image: image).scan()
     }
 }
