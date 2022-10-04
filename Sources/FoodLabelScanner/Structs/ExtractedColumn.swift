@@ -1,6 +1,7 @@
 import SwiftUI
 import VisionSugar
 import TabularData
+import PrepUnits
 
 struct ExtractedColumn {
     
@@ -54,7 +55,7 @@ struct ExtractedColumn {
 extension Array where Element == ValuesText {
     
     var singleValues: [ValuesText] {
-        filter { Value.detect(in: $0.text.string).count == 1 }
+        filter { FoodLabelValue.detect(in: $0.text.string).count == 1 }
     }
     
     var rectOfSingleValues: CGRect? {

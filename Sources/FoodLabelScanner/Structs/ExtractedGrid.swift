@@ -1,6 +1,7 @@
 import SwiftUI
 import VisionSugar
 import SwiftSugar
+import PrepUnits
 
 let RatioErrorPercentageThreshold = 17.0
 let MacroOrEnergyErrorPercentageThreshold = 20.0
@@ -64,7 +65,7 @@ struct ExtractedGrid {
         addMissingMacroOrEnergyValuesIfPossible()
     }
     
-    var values: [[[Value?]]] {
+    var values: [[[FoodLabelValue?]]] {
         columns.map {
             $0.rows.map { $0.valuesTexts.map { $0?.values.first } }
         }
@@ -87,7 +88,7 @@ extension Array where Element == Bool? {
 }
 
 extension Array where Element == ExtractedColumn {
-    mutating func modify(_ row: ExtractedRow, with newValues: (Value, Value)) {
+    mutating func modify(_ row: ExtractedRow, with newValues: (FoodLabelValue, FoodLabelValue)) {
         for columnIndex in indices {
             var column = self[columnIndex]
             if column.contains(row) {
@@ -97,7 +98,7 @@ extension Array where Element == ExtractedColumn {
         }
     }
 
-    mutating func modify(_ row: ExtractedRow, with newValue: Value) {
+    mutating func modify(_ row: ExtractedRow, with newValue: FoodLabelValue) {
         for columnIndex in indices {
             var column = self[columnIndex]
             if column.contains(row) {
@@ -177,11 +178,11 @@ extension Array where Element == ExtractedColumn {
     }
 }
 extension ExtractedColumn {
-    mutating func modify(_ row: ExtractedRow, with newValues: (Value, Value)) {
+    mutating func modify(_ row: ExtractedRow, with newValues: (FoodLabelValue, FoodLabelValue)) {
         rows.modify(row, with: newValues)
     }
 
-    mutating func modify(_ row: ExtractedRow, with newValue: Value) {
+    mutating func modify(_ row: ExtractedRow, with newValue: FoodLabelValue) {
         rows.modify(row, with: newValue)
     }
 
@@ -244,7 +245,7 @@ extension ExtractedColumn {
         if valuesText1.values.count == 1, valuesText2.values.count > 1, let value1 = valuesText1.values.first {
             
             /// Pick whichever value from `valuesText2` results in the ratio closest to `ratio`
-            var closestValue: Value? = nil
+            var closestValue: FoodLabelValue? = nil
             for value in valuesText2.values {
                 guard let closest = closestValue else {
                     closestValue = value
@@ -268,7 +269,7 @@ extension ExtractedColumn {
         if valuesText2.values.count == 1, valuesText1.values.count > 1, let value2 = valuesText2.values.first {
             
             /// Pick whichever value from `valuesText1` results in the ratio closest to `ratio`
-            var closestValue: Value? = nil
+            var closestValue: FoodLabelValue? = nil
             for value in valuesText1.values {
                 guard let closest = closestValue else {
                     closestValue = value
@@ -371,7 +372,7 @@ extension Array where Element == ExtractedRow {
         map { $0.desc }
     }
     
-    mutating func modify(_ rowToModify: ExtractedRow, with newValues: (Value, Value)) {
+    mutating func modify(_ rowToModify: ExtractedRow, with newValues: (FoodLabelValue, FoodLabelValue)) {
         for i in indices {
             var row = self[i]
             if row.attributeText.attribute == rowToModify.attributeText.attribute {
@@ -381,7 +382,7 @@ extension Array where Element == ExtractedRow {
         }
     }
 
-    mutating func modify(_ rowToModify: ExtractedRow, with newValue: Value) {
+    mutating func modify(_ rowToModify: ExtractedRow, with newValue: FoodLabelValue) {
         for i in indices {
             var row = self[i]
             if row.attributeText.attribute == rowToModify.attributeText.attribute {
@@ -481,7 +482,7 @@ extension ExtractedRow {
         }
     }
 
-    mutating func modify(with newValues: (Value, Value)) {
+    mutating func modify(with newValues: (FoodLabelValue, FoodLabelValue)) {
         if let existing = valuesTexts[0] {
             var new = existing
             new.values = [newValues.0]
@@ -502,7 +503,7 @@ extension ExtractedRow {
         }
     }
 
-    mutating func modify(with newValue: Value) {
+    mutating func modify(with newValue: FoodLabelValue) {
         if let existing = valuesTexts[0] {
             var new = existing
             new.values = [newValue]
@@ -614,13 +615,13 @@ extension ExtractedGrid {
         columns.remove(row)
     }
     
-    mutating func modify(_ row: ExtractedRow, withNewValues newValues: (Value, Value)) {
+    mutating func modify(_ row: ExtractedRow, withNewValues newValues: (FoodLabelValue, FoodLabelValue)) {
         print("2️⃣ Correct row: \(row.attributeText.attribute) with: \(newValues.0.description) and \(newValues.1.description)")
         columns.modify(row, with: newValues)
         print("2️⃣ done.")
     }
 
-    mutating func modify(_ row: ExtractedRow, withNewValue newValue: Value) {
+    mutating func modify(_ row: ExtractedRow, withNewValue newValue: FoodLabelValue) {
         columns.modify(row, with: newValue)
     }
 
@@ -646,12 +647,12 @@ extension ExtractedGrid {
                 return
             }
             let attributeText = AttributeText(attribute: .energy, text: defaultText)
-            let valuesText1 = ValuesText(values: [Value(amount: amount1.roundedNutrientAmount, unit: .kcal)])
+            let valuesText1 = ValuesText(values: [FoodLabelValue(amount: amount1.roundedNutrientAmount, unit: .kcal)])
             if numberOfValues == 2 {
                 guard let amount2 = calculateAmount(for: .energy, in: 1) else {
                     return
                 }
-                let valuesText2 = ValuesText(values: [Value(amount: amount2.roundedNutrientAmount, unit: .g)])
+                let valuesText2 = ValuesText(values: [FoodLabelValue(amount: amount2.roundedNutrientAmount, unit: .g)])
                 let row = ExtractedRow(attributeText: attributeText, valuesTexts: [valuesText1, valuesText2])
                 columns[0].rows.insert(row, at: 0)
             } else {
@@ -663,12 +664,12 @@ extension ExtractedGrid {
                 return
             }
             let attributeText = AttributeText(attribute: .carbohydrate, text: defaultText)
-            let valuesText1 = ValuesText(values: [Value(amount: amount1.roundedNutrientAmount, unit: .g)])
+            let valuesText1 = ValuesText(values: [FoodLabelValue(amount: amount1.roundedNutrientAmount, unit: .g)])
             if numberOfValues == 2 {
                 guard let amount2 = calculateAmount(for: .carbohydrate, in: 1) else {
                     return
                 }
-                let valuesText2 = ValuesText(values: [Value(amount: amount2.roundedNutrientAmount, unit: .g)])
+                let valuesText2 = ValuesText(values: [FoodLabelValue(amount: amount2.roundedNutrientAmount, unit: .g)])
                 let row = ExtractedRow(attributeText: attributeText, valuesTexts: [valuesText1, valuesText2])
                 columns[0].rows.append(row)
             } else {
@@ -680,12 +681,12 @@ extension ExtractedGrid {
                 return
             }
             let attributeText = AttributeText(attribute: .protein, text: defaultText)
-            let valuesText1 = ValuesText(values: [Value(amount: amount1.roundedNutrientAmount, unit: .g)])
+            let valuesText1 = ValuesText(values: [FoodLabelValue(amount: amount1.roundedNutrientAmount, unit: .g)])
             if numberOfValues == 2 {
                 guard let amount2 = calculateAmount(for: .protein, in: 1) else {
                     return
                 }
-                let valuesText2 = ValuesText(values: [Value(amount: amount2.roundedNutrientAmount, unit: .g)])
+                let valuesText2 = ValuesText(values: [FoodLabelValue(amount: amount2.roundedNutrientAmount, unit: .g)])
                 let row = ExtractedRow(attributeText: attributeText, valuesTexts: [valuesText1, valuesText2])
                 columns[0].rows.append(row)
             } else {
@@ -697,12 +698,12 @@ extension ExtractedGrid {
                 return
             }
             let attributeText = AttributeText(attribute: .fat, text: defaultText)
-            let valuesText1 = ValuesText(values: [Value(amount: amount1.roundedNutrientAmount, unit: .g)])
+            let valuesText1 = ValuesText(values: [FoodLabelValue(amount: amount1.roundedNutrientAmount, unit: .g)])
             if numberOfValues == 2 {
                 guard let amount2 = calculateAmount(for: .fat, in: 1) else {
                     return
                 }
-                let valuesText2 = ValuesText(values: [Value(amount: amount2.roundedNutrientAmount, unit: .g)])
+                let valuesText2 = ValuesText(values: [FoodLabelValue(amount: amount2.roundedNutrientAmount, unit: .g)])
                 let row = ExtractedRow(attributeText: attributeText, valuesTexts: [valuesText1, valuesText2])
                 columns[0].rows.append(row)
             } else {
@@ -723,11 +724,11 @@ extension ExtractedGrid {
         
         if value1.unit == .kj, value2.unit == .kcal {
             /// Convert unit2 to kj
-            let newValue2 = Value(amount: value2.amount * KcalsPerKilojule, unit: .kj)
+            let newValue2 = FoodLabelValue(amount: value2.amount * KcalsPerKilojule, unit: .kj)
             modify(row, withNewValues: (value1, newValue2))
         } else if value1.unit == .kcal, value2.unit == .kj {
             /// Convert unit1 to kj
-            let newValue1 = Value(amount: value1.amount * KcalsPerKilojule, unit: .kj)
+            let newValue1 = FoodLabelValue(amount: value1.amount * KcalsPerKilojule, unit: .kj)
             modify(row, withNewValues: (newValue1, value2))
         }
     }
@@ -759,7 +760,7 @@ extension ExtractedGrid {
 
         let kjAmount = max(amount1, amount2)
         var newValuesText = valuesText
-        newValuesText.values = [Value(amount: kjAmount, unit: .kj)]
+        newValuesText.values = [FoodLabelValue(amount: kjAmount, unit: .kj)]
         var newRow = energyRow
         newRow.valuesTexts = [newValuesText]
         modify(energyRow, with: newRow)
@@ -797,14 +798,14 @@ extension ExtractedGrid {
                     continue
                 }
                 let amount = (value.amount / validRatio).roundedNutrientAmount
-                modify(row, withNewValues: (value, Value(amount: amount, unit: value.unit)))
+                modify(row, withNewValues: (value, FoodLabelValue(amount: amount, unit: value.unit)))
             }
             else if missingIndex == 0 {
                 guard let value = row.valuesTexts[1]?.values.first else {
                     continue
                 }
                 let amount = (value.amount * validRatio).roundedNutrientAmount
-                modify(row, withNewValues: (Value(amount: amount, unit: value.unit), value))
+                modify(row, withNewValues: (FoodLabelValue(amount: amount, unit: value.unit), value))
             }
         }
     }
@@ -824,12 +825,12 @@ extension ExtractedGrid {
         }
     }
 
-    func calculateValue(for attribute: Attribute, in index: Int) -> Value? {
+    func calculateValue(for attribute: Attribute, in index: Int) -> FoodLabelValue? {
         guard let amount = calculateAmount(for: attribute, in: index) else {
             return nil
         }
         let validValue = allRows.valueFor(attribute, valueIndex: index == 0 ? 1 : 0)
-        let unit: NutritionUnit
+        let unit: FoodLabelUnit
         if let validUnit = validValue?.unit {
             unit = validUnit
         } else {
@@ -837,9 +838,9 @@ extension ExtractedGrid {
         }
         
         if attribute == .energy && unit == .kj {
-            return Value(amount: (amount * KcalsPerKilojule).rounded(toPlaces: 0), unit: unit)
+            return FoodLabelValue(amount: (amount * KcalsPerKilojule).rounded(toPlaces: 0), unit: unit)
         } else {
-            return Value(amount: amount.roundedNutrientAmount, unit: unit)
+            return FoodLabelValue(amount: amount.roundedNutrientAmount, unit: unit)
         }
     }
     
@@ -936,7 +937,7 @@ extension ExtractedGrid {
         
         guard isValid else { return }
         
-        let zeroValue = Value(amount: 0, unit: .g)
+        let zeroValue = FoodLabelValue(amount: 0, unit: .g)
         modify(missingRow, withNewValues: (zeroValue, zeroValue))
         
         for childAttribute in missingAttribute.childrenAttributes {
@@ -1082,7 +1083,7 @@ extension ExtractedGrid {
         if isKj {
             energyInCalories = energyInCalories * 4.184
         } else {
-            valuesTextWithUnit.values = [Value(amount: energyValue.amount, unit: .kcal)]
+            valuesTextWithUnit.values = [FoodLabelValue(amount: energyValue.amount, unit: .kcal)]
         }
         let errorPercentage = (abs(energyValue.amount - energyInCalories) / energyInCalories) * 100.0
         guard errorPercentage <= ErrorPercentageThresholdEnergyCalculation else {
@@ -1095,7 +1096,7 @@ extension ExtractedGrid {
     
     func findNextEnergyValuesText(nextTo text: RecognizedText, in textSet: RecognizedTextSet) -> ValuesText? {
         guard let nextText = textSet.texts.textsOnSameRow(as: text, preceding: false, includeSearchText: false, allowsOverlap: true).first,
-              let nextValue = Value.detect(in: nextText.string).first,
+              let nextValue = FoodLabelValue.detect(in: nextText.string).first,
               (nextValue.hasEnergyUnit || nextValue.unit == nil)
         else {
             return nil
@@ -1163,11 +1164,11 @@ extension ExtractedGrid {
 
         if greaterValueIndex == 0 {
             let amount = (value1.amount / validRatio).roundedNutrientAmount
-            modify(row, withNewValues: (value1, Value(amount: amount, unit: value1.unit)))
+            modify(row, withNewValues: (value1, FoodLabelValue(amount: amount, unit: value1.unit)))
         }
         else if greaterValueIndex == 1 {
             let amount = (value1.amount * validRatio).roundedNutrientAmount
-            modify(row, withNewValues: (Value(amount: amount, unit: value2.unit), value2))
+            modify(row, withNewValues: (FoodLabelValue(amount: amount, unit: value2.unit), value2))
         }
     }
     
@@ -1177,8 +1178,8 @@ extension ExtractedGrid {
             return
         }
         
-        var validValue1: Value? = nil
-        var validValue2: Value? = nil
+        var validValue1: FoodLabelValue? = nil
+        var validValue2: FoodLabelValue? = nil
         
         if let parentValue = parentRow.value1,
            let childValue = childRow.value1,
@@ -1272,14 +1273,14 @@ extension ExtractedGrid {
         
         let currentRatio = value1.amount/value2.amount
         
-        var closestAltValue1: Value? = nil
-        var closestAltValue2: Value? = nil
+        var closestAltValue1: FoodLabelValue? = nil
+        var closestAltValue2: FoodLabelValue? = nil
         
         for c1 in valuesText1.alternateStrings {
             for c2 in valuesText2.alternateStrings {
                 
-                guard let altValue1 = Value.detectSingleValue(in: c1),
-                      let altValue2 = Value.detectSingleValue(in: c2),
+                guard let altValue1 = FoodLabelValue.detectSingleValue(in: c1),
+                      let altValue2 = FoodLabelValue.detectSingleValue(in: c2),
                       altValue2.amount != 0 else {
                     continue
                 }
@@ -1486,7 +1487,7 @@ extension Double {
 
 extension Array where Element == ExtractedRow {
     
-    func valueFor(_ attribute: Attribute, valueIndex: Int) -> Value? {
+    func valueFor(_ attribute: Attribute, valueIndex: Int) -> FoodLabelValue? {
 //        first(where: { $0.attributeText.attribute == attribute })?.valuesTexts[valueIndex]?.values.first
         guard let valueTexts = first(where: { $0.attributeText.attribute == attribute })?.valuesTexts,
               valueIndex < valueTexts.count else {

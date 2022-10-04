@@ -1,10 +1,11 @@
 import Foundation
+import PrepUnits
 
 //TODO: Legacy Artefact
 public struct NutrientArtefact {
     let textId: UUID
     let attribute: Attribute?
-    let value: Value?
+    let value: FoodLabelValue?
     let preposition: Preposition?
     
     init(attribute: Attribute, textId: UUID) {
@@ -14,7 +15,7 @@ public struct NutrientArtefact {
         self.preposition = nil
     }
     
-    init(value: Value, textId: UUID) {
+    init(value: FoodLabelValue, textId: UUID) {
         self.textId = textId
         self.value = value
         self.attribute = nil

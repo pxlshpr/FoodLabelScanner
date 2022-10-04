@@ -1,5 +1,6 @@
 import VisionSugar
 import Foundation
+import PrepUnits
 
 extension RecognizedText {
     var servingArtefacts: [ServingArtefact] {
@@ -34,7 +35,7 @@ extension RecognizedText {
             }
             /// Otherwise if we have a unit at the start of the string
             else if let unitSubstring = string.unitSubstringAtStart,
-                    let unit = NutritionUnit(string: unitSubstring)
+                    let unit = FoodLabelUnit(string: unitSubstring)
             {
                 string = string.replacingFirstOccurrence(of: unitSubstring, with: "").trimmingWhitespaces
                 

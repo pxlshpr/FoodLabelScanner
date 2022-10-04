@@ -1,14 +1,15 @@
 import Foundation
 import VisionSugar
 import CoreGraphics
+import PrepUnits
 
 struct ValuesText {
 
-    var values: [Value]
+    var values: [FoodLabelValue]
     let text: RecognizedText
     
     init?(_ text: RecognizedText) {
-        let values = Value.detect(in: text.string)
+        let values = FoodLabelValue.detect(in: text.string)
         guard values.count > 0 else {
             return nil
         }
@@ -35,7 +36,7 @@ struct ValuesText {
 //        self.values = values
     }
     
-    init(values: [Value], text: RecognizedText = defaultText) {
+    init(values: [FoodLabelValue], text: RecognizedText = defaultText) {
         self.values = values
         self.text = text
     }
@@ -121,10 +122,10 @@ struct ValuesText {
 //        return false
     }
     
-    var alternateValues: [Value] {
-        var values: [Value] = []
+    var alternateValues: [FoodLabelValue] {
+        var values: [FoodLabelValue] = []
         for string in text.candidates {
-            values.append(contentsOf: Value.detect(in: string))
+            values.append(contentsOf: FoodLabelValue.detect(in: string))
         }
         return values
     }
@@ -241,9 +242,9 @@ extension ValuesTextColumn {
     }
 }
 
-typealias EnergyPair = (kj: Value?, kcal: Value?)
+typealias EnergyPair = (kj: FoodLabelValue?, kcal: FoodLabelValue?)
 
-extension Array where Element == Value {
+extension Array where Element == FoodLabelValue {
 
     var energyPairs: [EnergyPair] {
         var pairs: [EnergyPair] = []

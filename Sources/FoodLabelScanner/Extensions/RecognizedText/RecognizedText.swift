@@ -1,5 +1,6 @@
 import VisionSugar
 import Foundation
+import PrepUnits
 
 extension RecognizedText {
     var isValueBasedAttribute: Bool {
@@ -25,7 +26,7 @@ extension RecognizedText {
     }
     
     var containsEnergyValue: Bool {
-        let values = Value.detect(in: self.string)
+        let values = FoodLabelValue.detect(in: self.string)
         return values.contains(where: { $0.hasEnergyUnit })
     }
     

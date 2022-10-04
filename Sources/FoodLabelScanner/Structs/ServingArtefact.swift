@@ -1,12 +1,13 @@
 import Foundation
 import VisionSugar
+import PrepUnits
 
 public struct ServingArtefact {
     let text: RecognizedText
     let attribute: Attribute?
     let double: Double?
     let string: String?
-    let unit: NutritionUnit?
+    let unit: FoodLabelUnit?
     
     init(attribute: Attribute, text: RecognizedText) {
         self.text = text
@@ -32,7 +33,7 @@ public struct ServingArtefact {
         self.unit = nil
     }
     
-    init(unit: NutritionUnit, text: RecognizedText) {
+    init(unit: FoodLabelUnit, text: RecognizedText) {
         self.text = text
         self.unit = unit
         self.string = nil

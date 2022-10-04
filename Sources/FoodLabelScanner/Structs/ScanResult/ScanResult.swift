@@ -1,5 +1,6 @@
 import Foundation
 import VisionSugar
+import PrepUnits
 
 public struct ScanResult: Codable {
     public let id: UUID
@@ -56,11 +57,11 @@ extension ScanResult {
 //MARK: - Text-based Structs
 
 public struct ValueText: Codable {
-    public var value: Value
+    public var value: FoodLabelValue
     public let text: RecognizedText
     public let attributeText: RecognizedText?
     
-    init(value: Value, text: RecognizedText, attributeText: RecognizedText? = nil) {
+    init(value: FoodLabelValue, text: RecognizedText, attributeText: RecognizedText? = nil) {
         self.value = value
         self.text = text
         self.attributeText = attributeText
@@ -94,11 +95,11 @@ public struct DoubleText: Codable {
 }
 
 public struct UnitText: Codable {
-    public let unit: NutritionUnit
+    public let unit: FoodLabelUnit
     public let text: RecognizedText
     public let attributeText: RecognizedText
     
-    public init(unit: NutritionUnit, text: RecognizedText, attributeText: RecognizedText) {
+    public init(unit: FoodLabelUnit, text: RecognizedText, attributeText: RecognizedText) {
         self.unit = unit
         self.text = text
         self.attributeText = attributeText
@@ -125,13 +126,13 @@ public struct HeaderText: Codable {
     
     public struct Serving: Codable {
         public let amount: Double?
-        public let unit: NutritionUnit?
+        public let unit: FoodLabelUnit?
         public let unitName: String?
         public let equivalentSize: EquivalentSize?
         
         public struct EquivalentSize: Codable {
             public let amount: Double
-            public let unit: NutritionUnit?
+            public let unit: FoodLabelUnit?
             public let unitName: String?
         }
     }

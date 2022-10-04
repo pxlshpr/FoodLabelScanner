@@ -1,5 +1,6 @@
 import SwiftUI
 import VisionSugar
+import PrepUnits
 
 extension ValuesText {
     var containsLessThanPrefix: Bool {
@@ -10,7 +11,7 @@ struct ExtractedRow {
     let attributeText: AttributeText
     var valuesTexts: [ValuesText?]
     
-    var firstValue: Value? {
+    var firstValue: FoodLabelValue? {
         valuesTexts.first??.values.first
     }
     
@@ -54,11 +55,11 @@ struct ExtractedRow {
         return value1.unit != value2.unit
     }
     
-    var value1: Value? {
+    var value1: FoodLabelValue? {
         guard valuesTexts.count > 0 else { return nil }
         return valuesTexts[0]?.values.first
     }
-    var value2: Value? {
+    var value2: FoodLabelValue? {
         guard valuesTexts.count > 1 else { return nil }
         return valuesTexts[1]?.values.first
     }
@@ -95,7 +96,7 @@ struct ExtractedRow {
     }
 }
 
-extension Value {
+extension FoodLabelValue {
     var amountInGramsIfWithUnit: Double? {
         switch unit {
         case .mcg:

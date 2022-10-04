@@ -1,5 +1,6 @@
 import SwiftUI
 import VisionSugar
+import PrepUnits
 
 //TODO: Remove any used ones
 //MARK: [[AttributeText]]
@@ -17,7 +18,7 @@ extension Array where Element == [AttributeText] {
 
 //MARK: [[[Value?]]]
 
-extension Array where Element == [[Value?]] {
+extension Array where Element == [[FoodLabelValue?]] {
     var valuesGroupDescription: String {
         var description = "{"
         for group in self {
@@ -256,7 +257,7 @@ extension Array where Element == [RecognizedText] {
             }
             discarded.append(contentsOf: textsOnSameRow)
             
-            let values = Value.detect(in: pickedText.string)
+            let values = FoodLabelValue.detect(in: pickedText.string)
             /// End the loop if any non-value, non-skippable texts are encountered
             guard values.count > 0 || text.string.isSkippableValueElement else {
                 continue
@@ -346,7 +347,7 @@ extension Array where Element == AttributeText {
     }
 
     var rect: CGRect {
-        let attributesWithoutValues = self.filter { Value.detect(in: $0.text.string).count == 0 }
+        let attributesWithoutValues = self.filter { FoodLabelValue.detect(in: $0.text.string).count == 0 }
         guard let first = attributesWithoutValues.first else { return .zero }
         var unionRect = first.text.rect
         for attributeText in attributesWithoutValues.dropFirst() {
@@ -435,10 +436,10 @@ extension Array where Element == RecognizedText {
 }
 
 extension Array where Element == [RecognizedText] {
-    var firstValue: (Value, RecognizedText)? {
+    var firstValue: (FoodLabelValue, RecognizedText)? {
         for column in self {
             for text in column {
-                if let value = Value.detectSingleValue(in: text.string) {
+                if let value = FoodLabelValue.detectSingleValue(in: text.string) {
                     return (value, text)
                 }
             }

@@ -1,4 +1,5 @@
-import Foundation
+import SwiftSugar
+import PrepUnits
 
 public enum Attribute: String, CaseIterable, Codable {
     
@@ -253,11 +254,11 @@ extension Attribute {
         }
     }
     
-    public func supportsUnit(_ unit: NutritionUnit) -> Bool {
+    public func supportsUnit(_ unit: FoodLabelUnit) -> Bool {
         supportedUnits.contains(unit)
     }
     
-    public var defaultUnit: NutritionUnit? {
+    public var defaultUnit: FoodLabelUnit? {
         supportedUnits.first
     }
     
@@ -282,7 +283,7 @@ extension Attribute {
         }
     }
     
-    var supportedUnits: [NutritionUnit] {
+    var supportedUnits: [FoodLabelUnit] {
         switch self {
             
         case .energy:
@@ -391,7 +392,7 @@ extension Attribute {
         
         for attribute in Self.allCases {
             guard let regex = attribute.regex else { continue }
-            if let match = matches(for: regex, in: string.cleanedAttributeString)?.first {
+            if let match = string.cleanedAttributeString.matches(for: regex)?.first {
 //                print("🧬 \(attribute.rawValue): \(string)")
                 array.append((attribute, match.position))
             }

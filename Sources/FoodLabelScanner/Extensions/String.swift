@@ -1,4 +1,6 @@
 import Foundation
+import PrepUnits
+import SwiftSugar
 
 extension String {
     var trimmingPercentageValues: String {
@@ -26,7 +28,7 @@ extension String {
 
     var valueSubstringAtStart: String? {
         //TODO: Modularize this and substringUpToFirstNumeral handling not capturing the entire strings with a workaround
-        let regex = Value.Regex.atStartOfString
+        let regex = FoodLabelValue.Regex.atStartOfString
         let groups = trimmingWhitespaces.capturedGroups(using: regex, allowCapturingEntireString: true)
         let substring: String?
         if groups.count > 1 {
@@ -58,7 +60,7 @@ extension String {
     }
     
     var unitSubstringAtStart: String? {
-        let units = NutritionUnit.allUnits.map{$0}.joined(separator: "|")
+        let units = FoodLabelUnit.allUnits.map{$0}.joined(separator: "|")
         let regex = #"^(\#(units))(?: |\(|\)|;|$)"#
         let groups = trimmingWhitespaces.capturedGroups(using: regex, allowCapturingEntireString: true)
         let substring: String?
@@ -117,11 +119,7 @@ extension String {
     var substringUpToFirstNumeral_experimental: String? {
         guard let index = indexOfFirstNumeral else { return self }
         return String(prefix(index)).trimmingWhitespaces
-    }
-    
-    var trimmingWhitespaces: String {
-        trimmingCharacters(in: .whitespaces)
-    }
+    }    
 }
 
 extension String {
@@ -203,7 +201,7 @@ extension String {
     }
     
     var isPercentageValue: Bool {
-        let values = Value.detect(in: self)
+        let values = FoodLabelValue.detect(in: self)
         guard values.count == 1,
               let first = values.first
         else {
@@ -213,7 +211,7 @@ extension String {
     }
     
     var containsValues: Bool {
-        Value.haveValues(in: self)
+        FoodLabelValue.haveValues(in: self)
     }
     
     var terminatesColumnWiseAttributeSearch: Bool {
@@ -222,23 +220,6 @@ extension String {
             return true
         }
         return false
-    }
-}
-
-//TODO: Rename, document and move to SwiftSugar
-func matches(for regex: String, in text: String) -> [(string: String, position: Int)]? {
-    do {
-        let regex = try NSRegularExpression(pattern: regex, options: [.caseInsensitive])
-        let results = regex.matches(in: text,
-                                    range: NSRange(text.startIndex..., in: text))
-        let matches = results.map {
-            (string: String(text[Range($0.range, in: text)!]),
-             position: $0.range.lowerBound)
-        }
-        return matches.count > 0 ? matches : nil
-    } catch let error {
-        print("invalid regex: \(error.localizedDescription)")
-        return nil
     }
 }
 

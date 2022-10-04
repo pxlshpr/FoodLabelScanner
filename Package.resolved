@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "prepunits",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pxlshpr/PrepUnits",
+      "state" : {
+        "revision" : "0f1c6d373a2d3cc3ef00ab18f8320c8f9f46d17c",
+        "version" : "0.0.55"
+      }
+    },
+    {
       "identity" : "swifthaptics",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/SwiftHaptics",
@@ -14,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/SwiftSugar",
       "state" : {
-        "revision" : "b7add1ec5deea79b13c735576c3b0c92839dc5a6",
-        "version" : "0.0.54"
+        "revision" : "70cf7f766d611ec114a67c059b4bdbfcabb8865a",
+        "version" : "0.0.57"
       }
     },
     {

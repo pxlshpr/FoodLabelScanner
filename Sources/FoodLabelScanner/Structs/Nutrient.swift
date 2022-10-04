@@ -1,9 +1,10 @@
 import Foundation
 import VisionSugar
+import PrepUnits
 
 struct Nutrient {
     let attribute: Attribute
-    let value: Value
+    let value: FoodLabelValue
 }
 
 extension String {
@@ -15,11 +16,11 @@ extension String {
         
         var nutrients: [Nutrient] = []
         var setAsideAttribute: Attribute? = nil
-        var setAsideValue: Value? = nil
+        var setAsideValue: FoodLabelValue? = nil
         var saveNextValue: Bool = false
         let artefacts = self.nutrientArtefacts(textId: defaultUUID)
         
-        func appendNutrientWith(attribute: Attribute, value: Value) {
+        func appendNutrientWith(attribute: Attribute, value: FoodLabelValue) {
             nutrients.append(Nutrient(attribute: attribute, value: value))
             setAsideAttribute = nil
             setAsideValue = nil
@@ -94,7 +95,7 @@ extension String {
             /// First check if we have a value at the start of the string
             if let valueSubstring = string.valueSubstringAtStart,
                /// If we do, extract it from the string and add its corresponding `Value` to the array
-                var value = Value(fromString: valueSubstring) {
+                var value = FoodLabelValue(fromString: valueSubstring) {
                 
                 /// **Heuristic** for detecting when energy is detected with the phrase "Calories", in which case we manually assign the `kcal` unit to the `Value` matched later.
                 if isExpectingCalories {

@@ -1,8 +1,9 @@
 import Foundation
+import PrepUnits
 
 public extension ScanResult.Serving {
     var amount: Double? { amountText?.double }
-    var unit: NutritionUnit? { unitText?.unit }
+    var unit: FoodLabelUnit? { unitText?.unit }
     var unitName: String? { unitNameText?.string }
     
     var amountId: UUID? { amountText?.text.id }
@@ -12,7 +13,7 @@ public extension ScanResult.Serving {
 
 public extension ScanResult.Serving.EquivalentSize {
     var amount: Double { amountText.double }
-    var unit: NutritionUnit? { unitText?.unit }
+    var unit: FoodLabelUnit? { unitText?.unit }
     var unitName: String? { unitNameText?.string }
     
     var amountId: UUID { amountText.text.id }
@@ -40,8 +41,8 @@ public extension ScanResult.Nutrients {
 
 public extension ScanResult.Nutrients.Row {
     var attribute: Attribute { attributeText.attribute }
-    var value1: Value? { valueText1?.value }
-    var value2: Value? { valueText2?.value }
+    var value1: FoodLabelValue? { valueText1?.value }
+    var value2: FoodLabelValue? { valueText2?.value }
     
     var attributeId: UUID { attributeText.text.id }
     var value1Id: UUID? { valueText1?.text.id }

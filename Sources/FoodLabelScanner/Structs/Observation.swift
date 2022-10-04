@@ -1,4 +1,5 @@
 import Foundation
+import PrepUnits
 
 struct Observation {
     var attributeText: AttributeText
@@ -8,8 +9,8 @@ struct Observation {
     var stringText: StringText?
     
     var attribute: Attribute { attributeText.attribute }
-    var value1: Value? { valueText1?.value }
-    var value2: Value? { valueText2?.value }
+    var value1: FoodLabelValue? { valueText1?.value }
+    var value2: FoodLabelValue? { valueText2?.value }
     var double: Double? { doubleText?.double }
     var string: String? { stringText?.string }
 }

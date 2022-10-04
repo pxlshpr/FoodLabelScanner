@@ -1,4 +1,5 @@
 import Foundation
+import PrepUnits
 
 extension DoubleText {
     public init(_ valueText: ValueText) {
@@ -23,7 +24,7 @@ extension UnitText {
         self.attributeText = valueText.text
     }
     public init?(_ stringText: StringText) {
-        guard let unit = NutritionUnit(string: stringText.string) else {
+        guard let unit = FoodLabelUnit(string: stringText.string) else {
             return nil
         }
         self.unit = unit

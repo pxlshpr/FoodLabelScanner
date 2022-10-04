@@ -1,4 +1,5 @@
 import Foundation
+import PrepUnits
 
 extension Array where Element == Observation {
    
@@ -47,7 +48,7 @@ extension Array where Element == Observation {
     func amount(in column: Int, for attribute: Attribute) -> Double? {
         value(in: column, for: attribute)?.amount
     }
-    func value(in column: Int, for attribute: Attribute) -> Value? {
+    func value(in column: Int, for attribute: Attribute) -> FoodLabelValue? {
         if column == 1 {
             return value1(for: attribute)
         } else {
@@ -55,11 +56,11 @@ extension Array where Element == Observation {
         }
     }
     
-    func value1(for attribute: Attribute) -> Value? {
+    func value1(for attribute: Attribute) -> FoodLabelValue? {
         observation(for: attribute)?.value1
     }
 
-    func value2(for attribute: Attribute) -> Value? {
+    func value2(for attribute: Attribute) -> FoodLabelValue? {
         observation(for: attribute)?.value2
     }
 }
