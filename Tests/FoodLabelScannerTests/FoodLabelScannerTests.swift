@@ -16,7 +16,8 @@ final class FoodLabelScannerTests: XCTestCase {
         let values = FoodLabelValue.detect(in: string)
         print("Got: \(values)")
         let results = try await FoodLabelScanner(image: image).scan()
-        print("🧬 saturatedFat was: \(results.value(for: .saturatedFat))")
+        print("🧬 vitaminA was: \(results.value(for: .vitaminA))")
+        print("🧬 vitaminC was: \(results.value(for: .vitaminC))")
     }
 }
 

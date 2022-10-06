@@ -2,7 +2,7 @@ import Foundation
 import VisionSugar
 import PrepUnits
 
-struct Nutrient {
+struct Nutrient: Equatable {
     let attribute: Attribute
     let value: FoodLabelValue
 }

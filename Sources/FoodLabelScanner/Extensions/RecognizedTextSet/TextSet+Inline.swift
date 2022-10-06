@@ -1,16 +1,49 @@
 import VisionSugar
 import Foundation
 
+extension RecognizedText {
+    /// Goes through all the detected nutrients in each of the candidate strings—and uniquely adds them to an array in a dictionary storing them against their attributes.
+    var nutrientCandidates: [Attribute: [Nutrient]] {
+        let strings = self.candidates
+        var candidates: [Attribute: [Nutrient]] = [:]
+        
+        for string in strings {
+            for nutrient in string.nutrients {
+                var nutrients = candidates[nutrient.attribute] ?? []
+                guard !nutrients.contains(nutrient) else { continue }
+                nutrients.append(nutrient)
+                candidates[nutrient.attribute] = nutrients
+            }
+        }
+        return candidates
+    }
+}
+
+extension Dictionary where Key == Attribute, Value == [Nutrient] {
+    /// Returns an array of the best candidates from each set of nutrients (for each attribute)
+    var bestCandidateNutrients: [Nutrient] {
+        var candidates: [Nutrient] = []
+        for key in keys {
+            guard let candidate = self[key]?.bestCandidate else {
+                continue
+            }
+            candidates.append(candidate)
+        }
+        return candidates
+    }
+}
+
 extension RecognizedTextSet {
     var inlineObservations: [Observation] {
         var observations: [Observation] = []
         for text in texts {
             
             /// First get all the nutrients for each of the candidates
-            let candidateNutrients = text.candidates.compactMap { $0.nutrients.first }
-            
-            if let nutrient = candidateNutrients.bestCandidate {
-                observations.append(nutrient.observation(forInlineText: text))
+            let nutrientCandidates = text.nutrientCandidates.bestCandidateNutrients
+            if !nutrientCandidates.isEmpty {
+                for nutrient in nutrientCandidates {
+                    observations.append(nutrient.observation(forInlineText: text))
+                }
                 continue
             }
             
