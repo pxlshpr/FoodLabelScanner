@@ -18,6 +18,8 @@ final class FoodLabelScannerTests: XCTestCase {
         let results = try await FoodLabelScanner(image: image).scan()
         print("🧬 vitaminA was: \(results.value(for: .vitaminA))")
         print("🧬 vitaminC was: \(results.value(for: .vitaminC))")
+        print("🧬 calcium was: \(results.value(for: .calcium))")
+        print("🧬 iron was: \(results.value(for: .iron))")
     }
 }
 
