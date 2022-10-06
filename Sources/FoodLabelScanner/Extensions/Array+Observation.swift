@@ -1,10 +1,81 @@
 import Foundation
 import PrepUnits
 
+extension Observation {
+    var unitText: UnitText? {
+        guard let stringText,
+              let unit = FoodLabelUnit(string: stringText.string)
+        else {
+            return nil
+        }
+        return UnitText(unit: unit,
+                        text: stringText.text,
+                        attributeText: stringText.attributeText)
+    }
+}
+
+/// Serving helpers
+extension Array where Element == Observation {
+    var servingAmount: DoubleText? {
+        observation(for: .servingAmount)?.doubleText
+    }
+    
+    var servingUnit: UnitText? {
+        observation(for: .servingUnit)?.unitText
+    }
+    
+    var servingUnitName: StringText? {
+        observation(for: .servingUnitSize)?.stringText
+    }
+    
+    var servingEquivalentAmount: DoubleText? {
+        observation(for: .servingEquivalentAmount)?.doubleText
+    }
+    
+    var servingEquivalentUnit: UnitText? {
+        observation(for: .servingEquivalentUnit)?.unitText
+    }
+    
+    var servingEquivalentUnitName: StringText? {
+        observation(for: .servingEquivalentUnitSize)?.stringText
+    }
+    
+    var servingEquivalentSize: ScanResult.Serving.EquivalentSize? {
+        guard let servingEquivalentAmount else { return nil }
+        return ScanResult.Serving.EquivalentSize(
+            amountText: servingEquivalentAmount,
+            unitText: servingEquivalentUnit,
+            unitNameText: servingEquivalentUnitName
+        )
+    }
+    
+    var servingPerContainerAmount: DoubleText? {
+        observation(for: .servingsPerContainerAmount)?.doubleText
+    }
+    
+    var servingPerContainerName: StringText? {
+        observation(for: .servingsPerContainerName)?.stringText
+    }
+    
+    var servingPerContainer: ScanResult.Serving.PerContainer? {
+        guard let servingPerContainerAmount else { return nil }
+        return ScanResult.Serving.PerContainer(
+            amountText: servingPerContainerAmount,
+            nameText: servingPerContainerName
+        )
+    }
+}
+
 extension Array where Element == Observation {
    
     var serving: ScanResult.Serving? {
-        nil
+        ScanResult.Serving(
+            amountText: servingAmount,
+            unitText: servingUnit,
+            unitNameText: servingUnitName,
+            equivalentSize: servingEquivalentSize,
+            perContainer: servingPerContainer
+        )
     }
     
     var nutrients: ScanResult.Nutrients {

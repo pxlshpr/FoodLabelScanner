@@ -16,10 +16,11 @@ public struct FoodLabelScanner {
     public func scan() async throws -> ScanResult {
         let textSet = try await image.recognizedTextSet(for: .accurate, inContentSize: contentSize)
         
-        let observations = getObservations(from: textSet)
+        let nutrientObservations = getNutrientObservations(from: textSet)
+        let servingObservations = textSet.servingObservations
         return ScanResult(
-            serving: observations.serving,
-            nutrients: observations.nutrients,
+            serving: servingObservations.serving,
+            nutrients: nutrientObservations.nutrients,
             texts: textSet.texts
         )
     }
@@ -35,7 +36,7 @@ public struct FoodLabelScanner {
              - [ ]  Otherwise
                  - [ ]  Otherwise, return the `inlineResult`
      */
-    func getObservations(from textSet: RecognizedTextSet) -> [Observation] {
+    func getNutrientObservations(from textSet: RecognizedTextSet) -> [Observation] {
         
         let inline = textSet.inlineObservations
         
