@@ -16,20 +16,20 @@ final class FoodLabelScannerTests: XCTestCase {
         let values = FoodLabelValue.detect(in: string)
         print("Got: \(values)")
         let results = try await FoodLabelScanner(image: image).scan()
-        print("🧬 Protein was: \(results.protein)")
+        print("🧬 saturatedFat was: \(results.value(for: .saturatedFat))")
     }
 }
 
 extension ScanResult {
-    var protein: FoodLabelValue? {
-        protein1
-    }
-    
-    var protein1: FoodLabelValue? {
-        nutrients.rows.first(where: { $0.attribute == .protein })?.value1
+    func value(for attribute: Attribute) -> FoodLabelValue? {
+        value1(for: attribute)
     }
 
-    var protein2: FoodLabelValue? {
-        nutrients.rows.first(where: { $0.attribute == .protein })?.value2
+    func value1(for attribute: Attribute) -> FoodLabelValue? {
+        nutrients.rows.first(where: { $0.attribute == attribute })?.value1
+    }
+
+    func value2(for attribute: Attribute) -> FoodLabelValue? {
+        nutrients.rows.first(where: { $0.attribute == attribute })?.value2
     }
 }

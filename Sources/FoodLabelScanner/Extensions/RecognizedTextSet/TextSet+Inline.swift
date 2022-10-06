@@ -6,11 +6,14 @@ extension RecognizedTextSet {
         var observations: [Observation] = []
         for text in texts {
             
-            if let nutrient = text.string.nutrients.first {
+            /// First get all the nutrients for each of the candidates
+            let candidateNutrients = text.candidates.compactMap { $0.nutrients.first }
+            
+            if let nutrient = candidateNutrients.bestCandidate {
                 observations.append(nutrient.observation(forInlineText: text))
                 continue
             }
-
+            
             guard let attribute = Attribute.detect(in: text.string).first, attribute.isNutrientAttribute else {
                 continue
             }
@@ -35,5 +38,23 @@ extension RecognizedTextSet {
             nutrients: observations.nutrients,
             texts: texts
         )
+    }
+}
+
+extension Array where Element == Nutrient {
+    /**
+     Returns the best candidate from an array of possible candidates for a text.
+     
+     For instance—if we have ["60", "6g"] for the attribute of "Saturated Fat"—we'll pick "6g" over "60" because it
+        - has a unit that is compatible with that attribute
+    */
+    var bestCandidate: Nutrient? {
+        for candidate in self {
+            if let unit = candidate.value.unit, candidate.attribute.supportsUnit(unit) {
+                return candidate
+            }
+        }
+        /// If we didn't find any with compatible units—simply return the first element in this array
+        return first
     }
 }
