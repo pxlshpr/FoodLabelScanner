@@ -5,7 +5,7 @@ import PrepUnits
 
 final class FoodLabelScannerTests: XCTestCase {
     func test() async throws {
-        guard let path = Bundle.module.path(forResource: "toblerone", ofType: "jpg"),
+        guard let path = Bundle.module.path(forResource: "chips", ofType: "jpg"),
               let image = UIImage(contentsOfFile: path)
         else {
             XCTFail("Couldn't get image")
@@ -16,7 +16,7 @@ final class FoodLabelScannerTests: XCTestCase {
         let values = FoodLabelValue.detect(in: string)
         print("Got: \(values)")
         let results = try await FoodLabelScanner(image: image).scan()
-        print("🧬 servingAmount was: \(results.serving?.perContainer?.name)")
+        print("🧬 WE here")
     }
 }
 

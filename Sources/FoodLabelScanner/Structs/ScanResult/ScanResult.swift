@@ -8,7 +8,7 @@ public struct ScanResult: Codable {
     public let nutrients: Nutrients
     public let texts: [RecognizedText]
     
-    init(id: UUID = UUID(), serving: Serving?, nutrients: Nutrients, texts: [RecognizedText]) {
+    public init(id: UUID = UUID(), serving: Serving?, nutrients: Nutrients, texts: [RecognizedText]) {
         self.id = id
         self.serving = serving
         self.nutrients = nutrients
@@ -31,11 +31,30 @@ extension ScanResult {
             public let amountText: DoubleText
             public let unitText: UnitText?
             public let unitNameText: StringText?
+            
+            public init(amountText: DoubleText, unitText: UnitText?, unitNameText: StringText?) {
+                self.amountText = amountText
+                self.unitText = unitText
+                self.unitNameText = unitNameText
+            }
         }
 
         public struct PerContainer: Codable {
             public let amountText: DoubleText
             public let nameText: StringText?
+            
+            public init(amountText: DoubleText, nameText: StringText?) {
+                self.amountText = amountText
+                self.nameText = nameText
+            }
+        }
+        
+        public init(amountText: DoubleText?, unitText: UnitText?, unitNameText: StringText?, equivalentSize: EquivalentSize?, perContainer: PerContainer?) {
+            self.amountText = amountText
+            self.unitText = unitText
+            self.unitNameText = unitNameText
+            self.equivalentSize = equivalentSize
+            self.perContainer = perContainer
         }
     }
     
@@ -50,6 +69,18 @@ extension ScanResult {
             public let attributeText: AttributeText
             public let valueText1: ValueText?
             public let valueText2: ValueText?
+            
+            public init(attributeText: AttributeText, valueText1: ValueText?, valueText2: ValueText?) {
+                self.attributeText = attributeText
+                self.valueText1 = valueText1
+                self.valueText2 = valueText2
+            }
+        }
+        
+        public init(headerText1: HeaderText?, headerText2: HeaderText?, rows: [Row]) {
+            self.headerText1 = headerText1
+            self.headerText2 = headerText2
+            self.rows = rows
         }
     }
 }
@@ -61,24 +92,10 @@ public struct ValueText: Codable {
     public let text: RecognizedText
     public let attributeText: RecognizedText?
     
-    init(value: FoodLabelValue, text: RecognizedText, attributeText: RecognizedText? = nil) {
+    public init(value: FoodLabelValue, text: RecognizedText, attributeText: RecognizedText? = nil) {
         self.value = value
         self.text = text
         self.attributeText = attributeText
-    }
-}
-
-extension ValueText: Hashable {
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(value)
-        hasher.combine(text)
-        hasher.combine(attributeText)
-    }
-}
-
-extension ValueText: CustomStringConvertible {
-    public var description: String {
-        value.description
     }
 }
 
@@ -134,6 +151,40 @@ public struct HeaderText: Codable {
             public let amount: Double
             public let unit: FoodLabelUnit?
             public let unitName: String?
+            
+            public init(amount: Double, unit: FoodLabelUnit?, unitName: String?) {
+                self.amount = amount
+                self.unit = unit
+                self.unitName = unitName
+            }
         }
+        
+        public init(amount: Double?, unit: FoodLabelUnit?, unitName: String?, equivalentSize: EquivalentSize?) {
+            self.amount = amount
+            self.unit = unit
+            self.unitName = unitName
+            self.equivalentSize = equivalentSize
+        }
+    }
+    
+    public init(type: HeaderType, text: RecognizedText, attributeText: RecognizedText, serving: Serving?) {
+        self.type = type
+        self.text = text
+        self.attributeText = attributeText
+        self.serving = serving
+    }
+}
+
+extension ValueText: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(value)
+        hasher.combine(text)
+        hasher.combine(attributeText)
+    }
+}
+
+extension ValueText: CustomStringConvertible {
+    public var description: String {
+        value.description
     }
 }
