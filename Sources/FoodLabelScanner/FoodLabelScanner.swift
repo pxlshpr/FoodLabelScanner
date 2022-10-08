@@ -19,10 +19,10 @@ public struct FoodLabelScanner {
         let nutrientObservations = getNutrientObservations(from: textSet)
         let servingObservations = textSet.servingObservations
         
-//        let _tabularObservations = textSet.tabularObservations
-//        let headerObservations = textSet.headerObservations(for: _tabularObservations)
+        let _tabularObservations = textSet.tabularObservations
+        let headerObservations = textSet.headerObservations(for: _tabularObservations)
         
-        let headerObservations = textSet.headerObservations(for: nutrientObservations)
+//        let headerObservations = textSet.headerObservations(for: nutrientObservations)
         
 //        let headers = headerObservations.headers
         return ScanResult(

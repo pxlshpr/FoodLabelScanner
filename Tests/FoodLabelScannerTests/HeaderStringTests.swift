@@ -32,6 +32,7 @@ final class HeaderStringTests: XCTestCase {
         /// perServingAnd100g
         ("Per Serving Per 100 ml", .perServingAnd100(serving: nil)),
         ("Par Portion Pour 100 ml", .perServingAnd100(serving: nil)),
+        ("Per 40g Per 100g Values®", .perServingAnd100(serving: "40g")),
         
         /// per100gAndPerServing
         ("PER 100g 74g (2 tubes)", .per100AndPerServing(serving: "74g (2 tubes)")),

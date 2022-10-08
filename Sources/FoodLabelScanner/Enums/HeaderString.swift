@@ -20,7 +20,7 @@ public enum HeaderString {
         else if let size = string.firstCapturedGroup(using: Regex.per100gAndPerServing) {
             self = .per100AndPerServing(serving: size)
         }
-        else if let size = string.firstCapturedGroup(using: Regex.perServingAndPer100g) {
+        else if let size = string.firstCapturedGroup(using: Regex.perServingAndPer100g)?.trimmingWhitespaces {
             if size.matchesRegex(#"(serv(ing|e)|portion)"#) {
                 self = .perServingAnd100(serving: nil)
             } else {
@@ -75,7 +75,8 @@ extension HeaderString {
 #"(^[0-9⅕]+(?: of a|)[ ]*[^0-9⅕]+[0-9⅕]+[ ]?[^0-9⅕ \)]+)"#
         
         static let per100gAndPerServing =
-#"(?:.*(?:per|pour) 100[ ]*(?:g|ml)[ ])(?:per[ ])?(.*)"#
+//#"(?:.*(?:per|pour) 100[ ]*(?:g|ml)[ ])(?:per[ ])?(.*)"#
+#"^(?!^(?:per|pour) (?!100))(?=(?:.*(?:per|pour) 100[ ]*(?:g|ml)[ ])(?:per[ ])?(.*)).*$"#
         
         static let perServingAndPer100g =
 #"^.*(?:(?:(?:per|par)|)[ ]+(.+(?:g|ml|)).*(?:per|pour) 100[ ]*(?:g|ml)).*$"#
