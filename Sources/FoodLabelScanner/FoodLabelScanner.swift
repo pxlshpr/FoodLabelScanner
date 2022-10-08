@@ -81,7 +81,7 @@ extension Array where Element == Observation {
      */
     func isPreferred(to other: [Observation]) -> Bool {
         guard self.nutrientsCount != other.nutrientsCount else {
-            return self.containingBothValuesCount > other.containingBothValuesCount
+            return self.containingBothValuesCount >= other.containingBothValuesCount
         }
         return self.nutrientsCount > other.nutrientsCount
     }
