@@ -95,4 +95,68 @@ extension Array where Element == RecognizedText {
         
         return row
     }
+    
+    func inlineTextRows(as recognizedText: RecognizedText, preceding: Bool = false, ignoring textsToIgnore: [RecognizedText] = []) -> [[RecognizedText]] {
+        
+        var column: [[RecognizedText]] = []
+        var discarded: [RecognizedText] = []
+        let candidates = filter {
+            $0.isInSameColumnAs(recognizedText)
+            && !textsToIgnore.contains($0)
+            && (preceding ? $0.rect.maxY < recognizedText.rect.maxY : $0.rect.minY > recognizedText.rect.minY)
+            
+            /// Filter out empty `recognizedText`s
+            && $0.candidates.filter { !$0.isEmpty }.count > 0
+        }.sorted {
+            preceding ?
+                $0.rect.minY > $1.rect.minY
+                : $0.rect.minY < $1.rect.minY
+        }
+
+        /// Deal with multiple recognizedTexts we may have grabbed from the same row due to them both overlapping with `recognizedText` by choosing the one that intersects with it the most
+        for candidate in candidates {
+
+            guard !discarded.contains(candidate) else {
+                continue
+            }
+            let row = candidates.filter {
+                $0.isInSameRowAs(candidate)
+            }
+            guard row.count > 1 else {
+                column.append([candidate])
+                continue
+            }
+            
+            var rowElementsAndIntersections: [(recognizedText: RecognizedText,
+                                               intersection: CGRect)] = []
+            for rowElement in row {
+                /// first normalize the y values of both rects, `rowElement`, `closest` to `recognizedText` in new temporary variables, by assigning both the same y values (`origin.y` and `size.height`)
+                let yNormalizedRect = rowElement.rect.rectWithYValues(of: recognizedText.rect)
+//                let closestYNormalizedRect = closest.rect.rectWithYValues(of: recognizedText.rect)
+                let intersection = yNormalizedRect.intersection(recognizedText.rect)
+                rowElementsAndIntersections.append(
+                    (rowElement, intersection)
+                )
+                
+//                let closestIntersection = closestYNormalizedRect.intersection(recognizedText.rect)
+//
+//                let intersectionRatio = intersection.width / rowElement.rect.width
+//                let closestIntersectionRatio = closestIntersection.width / closest.rect.width
+//
+//                if intersectionRatio > closestIntersectionRatio {
+//                    closest = rowElement
+//                }
+                
+                discarded.append(rowElement)
+            }
+            
+            /// Now order the `rowElementsAndIntersections` in decreasing order of `intersection.width` — which indicates how far away from the source `recognizedText` they are
+            rowElementsAndIntersections.sort { $0.intersection.width > $1.intersection.width }
+            
+            /// Now that its sorted, map the recognized texts into an array and provide that in the result array
+            column.append(rowElementsAndIntersections.map { $0.recognizedText })
+        }
+        
+        return column
+    }
 }
