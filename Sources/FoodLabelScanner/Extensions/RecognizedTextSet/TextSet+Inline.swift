@@ -62,16 +62,7 @@ extension RecognizedTextSet {
             observations.append(observation)
         }
         return observations
-    }
-    
-    var inlineResult: ScanResult {
-        let observations = inlineObservations
-        return ScanResult(
-            serving: observations.serving,
-            nutrients: observations.nutrients,
-            texts: texts
-        )
-    }
+    }    
 }
 
 extension Array where Element == Nutrient {

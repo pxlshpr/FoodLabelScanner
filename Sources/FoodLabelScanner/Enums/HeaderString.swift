@@ -30,6 +30,9 @@ public enum HeaderString {
         else if string.matchesRegex(Regex.perServing) {
             self = .perServing(serving: nil)
         }
+        else if string.lowercased() == "serving" {
+            self = .perServing(serving: nil)
+        }
         else {
             return nil
         }

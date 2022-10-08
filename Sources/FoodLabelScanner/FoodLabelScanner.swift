@@ -18,8 +18,16 @@ public struct FoodLabelScanner {
         
         let nutrientObservations = getNutrientObservations(from: textSet)
         let servingObservations = textSet.servingObservations
+        
+//        let _tabularObservations = textSet.tabularObservations
+//        let headerObservations = textSet.headerObservations(for: _tabularObservations)
+        
+        let headerObservations = textSet.headerObservations(for: nutrientObservations)
+        
+        let headers = headerObservations.headers
         return ScanResult(
             serving: servingObservations.serving,
+            headers: headerObservations.headers,
             nutrients: nutrientObservations.nutrients,
             texts: textSet.texts
         )
@@ -40,12 +48,12 @@ public struct FoodLabelScanner {
         
         let inline = textSet.inlineObservations
         
-        guard !inline.isCompleteInlineSet else {
-            print("🥕 using inline as its complete")
-            return inline
-        }
-
-        print("🥕 not using inline yet as the energy/macro values aren't present or don't equate")
+//        guard !inline.isCompleteInlineSet else {
+//            print("🥕 using inline as its complete")
+//            return inline
+//        }
+//
+//        print("🥕 not using inline yet as the energy/macro values aren't present or don't equate")
 
         let tabular = textSet.tabularObservations
 //        print("🥕 using tabular indiscriminately")

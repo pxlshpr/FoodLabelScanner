@@ -15,10 +15,27 @@ extension RecognizedTextSet {
 
         /// Get preceding recognized texts in that column
         let result = extractHeaders(inSameColumnAs: topMostValue1RecognizedText, into: &observations)
-//        guard result.extractedHeader1 else {
-//            //TODO: Try other methods for header 1
-//            return observations
-//        }
+        guard result.extractedHeader1 else {
+            //TODO: Try other methods for header 1
+            return observations
+        }
+
+        /// Make sure we haven't extracted header 2 yet before attempting to do it
+        guard !result.extractedHeader2 else {
+            return observations
+        }
+        
+        /// If we haven't extracted header 2 yet, and are expecting it (by checking if we have any value 2's)
+        guard nutrientObservations.containsSeparateValue2Observations else {
+            return observations
+        }
+        
+        guard let topMostValue2RecognizedText = topMostValue2RecognizedText(for: nutrientObservations) else {
+            //TODO: Try first inline text to header1 that's also in the same column as value 2's
+            return observations
+        }
+        
+        let _ = extractHeaders(inSameColumnAs: topMostValue2RecognizedText, forHeaderNumber: 2, into: &observations)
 
         return observations
     }
@@ -52,36 +69,36 @@ extension RecognizedTextSet {
                 break
             }
         }
-//
-//        /// If we hadn't extracted a header, try to find a header by merging the two rows at the top
-//        if !didExtractHeader1 && !didExtractHeader2 {
-//            for row in inlineTextRows
-//            {
-//                let texts = row.reversed().prefix(2)
-//                guard texts.count == 2 else {
-//                    continue
-//                }
-//
-//                let string = texts.map { $0.string }.joined(separator: " ")
-//
-//                guard let firstText = texts.first,
-//                      string.matchesRegex(HeaderString.Regex.perServingWithSize2),
-//                      let serving = HeaderText.Serving(string: string),
-//                      let headerTypeObservation = Observation(
-//                        headerType: .perServing,
-//                        for: headerAttribute,
-//                        attributeText: Array(texts)[1],
-//                        recognizedText: firstText
-//                      )
-//                else {
-//                    continue
-//                }
-//                observations.append(headerTypeObservation)
-//
-//                processHeaderServing(serving, for: firstText, attributeText: Array(texts)[1])
-//                didExtractHeader1 = true
-//            }
-//        }
+
+        /// If we hadn't extracted a header, try to find a header by merging the two rows at the top
+        if !didExtractHeader1 && !didExtractHeader2 {
+            for row in inlineTextRows
+            {
+                let texts = row.reversed().prefix(2)
+                guard texts.count == 2 else {
+                    continue
+                }
+
+                let string = texts.map { $0.string }.joined(separator: " ")
+
+                guard let firstText = texts.first,
+                      string.matchesRegex(HeaderString.Regex.perServingWithSize2),
+                      let serving = HeaderText.Serving(string: string),
+                      let headerTypeObservation = Observation(
+                        headerType: .perServing,
+                        for: headerAttribute,
+                        attributeText: Array(texts)[1],
+                        recognizedText: firstText
+                      )
+                else {
+                    continue
+                }
+                observations.append(headerTypeObservation)
+
+                processHeaderServing(serving, for: firstText, attributeText: Array(texts)[1], into: &observations)
+                didExtractHeader1 = true
+            }
+        }
         return (didExtractHeader1, didExtractHeader2)
     }
 

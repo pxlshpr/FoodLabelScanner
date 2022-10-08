@@ -67,6 +67,62 @@ extension Array where Element == Observation {
 }
 
 extension Array where Element == Observation {
+    var headers: ScanResult.Headers? {
+        ScanResult.Headers(
+            headerText1: headerText1,
+            headerText2: headerText2
+        )
+    }
+    
+    var headerStringText1: StringText? {
+        observation(for: .headerType1)?.stringText
+    }
+
+    var headerStringText2: StringText? {
+        observation(for: .headerType2)?.stringText
+    }
+
+    var headerType1: HeaderType? {
+        guard let stringText = headerStringText1 else { return nil }
+        return HeaderType(rawValue: stringText.string)
+    }
+    
+    var headerType2: HeaderType? {
+        guard let stringText = headerStringText2 else { return nil }
+        return HeaderType(rawValue: stringText.string)
+    }
+    
+    var headerServing1: HeaderText.Serving? {
+        nil
+    }
+    
+    var headerServing2: HeaderText.Serving? {
+        nil
+    }
+    
+    var headerText1: HeaderText? {
+        guard let headerStringText1, let headerType1 else { return nil }
+        return HeaderText(
+            type: headerType1,
+            text: headerStringText1.text,
+            attributeText: headerStringText1.attributeText,
+            serving: headerServing1
+        )
+    }
+    
+    var headerText2: HeaderText? {
+        guard let headerStringText2, let headerType2 else { return nil }
+        return HeaderText(
+            type: headerType2,
+            text: headerStringText2.text,
+            attributeText: headerStringText2.attributeText,
+            serving: headerServing2
+        )
+    }
+    
+
+}
+extension Array where Element == Observation {
    
     var serving: ScanResult.Serving? {
         ScanResult.Serving(
@@ -80,18 +136,8 @@ extension Array where Element == Observation {
     
     var nutrients: ScanResult.Nutrients {
         ScanResult.Nutrients(
-            headerText1: headerText1,
-            headerText2: headerText2,
             rows: rows
         )
-    }
-    
-    var headerText1: HeaderText? {
-        nil
-    }
-    
-    var headerText2: HeaderText? {
-        nil
     }
     
     var rows: [ScanResult.Nutrients.Row] {

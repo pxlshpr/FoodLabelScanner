@@ -64,9 +64,9 @@ public extension ScanResult {
         case .servingsPerContainerName:
             return serving?.perContainer?.name != nil
         case .headerType1:
-            return nutrients.headerText1 != nil
+            return headers?.headerText1 != nil
         case .headerType2:
-            return nutrients.headerText2 != nil
+            return headers?.headerText2 != nil
         default:
             return nutrients.rows.contains(where: { $0.attribute == attribute })
         }

@@ -5,12 +5,14 @@ import PrepUnits
 public struct ScanResult: Codable {
     public let id: UUID
     public let serving: Serving?
+    public let headers: Headers?
     public let nutrients: Nutrients
     public let texts: [RecognizedText]
     
-    public init(id: UUID = UUID(), serving: Serving?, nutrients: Nutrients, texts: [RecognizedText]) {
+    public init(id: UUID = UUID(), serving: Serving?, headers: Headers?, nutrients: Nutrients, texts: [RecognizedText]) {
         self.id = id
         self.serving = serving
+        self.headers = headers
         self.nutrients = nutrients
         self.texts = texts
     }
@@ -58,10 +60,18 @@ extension ScanResult {
         }
     }
     
-    //MARK: Nutrients
-    public struct Nutrients: Codable {
+    public struct Headers: Codable {
         public let headerText1: HeaderText?
         public let headerText2: HeaderText?
+        
+        public init(headerText1: HeaderText?, headerText2: HeaderText?) {
+            self.headerText1 = headerText1
+            self.headerText2 = headerText2
+        }
+    }
+    
+    //MARK: Nutrients
+    public struct Nutrients: Codable {
         
         public let rows: [Row]
         
@@ -77,9 +87,7 @@ extension ScanResult {
             }
         }
         
-        public init(headerText1: HeaderText?, headerText2: HeaderText?, rows: [Row]) {
-            self.headerText1 = headerText1
-            self.headerText2 = headerText2
+        public init(rows: [Row]) {
             self.rows = rows
         }
     }

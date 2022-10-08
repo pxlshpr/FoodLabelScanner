@@ -31,7 +31,7 @@ public extension ScanResult.Serving.PerContainer {
 //    var containerNameId: UUID? { identifiableContainerName?.id }
 }
 
-public extension ScanResult.Nutrients {
+public extension ScanResult.Headers {
     var header1Type: HeaderType? { headerText1?.type }
     var header2Type: HeaderType? { headerText2?.type }
 
@@ -49,20 +49,20 @@ public extension ScanResult.Nutrients.Row {
     var value2Id: UUID? { valueText2?.text.id }
 }
 
-public extension ScanResult {
-    var headerServing: HeaderText.Serving? {
-        servingHeaderText?.serving
-    }
-    
-    var servingHeaderText: HeaderText? {
-        if let type = nutrients.header1Type,
-           type == .perServing {
-            return nutrients.headerText1
-        }
-        if let type = nutrients.header2Type,
-           type == .perServing {
-            return nutrients.headerText2
-        }
-        return nil
-    }
-}
+//public extension ScanResult {
+//    var headerServing: HeaderText.Serving? {
+//        servingHeaderText?.serving
+//    }
+//    
+//    var servingHeaderText: HeaderText? {
+//        if let type = nutrients.header1Type,
+//           type == .perServing {
+//            return nutrients.headerText1
+//        }
+//        if let type = nutrients.header2Type,
+//           type == .perServing {
+//            return nutrients.headerText2
+//        }
+//        return nil
+//    }
+//}
