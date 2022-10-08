@@ -24,7 +24,7 @@ public struct FoodLabelScanner {
         
         let headerObservations = textSet.headerObservations(for: nutrientObservations)
         
-        let headers = headerObservations.headers
+//        let headers = headerObservations.headers
         return ScanResult(
             serving: servingObservations.serving,
             headers: headerObservations.headers,
