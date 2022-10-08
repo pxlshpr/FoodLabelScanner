@@ -57,6 +57,7 @@ extension Array where Element == Observation {
         observation(for: .servingsPerContainerName)?.stringText
     }
     
+    
     var servingPerContainer: ScanResult.Serving.PerContainer? {
         guard let servingPerContainerAmount else { return nil }
         return ScanResult.Serving.PerContainer(
