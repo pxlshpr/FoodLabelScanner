@@ -92,35 +92,75 @@ extension Array where Element == Observation {
         return HeaderType(rawValue: stringText.string)
     }
     
-    var headerServing1: HeaderText.Serving? {
-        nil
+    var headerServingAmount: Double? {
+        observation(for: .headerServingAmount)?.double
+    }
+
+    var headerServingUnit: FoodLabelUnit? {
+        observation(for: .headerServingUnit)?.unitText?.unit
+    }
+
+    var headerServingUnitName: String? {
+        observation(for: .headerServingUnitSize)?.string
     }
     
-    var headerServing2: HeaderText.Serving? {
-        nil
+    var headerServingEquivalentAmount: Double? {
+        observation(for: .headerServingEquivalentAmount)?.double
+    }
+    var headerServingEquivalentUnit: FoodLabelUnit? {
+        observation(for: .headerServingEquivalentUnit)?.unitText?.unit
+    }
+    var headerServingEquivalentUnitName: String? {
+        observation(for: .headerServingEquivalentUnitSize)?.string
+    }
+    
+    var headerServingEquivalentSize: HeaderText.Serving.EquivalentSize? {
+        guard let headerServingEquivalentAmount else { return nil }
+        return HeaderText.Serving.EquivalentSize(
+            amount: headerServingEquivalentAmount,
+            unit: headerServingEquivalentUnit,
+            unitName: headerServingEquivalentUnitName
+        )
+    }
+
+    var headerServing: HeaderText.Serving? {
+        guard (
+            headerServingAmount != nil
+            || headerServingUnit != nil
+            || headerServingUnitName != nil
+            || headerServingEquivalentSize != nil
+        ) else {
+            return nil
+        }
+        return HeaderText.Serving(
+            amount: headerServingAmount,
+            unit: headerServingUnit,
+            unitName: headerServingUnitName,
+            equivalentSize: headerServingEquivalentSize
+        )
     }
     
     var headerText1: HeaderText? {
         guard let headerStringText1, let headerType1 else { return nil }
+        let serving = headerType1 == .perServing ? headerServing : nil
         return HeaderText(
             type: headerType1,
             text: headerStringText1.text,
             attributeText: headerStringText1.attributeText,
-            serving: headerServing1
+            serving: serving
         )
     }
     
     var headerText2: HeaderText? {
         guard let headerStringText2, let headerType2 else { return nil }
+        let serving = headerType2 == .perServing ? headerServing : nil
         return HeaderText(
             type: headerType2,
             text: headerStringText2.text,
             attributeText: headerStringText2.attributeText,
-            serving: headerServing2
+            serving: serving
         )
     }
-    
-
 }
 extension Array where Element == Observation {
    
