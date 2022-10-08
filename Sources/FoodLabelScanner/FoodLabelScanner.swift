@@ -72,14 +72,18 @@ public struct FoodLabelScanner {
 
 extension Array where Element == Observation {
     
+    var containingBothValuesCount: Int {
+        filter({ $0.valueText2 != nil }).count
+    }
+    
     /**
-     ## Determining if `tabularResult` is preferred to `inlineResult`
-
-     - [x]  The `tabularResult` is deemed `preferred` if
-         - [x]  It has the same or more number of observations than the `inlineResult`
+    Determining if `tabularResult` is preferred to `inlineResult`
      */
-    func isPreferred(to observations: [Observation]) -> Bool {
-        self.nutrientsCount >= observations.nutrientsCount
+    func isPreferred(to other: [Observation]) -> Bool {
+        guard self.nutrientsCount != other.nutrientsCount else {
+            return self.containingBothValuesCount > other.containingBothValuesCount
+        }
+        return self.nutrientsCount > other.nutrientsCount
     }
     
     var nutrientsCount: Int {

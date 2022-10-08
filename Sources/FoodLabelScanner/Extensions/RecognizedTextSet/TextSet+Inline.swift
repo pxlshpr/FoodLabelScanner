@@ -42,12 +42,16 @@ extension RecognizedTextSet {
             let nutrientCandidates = text.nutrientCandidates.bestCandidateNutrients
             if !nutrientCandidates.isEmpty {
                 for nutrient in nutrientCandidates {
+                    guard !observations.contains(attribute: nutrient.attribute) else { continue }
                     observations.append(nutrient.observation(forInlineText: text))
                 }
                 continue
             }
             
-            guard let attribute = Attribute.detect(in: text.string).first, attribute.isNutrientAttribute else {
+            guard let attribute = Attribute.detect(in: text.string).first,
+                  attribute.isNutrientAttribute,
+                  !observations.contains(attribute: attribute)
+            else {
                 continue
             }
 
