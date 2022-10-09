@@ -439,7 +439,7 @@ extension ExtractedRow {
         })
     }
     mutating func fillInMissingUnits() {
-        if valuesTexts.count > 0, let valuesText = valuesTexts[0], valuesText.values.first?.unit == nil {
+        if valuesTexts.count > 0, let valuesText = valuesTexts[0], !valuesText.values.isEmpty, valuesText.values.first?.unit == nil {
             var new = valuesText
             if attributeText.attribute == .energy, attributeText.text.string.contains("cal") {
                 new.values[0].unit = .kcal
@@ -449,7 +449,7 @@ extension ExtractedRow {
             valuesTexts[0] = new
         }
 
-        if valuesTexts.count == 2, let valuesText = valuesTexts[1], valuesText.values.first?.unit == nil {
+        if valuesTexts.count == 2, let valuesText = valuesTexts[1], !valuesText.values.isEmpty, valuesText.values.first?.unit == nil {
             var new = valuesText
             if attributeText.attribute == .energy, attributeText.text.string.contains("kcal") {
                 new.values[0].unit = .kcal
