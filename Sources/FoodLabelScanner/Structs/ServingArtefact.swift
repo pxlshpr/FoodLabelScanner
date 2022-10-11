@@ -3,11 +3,11 @@ import VisionSugar
 import PrepUnits
 
 public struct ServingArtefact {
-    let text: RecognizedText
-    let attribute: Attribute?
-    let double: Double?
-    let string: String?
-    let unit: FoodLabelUnit?
+    public let text: RecognizedText
+    public let attribute: Attribute?
+    public let double: Double?
+    public let string: String?
+    public let unit: FoodLabelUnit?
     
     init(attribute: Attribute, text: RecognizedText) {
         self.text = text
