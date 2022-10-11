@@ -322,7 +322,7 @@ extension ExtractedColumn {
         }
         
         /// If it's in the first column
-        if let valuesText = row.valuesTexts[0] {
+        if !row.valuesTexts.isEmpty, let valuesText = row.valuesTexts[0] {
             let values = valuesText.values
             guard values.count > 1 else {
                 return false
@@ -337,7 +337,7 @@ extension ExtractedColumn {
             rows[index+1].valuesTexts[0] = newValuesTextForNextRow
         }
         /// If it's also in the second column
-        if let valuesText = row.valuesTexts[1] {
+        if row.valuesTexts.count > 1, let valuesText = row.valuesTexts[1] {
             let values = valuesText.values
             guard values.count > 1 else {
                 return false
