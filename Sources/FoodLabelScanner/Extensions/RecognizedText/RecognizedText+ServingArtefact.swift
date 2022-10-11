@@ -3,11 +3,11 @@ import Foundation
 import PrepUnits
 
 extension RecognizedText {
-    var servingArtefacts: [ServingArtefact] {
+    public var servingArtefacts: [ServingArtefact] {
         getServingArtefacts()
     }
     
-    func getServingArtefacts() -> [ServingArtefact] {
+    public func getServingArtefacts() -> [ServingArtefact] {
         var arrays: [[ServingArtefact]] = []
         for candidate in candidates {
             arrays.append(servingArtefacts(for: candidate))
@@ -19,7 +19,7 @@ extension RecognizedText {
         return arrays.first(where: { $0.count > 0 }) ?? []
     }
     
-    func servingArtefacts(for string: String) -> [ServingArtefact] {
+    public func servingArtefacts(for string: String) -> [ServingArtefact] {
 //        let originalString = string.cleanedAttributeString
         var array: [ServingArtefact] = []
         var string = string.cleanedAttributeString
@@ -123,7 +123,7 @@ extension RecognizedText {
 
 extension String {
     
-    var servingArtefacts: [ServingArtefact] {
+    public var servingArtefacts: [ServingArtefact] {
 //        let originalString = string.cleanedAttributeString
         var array: [ServingArtefact] = []
         var string = cleanedAttributeString
