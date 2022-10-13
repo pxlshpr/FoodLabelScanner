@@ -2,8 +2,31 @@ import Foundation
 import VisionSugar
 import PrepUnits
 
+extension Array where Element == Observation {
+    mutating func populateMissingHeaderObservations(from textSet: RecognizedTextSet) {
+        /// First make sure we don't already have header observations
+        guard !self.containsHeaderAttribute else {
+            return
+        }
+        
+        for text in textSet.texts {
+            let headerObservations = text.singleHeaderObservations
+            if !headerObservations.isEmpty {
+                append(contentsOf: headerObservations)
+                return
+            }
+        }
+    }
+    
+    var containsHeaderAttribute: Bool {
+        contains(where: {
+            $0.attribute.isHeaderAttribute
+        })
+    }
+}
+
 extension RecognizedTextSet {
-    func headerObservations(for nutrientObservations: [Observation]) -> [Observation] {
+    func tabularHeaderObservations(for nutrientObservations: [Observation]) -> [Observation] {
 
         var observations: [Observation] = []
 
@@ -50,14 +73,14 @@ extension RecognizedTextSet {
         let inlineTextRows = texts.inlineTextRows(as: topRecognizedText, preceding: true)
         var didExtractHeader1: Bool = false
         var didExtractHeader2: Bool = false
-        let headerAttribute: Attribute = headerNumber == 1 ? .headerType1 : .headerType2
+        let headerColumnAttribute: Attribute = headerNumber == 1 ? .headerType1 : .headerType2
 
         for row in inlineTextRows {
             for recognizedText in row {
                 if !shouldContinueExtractingAfter(
                     extracting: recognizedText,
                     into: &observations,
-                    forHeaderAttribute: headerAttribute,
+                    forHeaderColumnAttribute: headerColumnAttribute,
                     headerNumber: headerNumber,
                     didExtractHeader1: &didExtractHeader1,
                     didExtractHeader2: &didExtractHeader2
@@ -86,7 +109,7 @@ extension RecognizedTextSet {
                       let serving = HeaderText.Serving(string: string),
                       let headerTypeObservation = Observation(
                         headerType: .perServing,
-                        for: headerAttribute,
+                        for: headerColumnAttribute,
                         attributeText: Array(texts)[1],
                         recognizedText: firstText
                       )
@@ -104,9 +127,9 @@ extension RecognizedTextSet {
 
     /// Return value indicates if search should continue
     func shouldContinueExtractingAfter(
-        extracting recognizedText: RecognizedText,
+        extracting text: RecognizedText,
         into observations: inout [Observation],
-        forHeaderAttribute headerAttribute: Attribute,
+        forHeaderColumnAttribute headerColumnAttribute: Attribute,
         headerNumber: Int,
         didExtractHeader1: inout Bool,
         didExtractHeader2: inout Bool
@@ -120,16 +143,16 @@ extension RecognizedTextSet {
             }
         }
         
-        guard let headerString = HeaderString(string: recognizedText.string) else {
+        guard let headerString = HeaderString(string: text.string) else {
             return true
         }
         
         switch headerString {
         case .per100:
             guard let observation = Observation(
-                headerType: HeaderType(per100String: recognizedText.string),
-                for: headerAttribute,
-                recognizedText: recognizedText) else
+                headerType: HeaderType(per100String: text.string),
+                for: headerColumnAttribute,
+                recognizedText: text) else
             {
                 return true
             }
@@ -138,8 +161,8 @@ extension RecognizedTextSet {
         case .perServing:
             guard let observation = Observation(
                 headerType: .perServing,
-                for: headerAttribute,
-                recognizedText: recognizedText) else
+                for: headerColumnAttribute,
+                recognizedText: text) else
             {
                 return true
             }
@@ -147,9 +170,9 @@ extension RecognizedTextSet {
             extractedFirstHeader()
         case .per100AndPerServing:
             guard let firstObservation = Observation(
-                headerType: HeaderType(per100String: recognizedText.string),
-                for: headerAttribute,
-                recognizedText: recognizedText) else
+                headerType: HeaderType(per100String: text.string),
+                for: headerColumnAttribute,
+                recognizedText: text) else
             {
                 return true
             }
@@ -159,7 +182,7 @@ extension RecognizedTextSet {
             guard headerNumber == 1, let secondObservation = Observation(
                 headerType: .perServing,
                 for: .headerType2,
-                recognizedText: recognizedText) else
+                recognizedText: text) else
             {
                 return true
             }
@@ -168,8 +191,8 @@ extension RecognizedTextSet {
         case .perServingAnd100:
             guard let firstObservation = Observation(
                 headerType: .perServing,
-                for: headerAttribute,
-                recognizedText: recognizedText) else
+                for: headerColumnAttribute,
+                recognizedText: text) else
             {
                 return true
             }
@@ -177,9 +200,9 @@ extension RecognizedTextSet {
             extractedFirstHeader()
 
             guard headerNumber == 1, let secondObservation = Observation(
-                headerType: HeaderType(per100String: recognizedText.string),
+                headerType: HeaderType(per100String: text.string),
                 for: .headerType2,
-                recognizedText: recognizedText) else
+                recognizedText: text) else
             {
                 return true
             }
@@ -192,7 +215,7 @@ extension RecognizedTextSet {
             guard let string = string, let serving = HeaderText.Serving(string: string) else {
                 return false
             }
-            processHeaderServing(serving, for: recognizedText, into: &observations)
+            processHeaderServing(serving, for: text, into: &observations)
         default:
             return false
         }

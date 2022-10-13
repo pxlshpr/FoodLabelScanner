@@ -8,7 +8,7 @@ public enum HeaderString {
     case perServingAnd100(serving: String?)
 
     init?(string: String) {
-        if string.matchesRegex(Regex.per100) {
+        if string.matchesRegex(Regex.per100_2) {
             self = .per100
         }
         else if let size = string.firstCapturedGroup(using: Regex.perServingWithSize) {
@@ -57,6 +57,10 @@ extension HeaderString {
     struct Regex {
         static let per100 =
 #"^((serve |average |)(per|pour) |)100[ ]*(?:g|ml)$"#
+        /// We've included `amount` here, and added more unit options without testing if this breaks previous cases
+        static let per100_2 =
+#"^((serve |average |amount |)(per|pour) |)100[ ]*(?:g|gram|grams|gs|gr|gm|ml|ms)$"#
+
         
         static let perServing =
 #"^(?=^.*(amount|)[ ]*((per|par|por) |\/)(serv(ing|e)|portion|porção).*$)(?!^.*100[ ]*(?:g|ml).*$).*$"#

@@ -22,7 +22,9 @@ public struct FoodLabelScanner {
         let tabular = textSet.tabularObservations
         
         let nutrientObservations = tabular.isPreferred(to: inline) ? tabular : inline
-        let headerObservations = textSet.headerObservations(for: tabular)
+        var headerObservations = textSet.tabularHeaderObservations(for: tabular)
+        
+        headerObservations.populateMissingHeaderObservations(from: textSet)
         
 //        let headerObservations = textSet.headerObservations(for: nutrientObservations)
         
