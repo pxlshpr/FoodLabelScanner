@@ -2,7 +2,7 @@ import Foundation
 import VisionSugar
 import PrepUnits
 
-public struct ScanResult: Codable {
+public struct ScanResult: Hashable, Codable {
     public let id: UUID
     public let serving: Serving?
     public let headers: Headers?
@@ -20,7 +20,7 @@ public struct ScanResult: Codable {
 
 extension ScanResult {
     //MARK: Serving
-    public struct Serving: Codable {
+    public struct Serving: Hashable, Codable {
         //TODO: Add attribute texts for these too
         public let amountText: DoubleText?
         public let unitText: UnitText?
@@ -29,7 +29,7 @@ extension ScanResult {
 
         public let perContainer: PerContainer?
 
-        public struct EquivalentSize: Codable {
+        public struct EquivalentSize: Hashable, Codable {
             public let amountText: DoubleText
             public let unitText: UnitText?
             public let unitNameText: StringText?
@@ -41,7 +41,7 @@ extension ScanResult {
             }
         }
 
-        public struct PerContainer: Codable {
+        public struct PerContainer: Hashable, Codable {
             public let amountText: DoubleText
             public let nameText: StringText?
             
@@ -60,7 +60,7 @@ extension ScanResult {
         }
     }
     
-    public struct Headers: Codable {
+    public struct Headers: Hashable, Codable {
         public let headerText1: HeaderText?
         public let headerText2: HeaderText?
         
@@ -71,11 +71,11 @@ extension ScanResult {
     }
     
     //MARK: Nutrients
-    public struct Nutrients: Codable {
+    public struct Nutrients: Hashable, Codable {
         
         public let rows: [Row]
         
-        public struct Row: Codable {
+        public struct Row: Hashable, Codable {
             public let attributeText: AttributeText
             public let valueText1: ValueText?
             public let valueText2: ValueText?
@@ -107,7 +107,7 @@ public struct ValueText: Codable {
     }
 }
 
-public struct DoubleText: Codable {
+public struct DoubleText: Hashable, Codable {
     public let double: Double
     public let text: RecognizedText
     public let attributeText: RecognizedText
@@ -119,7 +119,7 @@ public struct DoubleText: Codable {
     }
 }
 
-public struct UnitText: Codable {
+public struct UnitText: Hashable, Codable {
     public let unit: FoodLabelUnit
     public let text: RecognizedText
     public let attributeText: RecognizedText
@@ -131,7 +131,7 @@ public struct UnitText: Codable {
     }
 }
 
-public struct StringText: Codable {
+public struct StringText: Hashable, Codable {
     public let string: String
     public let text: RecognizedText
     public let attributeText: RecognizedText
@@ -143,19 +143,19 @@ public struct StringText: Codable {
     }
 }
 
-public struct HeaderText: Codable {
+public struct HeaderText: Hashable, Codable {
     public let type: HeaderType
     public let text: RecognizedText
     public let attributeText: RecognizedText
     public let serving: Serving?
     
-    public struct Serving: Codable {
+    public struct Serving: Hashable, Codable {
         public let amount: Double?
         public let unit: FoodLabelUnit?
         public let unitName: String?
         public let equivalentSize: EquivalentSize?
         
-        public struct EquivalentSize: Codable {
+        public struct EquivalentSize: Hashable, Codable {
             public let amount: Double
             public let unit: FoodLabelUnit?
             public let unitName: String?
