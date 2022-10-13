@@ -24,14 +24,24 @@ extension RecognizedTextSet {
         let inline = inlineObservations
         let tabular = tabularObservations
         
-        let nutrientObservations = tabular.isPreferred(to: inline) ? tabular : inline
+        var nutrientObservations: [Observation]
+        if tabular.isPreferred(toInlineObservations: inline) {
+            /// Add the tabular observations
+            nutrientObservations = tabular
+            
+            /// ... and any inline observations the tabular algorithm might not have picked
+            for observation in inlineObservations {
+                if !tabular.contains(where: { $0.attribute == observation.attribute }) {
+                    nutrientObservations.append(observation)
+                }
+            }
+        } else {
+            nutrientObservations = inline
+        }
         var headerObservations = tabularHeaderObservations(for: tabular)
         
         headerObservations.populateMissingHeaderObservations(from: self)
         
-//        let headerObservations = textSet.headerObservations(for: nutrientObservations)
-        
-//        let headers = headerObservations.headers
         return ScanResult(
             serving: servingObservations.serving,
             headers: headerObservations.headers,
@@ -82,7 +92,7 @@ public struct FoodLabelScanner {
 //        print("🥕 using tabular indiscriminately")
 //        return tabular
         
-        guard tabular.isPreferred(to: inline) else {
+        guard tabular.isPreferred(toInlineObservations: inline) else {
             print("🥕 using inline (\(inline.nutrientsCount) nutrients) as its preferred to tabular (\(tabular.nutrientsCount) nutrients)")
             return inline
         }
@@ -100,11 +110,21 @@ extension Array where Element == Observation {
     /**
     Determining if `tabularResult` is preferred to `inlineResult`
      */
-    func isPreferred(to other: [Observation]) -> Bool {
-        guard self.nutrientsCount != other.nutrientsCount else {
-            return self.containingBothValuesCount >= other.containingBothValuesCount
+    func isPreferred(toInlineObservations inlineObservations: [Observation]) -> Bool {
+        
+        let inlineCount = Double(inlineObservations.nutrientsCount)
+        let tabularCount = Double(self.nutrientsCount)
+        /// If inline has more than double of tabular, return it
+        if (inlineCount / 2.0) > tabularCount {
+            return true
+        } else {
+            return false
         }
-        return self.nutrientsCount > other.nutrientsCount
+//        if ((inlineObservations.nutrientsCount >= self.nutrientsCount
+//        guard self.nutrientsCount != inlineObservations.nutrientsCount else {
+//            return self.containingBothValuesCount >= inlineObservations.containingBothValuesCount
+//        }
+//        return self.nutrientsCount > inlineObservations.nutrientsCount
     }
     
     var nutrientsCount: Int {
