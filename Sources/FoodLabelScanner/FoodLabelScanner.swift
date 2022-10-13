@@ -115,7 +115,7 @@ extension Array where Element == Observation {
         let inlineCount = Double(inlineObservations.nutrientsCount)
         let tabularCount = Double(self.nutrientsCount)
         /// If inline has more than double of tabular, return it
-        if (inlineCount / 2.0) > tabularCount {
+        if (inlineCount / 2.0) < tabularCount {
             return true
         } else {
             return false
