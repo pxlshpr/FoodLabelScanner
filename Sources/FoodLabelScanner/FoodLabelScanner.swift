@@ -3,6 +3,44 @@ import VisionSugar
 import CoreMedia
 import PrepUnits
 
+public struct FoodLabelLiveScanner {
+    
+    var sampleBuffer: CMSampleBuffer
+
+    public init(sampleBuffer: CMSampleBuffer) {
+        self.sampleBuffer = sampleBuffer
+    }
+    
+    public func scan() async throws -> ScanResult {
+        let textSet = try await sampleBuffer.recognizedTextSet(for: .accurate, inContentSize: UIScreen.main.bounds.size)
+        return textSet.scanResult
+    }
+}
+
+extension RecognizedTextSet {
+    var scanResult: ScanResult {
+        let servingObservations = servingObservations
+        
+        let inline = inlineObservations
+        let tabular = tabularObservations
+        
+        let nutrientObservations = tabular.isPreferred(to: inline) ? tabular : inline
+        var headerObservations = tabularHeaderObservations(for: tabular)
+        
+        headerObservations.populateMissingHeaderObservations(from: self)
+        
+//        let headerObservations = textSet.headerObservations(for: nutrientObservations)
+        
+//        let headers = headerObservations.headers
+        return ScanResult(
+            serving: servingObservations.serving,
+            headers: headerObservations.headers,
+            nutrients: nutrientObservations.nutrients,
+            texts: texts
+        )
+    }
+}
+
 public struct FoodLabelScanner {
     
     var image: UIImage
@@ -15,26 +53,7 @@ public struct FoodLabelScanner {
     
     public func scan() async throws -> ScanResult {
         let textSet = try await image.recognizedTextSet(for: .accurate, inContentSize: contentSize)
-        
-        let servingObservations = textSet.servingObservations
-        
-        let inline = textSet.inlineObservations
-        let tabular = textSet.tabularObservations
-        
-        let nutrientObservations = tabular.isPreferred(to: inline) ? tabular : inline
-        var headerObservations = textSet.tabularHeaderObservations(for: tabular)
-        
-        headerObservations.populateMissingHeaderObservations(from: textSet)
-        
-//        let headerObservations = textSet.headerObservations(for: nutrientObservations)
-        
-//        let headers = headerObservations.headers
-        return ScanResult(
-            serving: servingObservations.serving,
-            headers: headerObservations.headers,
-            nutrients: nutrientObservations.nutrients,
-            texts: textSet.texts
-        )
+        return textSet.scanResult
     }
     
     /**
