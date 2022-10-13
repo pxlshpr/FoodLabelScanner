@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/PrepUnits",
       "state" : {
-        "revision" : "fb7a63ef0f6e7c29fc216b8c198f515fe27ef644",
-        "version" : "0.0.56"
+        "revision" : "72a54bd9fccc1c4854a35a75a5b11fd33638981c",
+        "version" : "0.0.68"
       }
     },
     {
