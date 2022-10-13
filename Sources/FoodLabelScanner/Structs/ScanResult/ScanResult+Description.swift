@@ -1,6 +1,6 @@
 import Foundation
 
-extension ScanResult {
+public extension ScanResult {
     var summaryDescription: String {
         summaryDescription(withEmojiPrefix: "")
     }
