@@ -12,7 +12,7 @@ public struct FoodLabelLiveScanner {
     }
     
     public func scan() async throws -> ScanResult {
-        let textSet = try await sampleBuffer.recognizedTextSet(for: .accurate)
+        let textSet = try await sampleBuffer.recognizedTextSet(for: .accurate, includeBarcodes: true)
         return textSet.scanResult
     }
 }
@@ -63,7 +63,7 @@ public struct FoodLabelScanner {
     }
     
     public func scan() async throws -> ScanResult {
-        let textSet = try await image.recognizedTextSet(for: .accurate)
+        let textSet = try await image.recognizedTextSet(for: .accurate, includeBarcodes: true)
         return textSet.scanResult
     }
     
