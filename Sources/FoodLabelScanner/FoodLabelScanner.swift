@@ -46,7 +46,8 @@ extension RecognizedTextSet {
             serving: servingObservations.serving,
             headers: headerObservations.headers,
             nutrients: nutrientObservations.nutrients,
-            texts: texts
+            texts: texts,
+            barcodes: barcodes
         )
     }
 }
