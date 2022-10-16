@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/SwiftUISugar",
       "state" : {
-        "revision" : "b5e531c510f7fee41b3b020166bef5fd874b448a",
-        "version" : "0.0.185"
+        "revision" : "7fe1dde92fdfc47a8e80ca5c132e9aa8358eed24",
+        "version" : "0.0.186"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/VisionSugar",
       "state" : {
-        "revision" : "1aac6b8684ae3dcb776f5809b74614d0cff9732b",
-        "version" : "0.0.65"
+        "revision" : "3630ca760d38f439eb7a1e215b7a5c1d12bee69c",
+        "version" : "0.0.69"
       }
     }
   ],
