@@ -132,16 +132,20 @@ public extension ScanResult {
             .boundingBox
     }
     
+    var validNutrientsRows: [Nutrients.Row] {
+        nutrients.rows.filter { $0.valueText1 != nil || $0.valueText2 != nil }
+    }
+    
     var nutrientAttributes: [Attribute] {
-        nutrients.rows.map({ $0.attribute })
+        validNutrientsRows.map({ $0.attribute })
     }
     
     var nutrientsCount: Int {
-        nutrients.rows.count
+        validNutrientsRows.count
     }
     
     var hasNutrients: Bool {
-        !nutrients.rows.isEmpty
+        !validNutrientsRows.isEmpty
     }
     
     var resultTexts: [RecognizedText] {
@@ -149,11 +153,11 @@ public extension ScanResult {
     }
     
     var nutrientAttributeTexts: [RecognizedText] {
-        nutrients.rows.map { $0.attributeText.text }
+        validNutrientsRows.map { $0.attributeText.text }
     }
     
     var nutrientValueTexts: [RecognizedText] {
-        nutrients.rows.map { $0.attributeText.text }
+        validNutrientsRows.map { $0.attributeText.text }
     }
     
     func amount(for attribute: Attribute) -> Double? {
