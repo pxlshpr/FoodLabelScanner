@@ -112,11 +112,15 @@ extension Attribute {
     }
     
     func shouldIgnoreAttributeIfOnSameString(as attribute: Attribute) -> Bool {
-        if self == .vitaminE {
-            /// Handles edge case of misreading `Riboflavin (Vitamin B12` as `Riboflavin (Vitamin E`
-            if attribute == .riboflavin {
-                return true
-            }
+        
+        /// Handles edge case of misreading `Riboflavin (Vitamin B12` as `Riboflavin (Vitamin E`
+        if self == .vitaminE, attribute == .riboflavin {
+            return true
+        }
+        
+        /// Handles cases where we have both `Vitamin B2` and `Riboflavin` on the same string (which are the same)
+        if self == .vitaminB2, attribute == .riboflavin {
+            return true
         }
         return false
     }
