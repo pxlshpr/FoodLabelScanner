@@ -228,41 +228,33 @@ public extension NutrientType {
             return .zinc
         case .vitaminA:
             return .vitaminA
-        case .vitaminB6:
+        case .vitaminB6_pyridoxine:
             return .vitaminB6
-        case .vitaminB12:
+        case .vitaminB12_cobalamin:
             return .vitaminB12
-        case .vitaminC:
+        case .vitaminC_ascorbicAcid:
             return .vitaminC
-        case .vitaminD:
+        case .vitaminD_calciferol:
             return .vitaminD
         case .vitaminE:
             return .vitaminE
-        case .vitaminK:
+        case .vitaminK1_phylloquinone:
             return .vitaminK
-        case .biotin:
+        case .vitaminB7_biotin:
             return .biotin
-        case .folate:
+        case .vitaminB9_folate:
             return .folate
-        case .niacin:
+        case .vitaminB3_niacin:
             return .niacin
-        case .pantothenicAcid:
+        case .vitaminB5_pantothenicAcid:
             return .pantothenicAcid
-        case .riboflavin:
+        case .vitaminB2_riboflavin:
             return .riboflavin
-        case .thiamin:
+        case .vitaminB1_thiamine:
             return .thiamin
-        case .vitaminB2:
-            return .vitaminB2
-        case .cobalamin:
-            return .cobalamin
-        case .folicAcid:
+        case .vitaminB9_folicAcid:
             return .folicAcid
-        case .vitaminB1:
-            return .vitaminB1
-        case .vitaminB3:
-            return .vitaminB3
-        case .vitaminK2:
+        case .vitaminK2_menaquinone:
             return .vitaminK2
         case .caffeine:
             return .caffeine
