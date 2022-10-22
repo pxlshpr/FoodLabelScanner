@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/PrepUnits",
       "state" : {
-        "revision" : "996305863723d30771562c7140b38e49b706191e",
-        "version" : "0.0.69"
+        "revision" : "6cf7149d995ab1893e30c339c42c2c5bab02513e",
+        "version" : "0.0.100"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/SwiftSugar",
       "state" : {
-        "revision" : "70cf7f766d611ec114a67c059b4bdbfcabb8865a",
-        "version" : "0.0.57"
+        "revision" : "ec4f4c280c41c6c99741e065d635c470926d75d5",
+        "version" : "0.0.69"
       }
     },
     {
