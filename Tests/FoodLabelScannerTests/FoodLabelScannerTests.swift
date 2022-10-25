@@ -1,7 +1,7 @@
 import XCTest
 @testable import FoodLabelScanner
 
-import PrepUnits
+import PrepDataTypes
 
 final class FoodLabelScannerTests: XCTestCase {
     func test() async throws {

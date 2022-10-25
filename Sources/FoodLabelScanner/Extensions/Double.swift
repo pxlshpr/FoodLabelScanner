@@ -1,5 +1,6 @@
 import Foundation
-import PrepUnits
+import PrepDataTypes
+import SwiftSugar
 
 extension Double {
     init?(fromString string: String) {

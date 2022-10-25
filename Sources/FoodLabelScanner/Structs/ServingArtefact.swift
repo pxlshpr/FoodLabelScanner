@@ -1,6 +1,6 @@
 import Foundation
 import VisionSugar
-import PrepUnits
+import PrepDataTypes
 
 public struct ServingArtefact {
     public let text: RecognizedText

@@ -1,7 +1,7 @@
 import SwiftUI
 import VisionSugar
 import SwiftSugar
-import PrepUnits
+import PrepDataTypes
 
 let RatioErrorPercentageThreshold = 17.0
 let MacroOrEnergyErrorPercentageThreshold = 20.0

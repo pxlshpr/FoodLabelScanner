@@ -15,9 +15,9 @@ let package = Package(
             targets: ["FoodLabelScanner"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/pxlshpr/SwiftSugar", from: "0.0.57"),
+        .package(url: "https://github.com/pxlshpr/SwiftSugar", from: "0.0.74"),
         .package(url: "https://github.com/pxlshpr/VisionSugar", from: "0.0.69"),
-        .package(url: "https://github.com/pxlshpr/PrepUnits", from: "0.0.104"),
+        .package(url: "https://github.com/pxlshpr/PrepDataTypes", from: "0.0.9"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -27,7 +27,7 @@ let package = Package(
             dependencies: [
                 .product(name: "SwiftSugar", package: "swiftsugar"),
                 .product(name: "VisionSugar", package: "visionsugar"),
-                .product(name: "PrepUnits", package: "prepunits"),
+                .product(name: "PrepDataTypes", package: "prepdatatypes"),
             ]
         ),
         .testTarget(

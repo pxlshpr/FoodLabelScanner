@@ -1,5 +1,5 @@
 import Foundation
-import PrepUnits
+import PrepDataTypes
 
 //TODO: Legacy Artefact
 public struct NutrientArtefact {

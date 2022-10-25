@@ -1,5 +1,5 @@
 import Foundation
-import PrepUnits
+import PrepDataTypes
 
 public extension ScanResult.Serving {
     var amount: Double? { amountText?.double }

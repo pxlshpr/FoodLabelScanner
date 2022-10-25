@@ -1,7 +1,7 @@
 import SwiftUI
 import VisionSugar
 import CoreMedia
-import PrepUnits
+import PrepDataTypes
 
 public struct FoodLabelLiveScanner {
     

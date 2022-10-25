@@ -1,5 +1,5 @@
 import Foundation
-import PrepUnits
+import PrepDataTypes
 import SwiftSugar
 
 extension String {

@@ -1,6 +1,6 @@
 import Foundation
 import VisionSugar
-import PrepUnits
+import PrepDataTypes
 
 struct Nutrient: Equatable {
     let attribute: Attribute

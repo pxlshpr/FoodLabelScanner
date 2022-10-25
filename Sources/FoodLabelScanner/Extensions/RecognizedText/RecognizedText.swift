@@ -1,6 +1,6 @@
 import VisionSugar
 import Foundation
-import PrepUnits
+import PrepDataTypes
 
 extension RecognizedText {
     var isValueBasedAttribute: Bool {

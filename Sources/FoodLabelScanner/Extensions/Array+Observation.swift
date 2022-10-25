@@ -1,5 +1,5 @@
 import Foundation
-import PrepUnits
+import PrepDataTypes
 
 extension Observation {
     var unitText: UnitText? {

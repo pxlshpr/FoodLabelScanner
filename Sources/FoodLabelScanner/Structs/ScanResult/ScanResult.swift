@@ -1,6 +1,6 @@
 import Foundation
 import VisionSugar
-import PrepUnits
+import PrepDataTypes
 
 public struct ScanResult: Hashable, Codable {
     public let id: UUID
