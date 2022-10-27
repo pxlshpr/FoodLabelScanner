@@ -616,9 +616,9 @@ extension ExtractedGrid {
     }
     
     mutating func modify(_ row: ExtractedRow, withNewValues newValues: (FoodLabelValue, FoodLabelValue)) {
-        print("2️⃣ Correct row: \(row.attributeText.attribute) with: \(newValues.0.description) and \(newValues.1.description)")
+        // print("2️⃣ Correct row: \(row.attributeText.attribute) with: \(newValues.0.description) and \(newValues.1.description)")
         columns.modify(row, with: newValues)
-        print("2️⃣ done.")
+        // print("2️⃣ done.")
     }
 
     mutating func modify(_ row: ExtractedRow, withNewValue newValue: FoodLabelValue) {
@@ -845,7 +845,7 @@ extension ExtractedGrid {
     }
     
     func calculateAmount(for attribute: Attribute, in index: Int) -> Double? {
-        print("2️⃣ Calculate \(attribute) in column \(index)")
+        // print("2️⃣ Calculate \(attribute) in column \(index)")
 //        guard allRows.containsAllMacrosAndEnergy else {
 //            return nil
 //        }
@@ -1020,28 +1020,28 @@ extension ExtractedGrid {
         
         if (macrosValidities[0] == true && macrosValidities[1] != true) {
             guard let validValue = allRows.valueFor(attribute, valueIndex: 0) else {
-                print("2️⃣ ⚠️ Error getting valid value for: \(attribute) in column 1")
+                // print("2️⃣ ⚠️ Error getting valid value for: \(attribute) in column 1")
                 return
             }
             guard let calculatedValue = calculateValue(for: attribute, in: 1) else {
-                print("2️⃣ ⚠️ Error getting calculated value for: \(attribute) in column 1")
+                // print("2️⃣ ⚠️ Error getting calculated value for: \(attribute) in column 1")
                 return
             }
             modify(invalidRow, withNewValues: (validValue, calculatedValue))
         }
         else if (macrosValidities[0] != true && macrosValidities[1] == true) {
             guard let validValue = allRows.valueFor(attribute, valueIndex: 1) else {
-                print("2️⃣ ⚠️ Error getting valid value for: \(attribute) in column 2")
+                // print("2️⃣ ⚠️ Error getting valid value for: \(attribute) in column 2")
                 return
             }
             guard let calculatedValue = calculateValue(for: attribute, in: 0) else {
-                print("2️⃣ ⚠️ Error getting calculated value for: \(attribute) in column 2")
+                // print("2️⃣ ⚠️ Error getting calculated value for: \(attribute) in column 2")
                 return
             }
             modify(invalidRow, withNewValues: (calculatedValue, validValue))
         }
-        print("took: \(CFAbsoluteTimeGetCurrent()-start)s")
-        print("We here")
+        // print("took: \(CFAbsoluteTimeGetCurrent()-start)s")
+        // print("We here")
         /// If that's the case, then use the equation to determine that value and fill it in
     }
     
@@ -1239,20 +1239,20 @@ extension ExtractedGrid {
             return
         }
 
-        print("3️⃣ Correcting: \(row.desc)")
+        // print("3️⃣ Correcting: \(row.desc)")
 
         guard !correctionMadeUsingAlternativeValues(row, for: validRatio) else {
-            print("3️⃣ Correction was made using alternative values for: \(row.desc)")
+            // print("3️⃣ Correction was made using alternative values for: \(row.desc)")
             return
         }
         
         //TODO: Write this when needed
         guard !correctionMadeUsingParentNutrientHeuristics(row, for: validRatio) else {
-            print("3️⃣ Correction was made using parent nutrient heuristics for: \(row.desc)")
+            // print("3️⃣ Correction was made using parent nutrient heuristics for: \(row.desc)")
             return
         }
         
-        print("3️⃣ We weren't able to correct: \(row.desc)")
+        // print("3️⃣ We weren't able to correct: \(row.desc)")
     }
 
     mutating func correctionMadeUsingParentNutrientHeuristics(_ row: ExtractedRow, for validRatio: Double) -> Bool {

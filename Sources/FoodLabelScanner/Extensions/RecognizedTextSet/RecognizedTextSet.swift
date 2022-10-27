@@ -45,7 +45,7 @@ extension RecognizedTextSet {
         let ratio = Double(inlineAttributes.count) / Double(attributes.count)
         
         //TODO: Tweak this threshold
-        print("🧮 Ratio is: \(ratio)")
+        // print("🧮 Ratio is: \(ratio)")
         return ratio >= 0.75
     }
     

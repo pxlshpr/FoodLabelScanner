@@ -182,7 +182,7 @@ extension Array where Element == ValuesTextColumn {
             return
         }
         
-        print("7️⃣ \(energyText.string)")
+        // print("7️⃣ \(energyText.string)")
         removeTextsAbove(energyText)
     }
     

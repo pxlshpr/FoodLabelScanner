@@ -118,7 +118,7 @@ extension RecognizedTextSet {
     
     func getColumnOfNutrientLabelTexts(startingFrom startingText: RecognizedText) -> [RecognizedText] {
         
-        print("Getting column starting from: \(startingText.string)")
+        // print("Getting column starting from: \(startingText.string)")
 
         let BoundingBoxMinXDeltaThreshold = 0.26
         var array: [RecognizedText] = [startingText]
@@ -128,28 +128,28 @@ extension RecognizedTextSet {
         /// Now go upwards to get nutrient-attribute texts in same column as it
         let textsAbove = texts.filterColumn(of: startingText, preceding: true).filter { !$0.string.isEmpty }.reversed()
         
-        print("  ⬆️ textsAbove: \(textsAbove.map { $0.string } )")
+        // print("  ⬆️ textsAbove: \(textsAbove.map { $0.string } )")
 
         for text in textsAbove {
-            print("    Checking: \(text.string)")
+            // print("    Checking: \(text.string)")
             let boundingBoxMinXDelta = abs(text.boundingBox.minX - startingText.boundingBox.minX)
             
             /// Ignore `text`s that are clearly not in-line with the `startingText`, in terms of its `boundingBox.minX` being more than `0.05` from the `startingText`s
             guard boundingBoxMinXDelta < BoundingBoxMinXDeltaThreshold else {
-                print("    ignoring because boundingBoxMinXDelta = \(boundingBoxMinXDelta)")
+                // print("    ignoring because boundingBoxMinXDelta = \(boundingBoxMinXDelta)")
                 continue
             }
             
             /// Until we reach a non-nutrient-attribute text
             guard text.string.containsNutrientAttributesOrSkippableTableElements else {
                 if skipPassUsed {
-                    print("    ✋🏽 ending search because no nutrient attributes can be detected in string AND skip pass was used")
+                    // print("    ✋🏽 ending search because no nutrient attributes can be detected in string AND skip pass was used")
                     break
                 } else if text.string.terminatesColumnWiseAttributeSearch {
-                    print("    ✋🏽 ending search because cannot use skipPass")
+                    // print("    ✋🏽 ending search because cannot use skipPass")
                     break
                 } else {
-                    print("    ignoring and using up skipPass")
+                    // print("    ignoring and using up skipPass")
                     skipPassUsed = true
                     continue
                 }
@@ -172,27 +172,27 @@ extension RecognizedTextSet {
         /// Now do the same thing downwards
         let textsBelow = texts.filterColumn(of: startingText, preceding: false).filter { !$0.string.isEmpty }
         
-        print("  ⬇️ textsBelow: \(textsBelow.map { $0.string } )")
+        // print("  ⬇️ textsBelow: \(textsBelow.map { $0.string } )")
 
         for text in textsBelow {
-            print("    Checking: \(text.string)")
+            // print("    Checking: \(text.string)")
             let boundingBoxMinXDelta = abs(text.boundingBox.minX - startingText.boundingBox.minX)
             
             /// Ignore `text`s that are clearly not in-line with the `startingText`, in terms of its `boundingBox.minX` being more than `0.05` from the `startingText`s
             guard boundingBoxMinXDelta < BoundingBoxMinXDeltaThreshold else {
-                print("    ignoring because boundingBoxMinXDelta = \(boundingBoxMinXDelta)")
+                // print("    ignoring because boundingBoxMinXDelta = \(boundingBoxMinXDelta)")
                 continue
             }
             
             guard text.string.containsNutrientAttributesOrSkippableTableElements else {
                 if skipPassUsed {
-                    print("    ✋🏽 ending search because no nutrient attributes can be detected in string AND skip pass was used")
+                    // print("    ✋🏽 ending search because no nutrient attributes can be detected in string AND skip pass was used")
                     break
                 } else if text.string.terminatesColumnWiseAttributeSearch {
-                    print("    ✋🏽 ending search because cannot use skipPass")
+                    // print("    ✋🏽 ending search because cannot use skipPass")
                     break
                 } else {
-                    print("    ignoring and using up skipPass")
+                    // print("    ignoring and using up skipPass")
                     skipPassUsed = true
                     continue
                 }
@@ -208,9 +208,9 @@ extension RecognizedTextSet {
             array.append(text)
         }
 
-        print("    ✨Got: \(array.description)")
-        print(" ")
-        print(" ")
+        // print("    ✨Got: \(array.description)")
+        // print(" ")
+        // print(" ")
         return array
     }
     

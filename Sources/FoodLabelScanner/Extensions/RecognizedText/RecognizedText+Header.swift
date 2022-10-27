@@ -9,7 +9,7 @@ extension RecognizedText {
         let headerType: HeaderType
         let servingString: String?
         
-        print("Header String for: \(string) -> \(headerString)")
+        // print("Header String for: \(string) -> \(headerString)")
         
         switch headerString {
         case .per100:

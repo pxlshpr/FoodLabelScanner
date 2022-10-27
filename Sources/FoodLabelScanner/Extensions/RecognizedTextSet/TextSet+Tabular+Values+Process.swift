@@ -39,7 +39,7 @@ extension RecognizedTextSet {
         groupedColumns.removeColumnsInSameColumnAsAttributes(in: attributes)
         groupedColumns.removeExtraneousColumns()
 //        groupedColumns.removeInvalidValueTexts()
-         print("⏱ processing columns took: \(CFAbsoluteTimeGetCurrent()-start)s")
+         // print("⏱ processing columns took: \(CFAbsoluteTimeGetCurrent()-start)s")
         return groupedColumns
     }
 

@@ -13,7 +13,7 @@ final class FoodLabelScannerTests: XCTestCase {
         }
 
         let scanResult = try await FoodLabelScanner(image: image).scan()
-        print(scanResult.summaryDescription(withEmojiPrefix: "🧬"))
+        // print(scanResult.summaryDescription(withEmojiPrefix: "🧬"))
     }
 }
 

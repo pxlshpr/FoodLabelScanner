@@ -167,7 +167,7 @@
 ////        }
 //        
 //        var array: [(value: FoodLabelValue, positionOfMatch: Int)] = []
-////        print("🔢      👁 detecting values in: \(string)")
+////        // print("🔢      👁 detecting values in: \(string)")
 //
 //        let specialValuesArray = [
 //            "(?<!not detected )(?:not detected)",
@@ -182,10 +182,10 @@
 //            
 //            for match in matches {
 //                guard let value = FoodLabelValue(fromString: match.string) else {
-////                    print("🔢      👁   - '\(match.string)' @ \(match.position): ⚠️ Couldn't get value")
+////                    // print("🔢      👁   - '\(match.string)' @ \(match.position): ⚠️ Couldn't get value")
 //                    continue
 //                }
-////                print("🔢      👁   - '\(match.string)' @ \(match.position): \(value.description)")
+////                // print("🔢      👁   - '\(match.string)' @ \(match.position): \(value.description)")
 //                array.append((value, match.position))
 //            }
 //        }

@@ -65,7 +65,7 @@ extension String {
         }
         
 //        if !nutrients.isEmpty {
-//            print("Nutrients for '\(self)': \(nutrients.description)")
+//            // print("Nutrients for '\(self)': \(nutrients.description)")
 //        }
         
         return nutrients

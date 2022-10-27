@@ -72,14 +72,14 @@ struct ValuesText {
 
             let inlineRatio1 = text.rect.ratioThatIsInline(with: $0.allTextsRect) ?? 0
             let inlineRatio2 = text.rect.ratioThatIsInline(with: $1.allTextsRect) ?? 0
-            print("6️⃣ Checking: \($0.attribute.rawValue) (\(inlineRatio1)) and \($1.attribute.rawValue) (\(inlineRatio2))")
+            // print("6️⃣ Checking: \($0.attribute.rawValue) (\(inlineRatio1)) and \($1.attribute.rawValue) (\(inlineRatio2))")
             
             /// The more the `text` intersects with an `attributeText`—the more `inline` it is with it
             guard inlineRatio1 > inlineRatio2 else {
                 return false
             }
 
-            print("6️⃣    Further checking inlineHeights: \(inlineRatio1) and \(inlineRatio2)")
+            // print("6️⃣    Further checking inlineHeights: \(inlineRatio1) and \(inlineRatio2)")
             let inlineHeight1 = text.rect.heightThatIsInline(with: $0.allTextsRect) ?? 0
             let inlineHeight2 = text.rect.heightThatIsInline(with: $1.allTextsRect) ?? 0
             

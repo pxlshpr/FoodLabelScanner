@@ -17,7 +17,7 @@ extension RecognizedTextSet {
             }
             
 //            let percentageIncreaseOfWidth = $0.rect.percentageOfIncreaseOfWidth(with: startingText.rect)
-//            print("8️⃣ \(percentageIncreaseOfWidth.rounded()) % — \"\($0.string)\" and \"\(startingText.string)\"")
+//            // print("8️⃣ \(percentageIncreaseOfWidth.rounded()) % — \"\($0.string)\" and \"\(startingText.string)\"")
 //            guard percentageIncreaseOfWidth < 1.5 else {
 //                return false
 //            }

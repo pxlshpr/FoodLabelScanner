@@ -83,21 +83,21 @@ public struct FoodLabelScanner {
         let inline = textSet.inlineObservations
         
 //        guard !inline.isCompleteInlineSet else {
-//            print("🥕 using inline as its complete")
+//            // print("🥕 using inline as its complete")
 //            return inline
 //        }
 //
-//        print("🥕 not using inline yet as the energy/macro values aren't present or don't equate")
+//        // print("🥕 not using inline yet as the energy/macro values aren't present or don't equate")
 
         let tabular = textSet.tabularObservations
-//        print("🥕 using tabular indiscriminately")
+//        // print("🥕 using tabular indiscriminately")
 //        return tabular
         
         guard tabular.isPreferred(toInlineObservations: inline) else {
-            print("🥕 using inline (\(inline.nutrientsCount) nutrients) as its preferred to tabular (\(tabular.nutrientsCount) nutrients)")
+            // print("🥕 using inline (\(inline.nutrientsCount) nutrients) as its preferred to tabular (\(tabular.nutrientsCount) nutrients)")
             return inline
         }
-        print("🥕 using tabular (\(tabular.nutrientsCount) nutrients) as its preferred to inline (\(inline.nutrientsCount) nutrients)")
+        // print("🥕 using tabular (\(tabular.nutrientsCount) nutrients) as its preferred to inline (\(inline.nutrientsCount) nutrients)")
         return tabular
     }
 }
