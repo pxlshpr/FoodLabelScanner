@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "activityindicatorview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/ActivityIndicatorView",
+      "state" : {
+        "revision" : "0fb57e69b6130b4beb8ba49eaafe13563f2f6bd6",
+        "version" : "1.1.0"
+      }
+    },
+    {
       "identity" : "prepdatatypes",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/PrepDataTypes",
@@ -32,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/SwiftUISugar",
       "state" : {
-        "revision" : "7fe1dde92fdfc47a8e80ca5c132e9aa8358eed24",
-        "version" : "0.0.186"
+        "revision" : "f37e855b23aaef3a81a453de1beef27f19e93f00",
+        "version" : "0.0.207"
       }
     },
     {
@@ -41,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/VisionSugar",
       "state" : {
-        "revision" : "3630ca760d38f439eb7a1e215b7a5c1d12bee69c",
-        "version" : "0.0.69"
+        "revision" : "d48e9bae9dc8bf7e3b75f39624318c0474c34dd9",
+        "version" : "0.0.74"
       }
     }
   ],
