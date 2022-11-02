@@ -43,7 +43,9 @@ struct ExtractedGrid {
         removeExtraneousValues()
 
         handleReusedValueTexts()
-        replaceNilMacroAndChildrenValuesIfZero()
+
+        ///**Removed as we were getting a fatal index out of bounds error here**
+        //replaceNilMacroAndChildrenValuesIfZero()
 
         handleMultipleEnergyValuesWithinColumn()
         handleMultipleValues(using: validRatio)
