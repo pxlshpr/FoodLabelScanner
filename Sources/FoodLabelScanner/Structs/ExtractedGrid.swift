@@ -489,7 +489,7 @@ extension ExtractedRow {
             valuesTexts[0] = new
         } else {
             let newValuesText = ValuesText(values: [newValues.0])
-            valuesTexts.reserveCapacity(1)
+            //TODO: We're getting a index out of range (fatal) error here sometime when scanning Sardines
             valuesTexts[0] = newValuesText
         }
         
