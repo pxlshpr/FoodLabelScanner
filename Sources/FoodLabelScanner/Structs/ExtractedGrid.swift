@@ -489,9 +489,7 @@ extension ExtractedRow {
             valuesTexts[0] = new
         } else {
             let newValuesText = ValuesText(values: [newValues.0])
-            print("valuesTexts has: \(valuesTexts.count) values")
-//            valuesTexts[0] = newValuesText
-            print("valuesTexts has: \(valuesTexts.count) values")
+            valuesTexts[0] = newValuesText
         }
         
         guard valuesTexts.count > 1 else {
