@@ -483,7 +483,7 @@ extension ExtractedRow {
     }
 
     mutating func modify(with newValues: (FoodLabelValue, FoodLabelValue)) {
-        if let existing = valuesTexts[0] {
+        if !valuesTexts.isEmpty, let existing = valuesTexts[0] {
             var new = existing
             new.values = [newValues.0]
             valuesTexts[0] = new
@@ -504,7 +504,7 @@ extension ExtractedRow {
     }
 
     mutating func modify(with newValue: FoodLabelValue) {
-        if let existing = valuesTexts[0] {
+        if !valuesTexts.isEmpty, let existing = valuesTexts[0] {
             var new = existing
             new.values = [newValue]
             valuesTexts[0] = new
