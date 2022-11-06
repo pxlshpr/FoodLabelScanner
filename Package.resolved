@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/PrepDataTypes",
       "state" : {
-        "revision" : "65a830f3dcadf2b86cfd7322e1f6b23be63bd08f",
-        "version" : "0.0.9"
+        "revision" : "ace91f1b06e7b788b213035125f07b03c3db59c5",
+        "version" : "0.0.108"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/SwiftHaptics",
       "state" : {
-        "revision" : "47ed14412dcd109f124cb7b3b88e3fc8f60569e7",
-        "version" : "0.1.2"
+        "revision" : "c3069ce1390e5562b2d2c0e4ffed5a1b4e9aba54",
+        "version" : "0.1.3"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/SwiftSugar",
       "state" : {
-        "revision" : "8f6e2615bee4969dd629c09cae9d900b52081b02",
-        "version" : "0.0.74"
+        "revision" : "080d38c0cb15782a1b24ae9ba1ff2163b0e196cb",
+        "version" : "0.0.86"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/SwiftUISugar",
       "state" : {
-        "revision" : "f37e855b23aaef3a81a453de1beef27f19e93f00",
-        "version" : "0.0.207"
+        "revision" : "17211a9d8b550ddf260a181ffa6ce09b789a71e7",
+        "version" : "0.0.215"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/VisionSugar",
       "state" : {
-        "revision" : "d48e9bae9dc8bf7e3b75f39624318c0474c34dd9",
-        "version" : "0.0.74"
+        "revision" : "f6fecd75f07cbb1bb9e0eb7b090bb79de7db8215",
+        "version" : "0.0.75"
       }
     }
   ],
