@@ -728,11 +728,13 @@ extension ExtractedGrid {
         
         if value1.unit == .kj, value2.unit == .kcal {
             /// Convert unit2 to kj
-            let newValue2 = FoodLabelValue(amount: value2.amount * KcalsPerKilojule, unit: .kj)
+//            let newValue2 = FoodLabelValue(amount: value2.amount * KcalsPerKilojule, unit: .kj)
+            let newValue2 = FoodLabelValue(amount: EnergyUnit.kcal.convert(value2.amount, to: .kJ), unit: .kj)
             modify(row, withNewValues: (value1, newValue2))
         } else if value1.unit == .kcal, value2.unit == .kj {
             /// Convert unit1 to kj
-            let newValue1 = FoodLabelValue(amount: value1.amount * KcalsPerKilojule, unit: .kj)
+//            let newValue1 = FoodLabelValue(amount: value1.amount * KcalsPerKilojule, unit: .kj)
+            let newValue1 = FoodLabelValue(amount: EnergyUnit.kcal.convert(value1.amount, to: .kJ), unit: .kj)
             modify(row, withNewValues: (newValue1, value2))
         }
     }
@@ -818,12 +820,13 @@ extension ExtractedGrid {
         allRows.valueFor(attribute, valueIndex: index)?.amount
     }
     
-    func energyInKj(at index: Int) -> Double? {
+    func energyInKcal(at index: Int) -> Double? {
         guard let energyValue = allRows.valueFor(.energy, valueIndex: index) else {
             return nil
         }
         if energyValue.unit == .kj {
-            return energyValue.amount / KcalsPerKilojule
+            return EnergyUnit.kJ.convert(energyValue.amount, to: .kcal)
+//            return energyValue.amount / KcalsPerKilojule
         } else {
             return energyValue.amount
         }
@@ -841,11 +844,15 @@ extension ExtractedGrid {
             unit = attribute == .energy ? .kj : .g
         }
         
+        let value: Double
         if attribute == .energy && unit == .kj {
-            return FoodLabelValue(amount: (amount * KcalsPerKilojule).rounded(toPlaces: 0), unit: unit)
+            value = EnergyUnit.kJ.convert(amount, to: .kcal).rounded(toPlaces: 0)
+//            return FoodLabelValue(amount: (amount * KcalsPerKilojule).rounded(toPlaces: 0), unit: unit)
         } else {
-            return FoodLabelValue(amount: amount.roundedNutrientAmount, unit: unit)
+            value = amount.roundedNutrientAmount
+//            return FoodLabelValue(amount: amount.roundedNutrientAmount, unit: unit)
         }
+        return FoodLabelValue(amount: value, unit: unit)
     }
     
     func calculateAmount(for attribute: Attribute, in index: Int) -> Double? {
@@ -858,7 +865,7 @@ extension ExtractedGrid {
         case .carbohydrate:
             guard let fat = amountFor(.fat, at: index),
                   let protein = amountFor(.protein, at: index),
-                  let energy = energyInKj(at: index) else {
+                  let energy = energyInKcal(at: index) else {
                 return nil
             }
             return (energy - (protein * KcalsPerGramOfProtein) - (fat * KcalsPerGramOfFat)) / KcalsPerGramOfCarb
@@ -866,7 +873,7 @@ extension ExtractedGrid {
         case .fat:
             guard let carb = amountFor(.carbohydrate, at: index),
                   let protein = amountFor(.protein, at: index),
-                  let energy = energyInKj(at: index) else {
+                  let energy = energyInKcal(at: index) else {
                 return nil
             }
             return (energy - (protein * KcalsPerGramOfProtein) - (carb * KcalsPerGramOfCarb)) / KcalsPerGramOfFat
@@ -874,7 +881,7 @@ extension ExtractedGrid {
         case .protein:
             guard let fat = amountFor(.fat, at: index),
                   let carb = amountFor(.carbohydrate, at: index),
-                  let energy = energyInKj(at: index) else {
+                  let energy = energyInKcal(at: index) else {
                 return nil
             }
             return (energy - (carb * KcalsPerGramOfCarb) - (fat * KcalsPerGramOfFat)) / KcalsPerGramOfProtein
@@ -912,7 +919,8 @@ extension ExtractedGrid {
         
         var energy = energyValue.amount
         if energyValue.unit == .kj {
-            energy = energy / KcalsPerKilojule
+            energy = EnergyUnit.kJ.convert(energy, to: .kcal)
+//            energy = energy / KcalsPerKilojule
         }
 
         let isValid: Bool
@@ -967,7 +975,8 @@ extension ExtractedGrid {
         
         var energy = energyValue.amount
         if energyValue.unit == .kj {
-            energy = energy / KcalsPerKilojule
+            energy = EnergyUnit.kJ.convert(energy, to: .kcal)
+//            energy = energy / KcalsPerKilojule
         }
 
         //TODO: We might be able to improve this (albeit expensively) by going through all combinations of alternate values for each of the macro and energy rows to find one that works—in which case we would need to modify all the rows that require picking an alternate
@@ -983,7 +992,8 @@ extension ExtractedGrid {
                 
                 var amount = value.amount
                 if attribute == .energy, value.unit == .kj {
-                    amount = amount / KcalsPerKilojule
+                    amount = EnergyUnit.kJ.convert(amount, to: .kcal)
+//                    amount = amount / KcalsPerKilojule
                 }
                 
                 let isValid: Bool
