@@ -18,7 +18,7 @@ public struct FoodLabelLiveScanner {
 }
 
 extension RecognizedTextSet {
-    var scanResult: ScanResult {
+    public var scanResult: ScanResult {
         let servingObservations = servingObservations
         
         let inline = inlineObservations
