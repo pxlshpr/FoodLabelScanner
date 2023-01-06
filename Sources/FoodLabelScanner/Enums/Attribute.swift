@@ -291,7 +291,7 @@ extension Attribute {
         switch self {
             
         case .energy:
-            return [ .kj, .kcal]
+            return [ .kcal, .kj ]
             
         case .protein, .carbohydrate, .fat, .salt:
             return [.g]
