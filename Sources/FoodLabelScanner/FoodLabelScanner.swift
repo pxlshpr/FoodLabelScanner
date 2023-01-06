@@ -108,13 +108,17 @@ extension Array where Element == Observation {
         filter({ $0.valueText2 != nil }).count
     }
     
-    var numberOfObservationsUsingAttributeTextsAsValueTexts: Int {
+    var numberOfObservationsUsingOtherAttributeTextsAsValueTexts: Int {
         var count = 0
         for observation in self {
             guard let valueTextId = observation.valueText1?.text.id else {
                 continue
             }
-            if self.contains(where: { $0.attributeText.text.id == valueTextId }) {
+            /// Count observations that are using texts for their value1 that are used as the attribute text in other observations
+            if self.contains(where: {
+                $0.attribute != observation.attribute
+                && $0.attributeText.text.id == valueTextId
+            }) {
                 count += 1
             }
         }
@@ -127,7 +131,7 @@ extension Array where Element == Observation {
     func isPreferred(toInlineObservations inlineObservations: [Observation]) -> Bool {
 
         /// First, check if inline by seeing how many valueText1 of observations (ie in the first column), are also in the attribute texts (of any observation)
-        let count = numberOfObservationsUsingAttributeTextsAsValueTexts
+        let count = numberOfObservationsUsingOtherAttributeTextsAsValueTexts
         
         return isPreferredUsingCount(toInlineObservations: inlineObservations)
     }
