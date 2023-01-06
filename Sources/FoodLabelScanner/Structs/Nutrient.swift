@@ -86,11 +86,10 @@ extension String {
         
         var isExpectingCalories: Bool = false
         
-        /// ** Heuristic ** if string is simply a capital O `O`, treat it as a 0
+        /// ** Heuristic ** Replace misread `O`'s with `0`s
         if string == "O" {
             string = "0"
         }
-        
         if string.hasSuffix("Og") {
             string = string.replacingLastOccurrence(of: "Og", with: "0g")
         }
