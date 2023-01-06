@@ -108,11 +108,32 @@ extension Array where Element == Observation {
         filter({ $0.valueText2 != nil }).count
     }
     
+    var numberOfObservationsUsingAttributeTextsAsValueTexts: Int {
+        var count = 0
+        for observation in self {
+            guard let valueTextId = observation.valueText1?.text.id else {
+                continue
+            }
+            if self.contains(where: { $0.attributeText.text.id == valueTextId }) {
+                count += 1
+            }
+        }
+        return count
+    }
+    
     /**
     Determining if `tabularResult` is preferred to `inlineResult`
      */
     func isPreferred(toInlineObservations inlineObservations: [Observation]) -> Bool {
+
+        /// First, check if inline by seeing how many valueText1 of observations (ie in the first column), are also in the attribute texts (of any observation)
+        let count = numberOfObservationsUsingAttributeTextsAsValueTexts
         
+        return isPreferredUsingCount(toInlineObservations: inlineObservations)
+    }
+    
+    /// Rudimentary legacy version that was incorrectly labelling single columned inline labels as tabular
+    func isPreferredUsingCount(toInlineObservations inlineObservations: [Observation]) -> Bool {
         let inlineCount = Double(inlineObservations.nutrientsCount)
         let tabularCount = Double(self.nutrientsCount)
         if (inlineCount / 2.0) < tabularCount {
@@ -120,11 +141,6 @@ extension Array where Element == Observation {
         } else {
             return false
         }
-//        if ((inlineObservations.nutrientsCount >= self.nutrientsCount
-//        guard self.nutrientsCount != inlineObservations.nutrientsCount else {
-//            return self.containingBothValuesCount >= inlineObservations.containingBothValuesCount
-//        }
-//        return self.nutrientsCount > inlineObservations.nutrientsCount
     }
     
     var nutrientsCount: Int {
