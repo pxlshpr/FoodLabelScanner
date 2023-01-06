@@ -90,6 +90,10 @@ extension String {
         if string == "O" {
             string = "0"
         }
+        
+        if string.hasSuffix("Og") {
+            string = string.replacingLastOccurrence(of: "Og", with: "0g")
+        }
         if string.hasSuffix("Omg") {
             string = string.replacingLastOccurrence(of: "Omg", with: "0mg")
         }
