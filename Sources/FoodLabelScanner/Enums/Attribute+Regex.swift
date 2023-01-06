@@ -195,8 +195,12 @@ extension Attribute {
 
         static let saturatedFatOnly = #"^.*(\#(saturatedFatOptions.joined(separator: "|"))).*$"#
         static let transFat = #"^.*trans.*$"#
-        static let monounsaturatedFat = #"^.*mono(-|)unsaturat.*$"#
-        static let polyunsaturatedFat = #"^.*poly(-|)unsaturat.*$"#
+        
+        /// Replaced when `monounsat.` failed to be picked up. Delete the commented out lines after we've added a test suite for these
+//        static let monounsaturatedFat = #"^.*mono(-|)unsaturat.*$"#
+//        static let polyunsaturatedFat = #"^.*poly(-|)unsaturat.*$"#
+        static let monounsaturatedFat = #"^.*mono(-|)unsat.*$"#
+        static let polyunsaturatedFat = #"^.*poly(-|)unsat.*$"#
 
         static let saturatedFat = #"^(?=\#(saturatedFatOnly))(?!\#(monounsaturatedFat))(?!\#(polyunsaturatedFat)).*$"#
 
