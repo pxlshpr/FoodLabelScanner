@@ -56,18 +56,42 @@ extension RecognizedTextSet {
             }
 
             let inlineTextsColumns = texts.inlineTextColumns(as: text, allowOverlapping: true)
-            guard !inlineTextsColumns.isEmpty, let value = inlineTextsColumns.firstValue else {
+            guard !inlineTextsColumns.isEmpty, let tuple = inlineTextsColumns.firstValue else {
                 continue
             }
             
             let attributeText = AttributeText(attribute: attribute, text: text)
-            let valueText = ValueText(value: value.0, text: value.1, attributeText: text)
+            let correctedValue = tuple.0.withCorrectUnit(for: attributeText)
+            let valueText = ValueText(value: correctedValue, text: tuple.1, attributeText: text)
             let observation = Observation(attributeText: attributeText, valueText1: valueText)
             observations.append(observation)
         }
         return observations
     }    
 }
+
+import PrepDataTypes
+
+extension FoodLabelValue {
+    
+    /// This is to mitigate the uncaptured error where sometimes a inline text of "Calories 150" will be set as `150 kJ`.
+    /// This shouldn't be the case since it clearly says "Calories" and there's no `kJ` to be read anyway.
+    ///
+    /// Once we've discovered why this happens, and **we're sure** that this error doesn't occur without this, remove this heuristic.
+    /// *What we're doing here* – We're basically checking the string of the attribute if this is energy, and if it contains "calor", we then
+    /// force the value's unit to be `.kcal`
+    ///
+    /// **NOTE: We could capture this by logging instances where we detect this energy string
+    /// with an incorrectly detected kJ unit**
+    func withCorrectUnit(for attributeText: AttributeText) -> FoodLabelValue {
+        if attributeText.text.string.lowercased().contains("calor") {
+            return FoodLabelValue(amount: self.amount, unit: .kcal)
+        }
+        
+        return self
+    }
+}
+
 
 extension Array where Element == Nutrient {
     /**
