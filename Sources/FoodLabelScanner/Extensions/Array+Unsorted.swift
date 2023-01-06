@@ -451,7 +451,7 @@ extension Array where Element == [RecognizedText] {
 extension Array where Element == Observation {
     func printDescription() {
         self.forEach { observation in
-//             print(observation.description)
+             print(observation.description)
         }
     }
 }
