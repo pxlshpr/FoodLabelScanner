@@ -90,16 +90,28 @@ extension String {
         if string == "O" {
             string = "0"
         }
-        if string.hasSuffix("Og") {
-            string = string.replacingLastOccurrence(of: "Og", with: "0g")
+        /// Commented out in favor of the function based approach below (with additional ones with spaces)
+//        if string.hasSuffix("Og") {
+//            string = string.replacingLastOccurrence(of: "Og", with: "0g")
+//        }
+//        if string.hasSuffix("Omg") {
+//            string = string.replacingLastOccurrence(of: "Omg", with: "0mg")
+//        }
+//        if string.hasSuffix("Omcg") {
+//            string = string.replacingLastOccurrence(of: "Omcg", with: "0mcg")
+//        }
+        //TODO: Use regex for these, also include ones with simple "o"
+        func replace(_ incorrects: [String], with correct: String) {
+            for incorrect in incorrects {
+                if string.hasSuffix(incorrect) {
+                    string = string.replacingLastOccurrence(of: incorrect, with: correct)
+                }
+            }
         }
-        if string.hasSuffix("Omg") {
-            string = string.replacingLastOccurrence(of: "Omg", with: "0mg")
-        }
-        if string.hasSuffix("Omcg") {
-            string = string.replacingLastOccurrence(of: "Omcg", with: "0mcg")
-        }
-        
+        replace(["Og", "O g"], with: "0g")
+        replace(["Omg", "O mg"], with: "0mg")
+        replace(["Omcg", "O mcg"], with: "0mcg")
+
         while string.count > 0 {
             /// First check if we have a value at the start of the string
             if let valueSubstring = string.valueSubstringAtStart,
