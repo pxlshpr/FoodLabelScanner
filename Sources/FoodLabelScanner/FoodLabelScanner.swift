@@ -133,6 +133,12 @@ extension Array where Element == Observation {
         /// First, check if inline by seeing how many valueText1 of observations (ie in the first column), are also in the attribute texts (of any observation)
         let count = numberOfObservationsUsingOtherAttributeTextsAsValueTexts
         
+        /// For now, we're strictly discarding tabular results that have any observations with any of these
+        /// (ie. using another attribute's (inline) text as its value.
+        guard count == 0 else {
+            return false
+        }
+        
         return isPreferredUsingCount(toInlineObservations: inlineObservations)
     }
     
