@@ -108,6 +108,14 @@ extension Array where Element == Observation {
         filter({ $0.valueText2 != nil }).count
     }
     
+    var containsColumnWithSubstantialNumberOfExtrapolatedValues: Bool {
+        /// For now, we're only allowing 1 extrapolated value per column (to fallback to inline values more often)
+        let threshold = 1
+        let count1 = self.filter({$0.valueText1?.text.id == defaultUUID }).count
+        let count2 = self.filter({$0.valueText2?.text.id == defaultUUID }).count
+        return count1 > threshold || count2 > threshold
+    }
+    
     var numberOfObservationsUsingOtherAttributeTextsAsValueTexts: Int {
         var count = 0
         for observation in self {
@@ -131,11 +139,14 @@ extension Array where Element == Observation {
     func isPreferred(toInlineObservations inlineObservations: [Observation]) -> Bool {
 
         /// First, check if inline by seeing how many valueText1 of observations (ie in the first column), are also in the attribute texts (of any observation)
-        let count = numberOfObservationsUsingOtherAttributeTextsAsValueTexts
-        
         /// For now, we're strictly discarding tabular results that have any observations with any of these
         /// (ie. using another attribute's (inline) text as its value.
-        guard count == 0 else {
+        if numberOfObservationsUsingOtherAttributeTextsAsValueTexts > 0 {
+            return false
+        }
+        
+        /// If there's a substantial number of extrapolated values in either column, use the inline result instead
+        if containsColumnWithSubstantialNumberOfExtrapolatedValues {
             return false
         }
         
