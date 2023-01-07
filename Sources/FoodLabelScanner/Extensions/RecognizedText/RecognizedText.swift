@@ -26,6 +26,7 @@ extension RecognizedText {
     }
     
     var containsEnergyValue: Bool {
+        
         let values = FoodLabelValue.detect(in: self.string)
         return values.contains(where: { $0.hasEnergyUnit })
     }
