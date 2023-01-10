@@ -109,11 +109,17 @@ extension Array where Element == Observation {
     }
     
     var containsColumnWithSubstantialNumberOfExtrapolatedValues: Bool {
-        /// For now, we're only allowing 1 extrapolated value per column (to fallback to inline values more often)
-        let threshold = 1
+        guard self.count > 0 else { return true }
+        
         let count1 = self.filter({$0.valueText1?.text.id == defaultUUID }).count
         let count2 = self.filter({$0.valueText2?.text.id == defaultUUID }).count
-        return count1 > threshold || count2 > threshold
+        
+        let percentage1 = Double(count1) / Double(self.count)
+        let percentage2 = Double(count2) / Double(self.count)
+        
+        /// If we have more than 30% of extrapolated values (in either column), consider that substantial
+        let threshold = 0.3
+        return percentage1 > threshold || percentage2 > threshold
     }
     
     var numberOfObservationsUsingOtherAttributeTextsAsValueTexts: Int {
