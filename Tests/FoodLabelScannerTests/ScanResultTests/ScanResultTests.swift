@@ -6,11 +6,11 @@ import PrepDataTypes
 final class ScanResultTests: XCTestCase {
     
         
-    func testScanResultFast() async throws {
+    func _testScanResultFast() async throws {
         try await testScanResult(mode: .fast)
     }
 
-    func _testScanResultComprehensive() async throws {
+    func testScanResultComprehensive() async throws {
         try await testScanResult(mode: .comprehensive)
     }
 
@@ -40,8 +40,157 @@ final class ScanResultTests: XCTestCase {
     }
     
     func testScanResultTestCaseComprehensive(_ testCase: TestCase) async throws {
+        let actualTextSet = try await testCase.actualTextSet
+//        let expectedTextSet = try testCase.expectedTextSet
+//        try assertEqual(actual: actualTextSet, expected: expectedTextSet, id: testCase.id)
+        
+        let actualScanResult = actualTextSet.scanResult
+        let expectedScanResult = try testCase.expectedScanResult
+        try assertEqual(actual: actualScanResult, expected: expectedScanResult, id: testCase.id)
     }
 }
+
+//MARK: - RecognizedTextSet
+import VisionSugar
+
+extension CGFloat {
+    func rounded(toPlaces places: Int) -> CGFloat {
+        Double(self).rounded(toPlaces: places)
+    }
+}
+
+extension CGRect {
+    func matches(_ other: CGRect, toDecimalPlaces places: Int) -> Bool {
+        for tuple in [
+            (origin.x, other.origin.x),
+            (origin.y, other.origin.y),
+            (size.width, other.size.width),
+            (size.height, other.size.height)
+        ] {
+            if tuple.0.rounded(toPlaces: places) != tuple.1.rounded(toPlaces: places) {
+                return false
+            }
+        }
+        return true
+    }
+}
+extension RecognizedText {
+    func matches(_ other: RecognizedText) -> Bool {
+        string == other.string
+//        && boundingBox.matches(other.boundingBox, toDecimalPlaces: 1)
+    }
+}
+
+extension RecognizedBarcode {
+    func matches(_ other: RecognizedBarcode) -> Bool {
+        string == other.string
+    }
+}
+extension Array where Element == RecognizedText {
+    
+    func contains(textMatching text: RecognizedText) -> Bool {
+        contains(where: { $0.matches(text) })
+    }
+    
+    func textMatching(_ text: RecognizedText) -> RecognizedText? {
+        first(where: { $0.matches(text)})
+    }
+}
+
+extension Array where Element == RecognizedBarcode {
+    
+    func contains(barcodeMatching barcode: RecognizedBarcode) -> Bool {
+        contains(where: { $0.matches(barcode) })
+    }
+    
+    func barcodeMatching(_ barcode: RecognizedBarcode) -> RecognizedBarcode? {
+        first(where: { $0.matches(barcode)})
+    }
+}
+
+extension ScanResultTests {
+    func assertEqual(actual: RecognizedTextSet, expected: RecognizedTextSet, id: String) throws {
+        print("  👨🏽‍🔬 Asserting that RecognizedTextSet's are equal")
+        let textsAreEqual = try assertTextsEqual(
+            actual: actual.texts,
+            expected: expected.texts,
+            id: id
+        )
+        if actual.recognizeTextRevision != expected.recognizeTextRevision {
+            if textsAreEqual {
+                print("    👨🏽‍🔬 ✓ Revision changed from \(expected.recognizeTextRevision) to \(actual.recognizeTextRevision), texts equal")
+            } else {
+                print("    👨🏽‍🔬 ✓ Revision changed from \(expected.recognizeTextRevision) to \(actual.recognizeTextRevision), texts ≠")
+            }
+        }
+        
+        let barcodesAreEqual = try assertBarcodesEqual(
+            actual: actual.barcodes,
+            expected: expected.barcodes,
+            id: id
+        )
+        if actual.detectBarcodesRevision != expected.detectBarcodesRevision {
+            if barcodesAreEqual {
+                print("    👨🏽‍🔬 ✓ Revision changed from \(expected.detectBarcodesRevision) to \(actual.detectBarcodesRevision), barcodes equal")
+            } else {
+                print("    👨🏽‍🔬 ✓ Revision changed from \(expected.detectBarcodesRevision) to \(actual.detectBarcodesRevision), barcodes ≠")
+            }
+        }
+    }
+    
+    func assertTextsEqual(actual: [RecognizedText], expected: [RecognizedText], id: String) throws -> Bool {
+        var isEqual = true
+        print("    👨🏽‍🔬 Asserting that RecognizedTextSet.texts are equal")
+        for expectedText in expected {
+            let actualText = actual.textMatching(expectedText)
+            XCTAssertNotNil(actualText, "\(id) – Text \"\(expectedText.string)\" missing")
+            guard let actualText else {
+                isEqual = false
+                continue
+            }
+            if !actualText.boundingBox.matches(expectedText.boundingBox, toDecimalPlaces: 1) {
+                print("\(actualText.boundingBox) !=")
+                print("\(expectedText.boundingBox)")
+                print("")
+            }
+            print("      👨🏽‍🔬 ✓ \"\(actualText.string)\"")
+        }
+        
+        for actualText in actual {
+            XCTAssertTrue(
+                expected.contains(textMatching: actualText),
+                "\(id) – \(actualText.string) extra"
+            )
+        }
+
+        return isEqual
+    }
+    
+    func assertBarcodesEqual(actual: [RecognizedBarcode], expected: [RecognizedBarcode], id: String) throws -> Bool {
+        var isEqual = true
+        print("    👨🏽‍🔬 Asserting that RecognizedTextSet.barcodes are equal")
+        for expectedBarcode in expected {
+            let actualBarcode = actual.barcodeMatching(expectedBarcode)
+            XCTAssertNotNil(actualBarcode, "\(id) – Barcode \"\(expectedBarcode.string)\" missing")
+            guard let actualBarcode else {
+                isEqual = false
+                continue
+            }
+            print("      👨🏽‍🔬 ✓ \"\(actualBarcode.string)\"")
+        }
+        
+        for actualBarcode in actual {
+            XCTAssertTrue(
+                expected.contains(barcodeMatching: actualBarcode),
+                "\(id) – \(actualBarcode.string) extra"
+            )
+        }
+
+        return isEqual
+    }
+}
+
+//MARK: - ScanResult
 
 extension ScanResultTests {
     func assertEqual(actual: ScanResult, expected: ScanResult, id: String) throws {
