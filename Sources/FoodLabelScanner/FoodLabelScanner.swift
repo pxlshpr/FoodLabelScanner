@@ -118,8 +118,8 @@ extension Array where Element == Observation {
         let percentage1 = Double(count1) / Double(self.count)
         let percentage2 = Double(count2) / Double(self.count)
         
-        /// If we have more than 30% of extrapolated values (in either column), consider that substantial
-        let threshold = 0.3
+        /// If we have more than 40% of extrapolated values (in either column), consider that substantial
+        let threshold = 0.4
         return percentage1 > threshold || percentage2 > threshold
     }
     
