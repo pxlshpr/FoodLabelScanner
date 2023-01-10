@@ -166,7 +166,10 @@ extension Array where Element == Observation {
 extension Array where Element == Observation {
    
     var serving: ScanResult.Serving? {
-        ScanResult.Serving(
+        guard let servingAmount else {
+            return nil
+        }
+        return ScanResult.Serving(
             amountText: servingAmount,
             unitText: servingUnit,
             unitNameText: servingUnitName,
