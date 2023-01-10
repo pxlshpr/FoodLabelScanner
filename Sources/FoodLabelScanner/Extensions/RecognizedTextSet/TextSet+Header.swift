@@ -143,8 +143,18 @@ extension RecognizedTextSet {
             }
         }
         
-        guard let headerString = HeaderString(string: text.string) else {
+        guard let extractedHeaderString = HeaderString(string: text.string) else {
             return true
+        }
+        
+        var headerString = extractedHeaderString
+        
+        /// **Heuristic** for when we already have a `.perServing` header and encounter what we think is another one.
+        /// This could be due to a misread (for example, partially reading `Per 100g` as `Per 10`, and classifying it as a serving heading.
+        /// In such case we simply default to reassigning this second `HeaderString` as a `.per100`
+        if let headerType1 = observations.headerType1, headerType1 == .perServing
+        {
+            headerString = .per100
         }
         
         switch headerString {
