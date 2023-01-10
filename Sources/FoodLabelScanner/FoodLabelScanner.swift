@@ -42,13 +42,14 @@ extension RecognizedTextSet {
         
         headerObservations.populateMissingHeaderObservations(from: self)
         
-        return ScanResult(
+        let scanResult = ScanResult(
             serving: servingObservations.serving,
             headers: headerObservations.headers,
             nutrients: nutrientObservations.nutrients,
             texts: texts,
             barcodes: barcodes
         )
+        return scanResult
     }
 }
 
