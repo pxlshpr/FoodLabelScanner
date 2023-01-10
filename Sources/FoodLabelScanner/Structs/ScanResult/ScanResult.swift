@@ -2,6 +2,8 @@ import Foundation
 import VisionSugar
 import PrepDataTypes
 
+let CurrentRevision = 1
+
 public struct ScanResult: Hashable, Codable {
     public let id: UUID
     public let serving: Serving?
@@ -9,6 +11,7 @@ public struct ScanResult: Hashable, Codable {
     public let nutrients: Nutrients
     public let texts: [RecognizedText]
     public let barcodes: [RecognizedBarcode]
+    public let revision: Int?
     
     public init(id: UUID = UUID(), serving: Serving?, headers: Headers?, nutrients: Nutrients, texts: [RecognizedText], barcodes: [RecognizedBarcode]) {
         self.id = id
@@ -17,6 +20,7 @@ public struct ScanResult: Hashable, Codable {
         self.nutrients = nutrients
         self.texts = texts
         self.barcodes = barcodes
+        self.revision = CurrentRevision
     }
 }
 
