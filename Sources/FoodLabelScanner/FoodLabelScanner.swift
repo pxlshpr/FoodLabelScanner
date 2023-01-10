@@ -126,7 +126,10 @@ extension Array where Element == Observation {
     var numberOfObservationsUsingOtherAttributeTextsAsValueTexts: Int {
         var count = 0
         for observation in self {
-            guard let valueTextId = observation.valueText1?.text.id else {
+            guard
+                let valueTextId = observation.valueText1?.text.id,
+                valueTextId != defaultUUID
+            else {
                 continue
             }
             /// Count observations that are using texts for their value1 that are used as the attribute text in other observations
