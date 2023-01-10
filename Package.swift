@@ -33,7 +33,10 @@ let package = Package(
         .testTarget(
             name: "FoodLabelScannerTests",
             dependencies: ["FoodLabelScanner"],
-            resources: [.process("SampleImages")]
+            resources: [
+//                .process("SampleImages"),
+                .copy("Test Cases"),
+            ]
         ),
     ]
 )
