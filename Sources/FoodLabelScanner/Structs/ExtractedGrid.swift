@@ -50,12 +50,15 @@ struct ExtractedGrid {
         handleMultipleEnergyValuesWithinColumn()
         handleMultipleValues(using: validRatio)
 
-        fixInvalidChildRows()
         fillInRowsWithOneMissingValue()
         fixInvalidRows()
         fixInvalidRowsContainingLessThanPrefix()
 
         fixSingleInvalidMacroOrEnergyRow()
+        
+        /// Do this after fixing the single invalid macro or energy so that we don't fix a child row based on invalid data
+        fixInvalidChildRows()
+        
         removeEmptyValues()
         removeRowsWithMultipleValues()
         removeRowsWithNotInlineValues()

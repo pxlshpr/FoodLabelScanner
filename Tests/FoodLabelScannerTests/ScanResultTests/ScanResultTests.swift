@@ -9,8 +9,9 @@ final class ScanResultTests: XCTestCase {
         TestConfiguration(
 //            mode: nil,
             mode: .fast,
-//            focusedTestCaseId: "B5FFA432-519D-4767-9856-DC49CA40B544"
-            focusedTestCaseId: nil
+            focusedTestCaseId: "D10C7B98-C18D-4308-BD6B-448C3AF37302",
+            focusType: .exclude
+//            focusedTestCaseId: nil
         )
     }
     
@@ -29,7 +30,11 @@ final class ScanResultTests: XCTestCase {
         self.continueAfterFailure = true
         for testCase in testCases {
             if let testCaseId = config.focusedTestCaseId {
-                guard testCase.id == testCaseId else { continue }
+                if config.focusType == .singleOut {
+                    guard testCase.id == testCaseId else { continue }
+                } else {
+                    guard testCase.id != testCaseId else { continue }
+                }
             }
             print("👨🏽‍🔬 Testing \(testCase.id)")
             try await testScanResultTestCase(testCase, mode: mode)
@@ -381,8 +386,19 @@ extension ScanResultTests {
 }
 
 struct TestConfiguration {
+    enum FocusType {
+        case singleOut
+        case exclude
+    }
     let mode: TestMode?
     let focusedTestCaseId: String?
+    let focusType: FocusType
+    
+    init(mode: TestMode?, focusedTestCaseId: String? = nil, focusType: FocusType = .singleOut) {
+        self.mode = mode
+        self.focusedTestCaseId = focusedTestCaseId
+        self.focusType = focusType
+    }
 }
 
 enum TestMode: String {
