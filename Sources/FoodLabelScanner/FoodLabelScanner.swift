@@ -17,6 +17,12 @@ public struct FoodLabelLiveScanner {
     }
 }
 
+public enum Classifier: Int, Codable {
+    case table = 1
+    case inline
+    case paragraph
+}
+
 extension RecognizedTextSet {
     public var scanResult: ScanResult {
         let servingObservations = servingObservations
@@ -25,7 +31,9 @@ extension RecognizedTextSet {
         let tabular = tabularObservations
         
         var nutrientObservations: [Observation]
+        let classifier: Classifier
         if tabular.isPreferred(toInlineObservations: inline) {
+            classifier = .table
             /// Add the tabular observations
             nutrientObservations = tabular
             
@@ -36,6 +44,7 @@ extension RecognizedTextSet {
                 }
             }
         } else {
+            classifier = .inline
             nutrientObservations = inline
         }
         var headerObservations = tabularHeaderObservations(for: tabular)
@@ -47,7 +56,8 @@ extension RecognizedTextSet {
             headers: headerObservations.headers,
             nutrients: nutrientObservations.nutrients,
             texts: texts,
-            barcodes: barcodes
+            barcodes: barcodes,
+            classifier: classifier
         )
         return scanResult
     }

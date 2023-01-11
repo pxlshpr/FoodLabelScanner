@@ -12,8 +12,9 @@ public struct ScanResult: Hashable, Codable {
     public let texts: [RecognizedText]
     public let barcodes: [RecognizedBarcode]
     public let revision: Int?
+    public let classifier: Classifier?
     
-    public init(id: UUID = UUID(), serving: Serving?, headers: Headers?, nutrients: Nutrients, texts: [RecognizedText], barcodes: [RecognizedBarcode]) {
+    public init(id: UUID = UUID(), serving: Serving?, headers: Headers?, nutrients: Nutrients, texts: [RecognizedText], barcodes: [RecognizedBarcode], classifier: Classifier?) {
         self.id = id
         self.serving = serving
         self.headers = headers
@@ -21,6 +22,7 @@ public struct ScanResult: Hashable, Codable {
         self.texts = texts
         self.barcodes = barcodes
         self.revision = CurrentRevision
+        self.classifier = classifier
     }
 }
 
