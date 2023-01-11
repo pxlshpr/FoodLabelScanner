@@ -15,14 +15,14 @@ struct TestCase {
     
     var expectedScanResult: ScanResult {
         get throws {
-            let data = try dataForFile(named: "scanResult", withExtension: "json")
+            let data = try dataForFile(named: "\(id)_scanResult", withExtension: "json")
             return try JSONDecoder().decode(ScanResult.self, from: data)
         }
     }
     
     var expectedTextSet: RecognizedTextSet {
         get throws {
-            let data = try dataForFile(named: "textSet", withExtension: "json")
+            let data = try dataForFile(named: "\(id)_textSet", withExtension: "json")
             return try JSONDecoder().decode(RecognizedTextSet.self, from: data)
         }
     }
@@ -50,7 +50,7 @@ struct TestCase {
     
     var image: UIImage {
         get throws {
-            let data = try dataForFile(named: "image", withExtension: "png")
+            let data = try dataForFile(named: "\(id)", withExtension: "heic")
             guard let image = UIImage(data: data) else {
                 throw ScanResultTestError.couldNotLoadImage
             }

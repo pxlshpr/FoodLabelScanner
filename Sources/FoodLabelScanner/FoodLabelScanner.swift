@@ -3,36 +3,6 @@ import VisionSugar
 import CoreMedia
 import PrepDataTypes
 
-public struct FoodLabelLiveScanner {
-    
-    var sampleBuffer: CMSampleBuffer
-
-    public init(sampleBuffer: CMSampleBuffer) {
-        self.sampleBuffer = sampleBuffer
-    }
-    
-    public func scan() async throws -> ScanResult {
-        let textSet = try await sampleBuffer.recognizedTextSet(for: .accurate, includeBarcodes: true)
-        return textSet.scanResult
-    }
-}
-
-public enum Classifier: Int, Codable {
-    case table = 1
-    case inline
-    case paragraph
-    var description: String {
-        switch self {
-        case .table:
-            return "table"
-        case .inline:
-            return "inline"
-        case .paragraph:
-            return "paragraph"
-        }
-    }
-}
-
 extension RecognizedTextSet {
     public var scanResult: ScanResult {
         let servingObservations = servingObservations
@@ -72,57 +42,38 @@ extension RecognizedTextSet {
     }
 }
 
-public struct FoodLabelScanner {
-    
-    var image: UIImage
-    var contentSize: CGSize
-    
-    public init(image: UIImage, contentSize: CGSize? = nil) {
-        self.image = image
-        self.contentSize = contentSize ?? image.size
-    }
-    
-    public func scan() async throws -> ScanResult {
-        let textSet = try await image.recognizedTextSet(for: .accurate, includeBarcodes: true)
-        return textSet.scanResult
-    }
-    
-    /**
-     - [ ]  Once the `inlineTask` is finished
-         - [x]  If we deem the results to be `complete` (notice we’re not using valid any longer)
-             - [x]  Return the `inlineResult`
-         - [ ]  If we deem the results to not be `complete`
-             - [ ]  Now see if the `tabularResult` is preferred to the `inlineResult`
-             - [ ]  If it is
-                 - [ ]  Return the `tabularREsult`
-             - [ ]  Otherwise
-                 - [ ]  Otherwise, return the `inlineResult`
-     */
-    func getNutrientObservations(from textSet: RecognizedTextSet) -> [Observation] {
-        
-        let inline = textSet.inlineObservations
-        
-//        guard !inline.isCompleteInlineSet else {
-//            // print("🥕 using inline as its complete")
-//            return inline
-//        }
-//
-//        // print("🥕 not using inline yet as the energy/macro values aren't present or don't equate")
-
-        let tabular = textSet.tabularObservations
-//        // print("🥕 using tabular indiscriminately")
-//        return tabular
-        
-        guard tabular.isPreferred(toInlineObservations: inline) else {
-            // print("🥕 using inline (\(inline.nutrientsCount) nutrients) as its preferred to tabular (\(tabular.nutrientsCount) nutrients)")
-            return inline
-        }
-        // print("🥕 using tabular (\(tabular.nutrientsCount) nutrients) as its preferred to inline (\(inline.nutrientsCount) nutrients)")
-        return tabular
-    }
-}
-
 extension Array where Element == Observation {
+    /**
+    Determining if `tabularResult` is preferred to `inlineResult`
+     */
+    func isPreferred(toInlineObservations inlineObservations: [Observation]) -> Bool {
+
+        /// First, check if inline by seeing how many valueText1 of observations (ie in the first column), are also in the attribute texts (of any observation)
+        /// For now, we're strictly discarding tabular results that have any observations with any of these
+        /// (ie. using another attribute's (inline) text as its value.
+        if numberOfObservationsUsingOtherAttributeTextsAsValueTexts > 0 {
+            return false
+        }
+        
+        /// If there's a substantial number of extrapolated values in either column, use the inline result instead
+        if containsColumnWithSubstantialNumberOfExtrapolatedValues {
+            return false
+        }
+        
+        return isPreferredUsingCount(toInlineObservations: inlineObservations)
+    }
+    
+    /// Rudimentary legacy version that was incorrectly labelling single columned inline labels as tabular
+    func isPreferredUsingCount(toInlineObservations inlineObservations: [Observation]) -> Bool {
+        let inlineCount = Double(inlineObservations.nutrientsCount)
+        let tabularCount = Double(self.nutrientsCount)
+        if (inlineCount / 2.0) < tabularCount {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     
     var containingBothValuesCount: Int {
         filter({ $0.valueText2 != nil }).count
@@ -160,37 +111,6 @@ extension Array where Element == Observation {
             }
         }
         return count
-    }
-    
-    /**
-    Determining if `tabularResult` is preferred to `inlineResult`
-     */
-    func isPreferred(toInlineObservations inlineObservations: [Observation]) -> Bool {
-
-        /// First, check if inline by seeing how many valueText1 of observations (ie in the first column), are also in the attribute texts (of any observation)
-        /// For now, we're strictly discarding tabular results that have any observations with any of these
-        /// (ie. using another attribute's (inline) text as its value.
-        if numberOfObservationsUsingOtherAttributeTextsAsValueTexts > 0 {
-            return false
-        }
-        
-        /// If there's a substantial number of extrapolated values in either column, use the inline result instead
-        if containsColumnWithSubstantialNumberOfExtrapolatedValues {
-            return false
-        }
-        
-        return isPreferredUsingCount(toInlineObservations: inlineObservations)
-    }
-    
-    /// Rudimentary legacy version that was incorrectly labelling single columned inline labels as tabular
-    func isPreferredUsingCount(toInlineObservations inlineObservations: [Observation]) -> Bool {
-        let inlineCount = Double(inlineObservations.nutrientsCount)
-        let tabularCount = Double(self.nutrientsCount)
-        if (inlineCount / 2.0) < tabularCount {
-            return true
-        } else {
-            return false
-        }
     }
     
     var nutrientsCount: Int {
@@ -243,4 +163,84 @@ extension Array where Element == Observation {
         )
         return isValid
     }    
+}
+
+public struct FoodLabelScanner {
+    
+    var image: UIImage
+    var contentSize: CGSize
+    
+    public init(image: UIImage, contentSize: CGSize? = nil) {
+        self.image = image
+        self.contentSize = contentSize ?? image.size
+    }
+    
+    public func scan() async throws -> ScanResult {
+        let textSet = try await image.recognizedTextSet(for: .accurate, includeBarcodes: true)
+        return textSet.scanResult
+    }
+    
+    /**
+     - [ ]  Once the `inlineTask` is finished
+         - [x]  If we deem the results to be `complete` (notice we’re not using valid any longer)
+             - [x]  Return the `inlineResult`
+         - [ ]  If we deem the results to not be `complete`
+             - [ ]  Now see if the `tabularResult` is preferred to the `inlineResult`
+             - [ ]  If it is
+                 - [ ]  Return the `tabularREsult`
+             - [ ]  Otherwise
+                 - [ ]  Otherwise, return the `inlineResult`
+     */
+    func getNutrientObservations(from textSet: RecognizedTextSet) -> [Observation] {
+        
+        let inline = textSet.inlineObservations
+        
+//        guard !inline.isCompleteInlineSet else {
+//            // print("🥕 using inline as its complete")
+//            return inline
+//        }
+//
+//        // print("🥕 not using inline yet as the energy/macro values aren't present or don't equate")
+
+        let tabular = textSet.tabularObservations
+//        // print("🥕 using tabular indiscriminately")
+//        return tabular
+        
+        guard tabular.isPreferred(toInlineObservations: inline) else {
+            // print("🥕 using inline (\(inline.nutrientsCount) nutrients) as its preferred to tabular (\(tabular.nutrientsCount) nutrients)")
+            return inline
+        }
+        // print("🥕 using tabular (\(tabular.nutrientsCount) nutrients) as its preferred to inline (\(inline.nutrientsCount) nutrients)")
+        return tabular
+    }
+}
+
+public struct FoodLabelLiveScanner {
+    
+    var sampleBuffer: CMSampleBuffer
+
+    public init(sampleBuffer: CMSampleBuffer) {
+        self.sampleBuffer = sampleBuffer
+    }
+    
+    public func scan() async throws -> ScanResult {
+        let textSet = try await sampleBuffer.recognizedTextSet(for: .accurate, includeBarcodes: true)
+        return textSet.scanResult
+    }
+}
+
+public enum Classifier: Int, Codable {
+    case table = 1
+    case inline
+    case paragraph
+    var description: String {
+        switch self {
+        case .table:
+            return "table"
+        case .inline:
+            return "inline"
+        case .paragraph:
+            return "paragraph"
+        }
+    }
 }

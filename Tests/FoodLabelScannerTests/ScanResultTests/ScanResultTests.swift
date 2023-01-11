@@ -7,8 +7,11 @@ final class ScanResultTests: XCTestCase {
 
     var config: TestConfiguration {
         TestConfiguration(
+//            mode: nil,
             mode: .fast,
-            focusedTestCaseId: "5A9CFFFD-1469-469F-A0DC-2A79507F945E")
+            focusedTestCaseId: "860E89D6-A39D-47EB-962D-D3BA44687245"
+//            focusedTestCaseId: nil
+        )
     }
     
     func testScanResult() async throws {
@@ -30,6 +33,7 @@ final class ScanResultTests: XCTestCase {
             }
             print("👨🏽‍🔬 Testing \(testCase.id)")
             try await testScanResultTestCase(testCase, mode: mode)
+            print("👨🏽‍🔬🏁 ✅ \(testCase.id)")
         }
     }
 

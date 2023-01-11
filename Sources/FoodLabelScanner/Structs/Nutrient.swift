@@ -76,10 +76,10 @@ extension String {
     func nutrientArtefacts(textId id: UUID) -> [NutrientArtefact] {
         
         /// Ignore strings like `Calories from fat 70`
-        let stringsToIgnorePattern = #"calorie(|s) from"#
-        guard !matchesRegex(stringsToIgnorePattern) else {
-            return []
-        }
+//        let stringsToIgnorePattern = #"calorie(|s) from"#
+//        guard !matchesRegex(stringsToIgnorePattern) else {
+//            return []
+//        }
         
         var array: [NutrientArtefact] = []
         var string = self

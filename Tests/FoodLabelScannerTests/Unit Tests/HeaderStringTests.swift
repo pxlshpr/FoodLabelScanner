@@ -3,7 +3,6 @@ import TabularData
 
 @testable import FoodLabelScanner
 
-//TODO: Remove this
 final class HeaderStringTests: XCTestCase {
 
     let testCases: [(input: String, header: HeaderString?)] = [
