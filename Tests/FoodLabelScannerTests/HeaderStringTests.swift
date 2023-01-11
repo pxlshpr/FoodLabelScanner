@@ -13,6 +13,7 @@ final class HeaderStringTests: XCTestCase {
         ("100g", .per100),
         ("SERVE PER 100g", .per100),
         ("Pour 100 ml", .per100),
+        ("Nutritional values per 100 g/ 10 pel", .per100),
 
         /// perServing(nil)
         ("Serving", .perServing(serving: nil)),

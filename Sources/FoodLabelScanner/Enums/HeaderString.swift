@@ -8,7 +8,10 @@ public enum HeaderString {
     case perServingAnd100(serving: String?)
 
     init?(string: String) {
-        if string.matchesRegex(Regex.per100_2) {
+        if string.matchesRegex(Regex.per100WithNutritionalValuesPrefix) {
+            self = .per100
+        }
+        else if string.matchesRegex(Regex.per100_2) {
             self = .per100
         }
         else if let size = string.firstCapturedGroup(using: Regex.perServingWithSize) {
@@ -81,6 +84,9 @@ extension HeaderString {
         static let per100gAndPerServing =
 //#"(?:.*(?:per|pour) 100[ ]*(?:g|ml)[ ])(?:per[ ])?(.*)"#
 #"^(?!^(?:per|pour) (?!100))(?=(?:.*(?:per|pour) 100[ ]*(?:g|ml)[ ])(?:per[ ])?(.*)).*$"#
+        
+        static let per100WithNutritionalValuesPrefix =
+#"^Nutritional values per 100 g.*"#
         
         static let perServingAndPer100g =
 #"^.*(?:(?:(?:per|par)|)[ ]+(.+(?:g|ml|)).*(?:per|pour) 100[ ]*(?:g|ml)).*$"#

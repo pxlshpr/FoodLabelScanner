@@ -204,3 +204,113 @@ extension ValueText: CustomStringConvertible {
         value.description
     }
 }
+
+//MARK: - Convenience
+
+extension Array where Element == ScanResult.Nutrients.Row {
+    func contains(attribute: Attribute) -> Bool {
+        contains(where: { $0.attribute == attribute })
+    }
+    
+    func row(forAttribute attribute: Attribute) -> ScanResult.Nutrients.Row? {
+        first(where: { $0.attribute == attribute })
+    }
+}
+
+//MARK: - Description
+
+extension ScanResult.Serving: CustomStringConvertible {
+    public var description: String {
+        let unitString: String
+        if let unitText {
+            unitString = " \(unitText.unit.description)"
+        } else {
+            unitString = ""
+        }
+        let unitNameString: String
+        if let unitNameText {
+            unitNameString = " \(unitNameText.string)"
+        } else {
+            unitNameString = ""
+        }
+        let amountString: String
+        if let amountText {
+            amountString = amountText.double.cleanAmount
+        } else {
+            amountString = ""
+        }
+        return "\(amountString)\(unitString)\(unitNameString)"
+    }
+}
+
+extension ScanResult.Serving.EquivalentSize: CustomStringConvertible {
+    public var description: String {
+        let unitString: String
+        if let unitText {
+            unitString = " \(unitText.unit.description)"
+        } else {
+            unitString = ""
+        }
+        let unitNameString: String
+        if let unitNameText {
+            unitNameString = " \(unitNameText.string)"
+        } else {
+            unitNameString = ""
+        }
+        return "\(amount.cleanAmount)\(unitString)\(unitNameString)"
+    }
+}
+
+extension ScanResult.Serving.PerContainer: CustomStringConvertible {
+    public var description: String {
+        let nameString: String
+        if let nameText {
+            nameString = " \(nameText.string)"
+        } else {
+            nameString = ""
+        }
+        return "\(amountText.double.cleanAmount)\(nameString)"
+    }
+}
+
+extension HeaderText.Serving: CustomStringConvertible {
+    public var description: String {
+        let unitString: String
+        if let unit {
+            unitString = " \(unit.description)"
+        } else {
+            unitString = ""
+        }
+        let unitNameString: String
+        if let unitName {
+            unitNameString = " \(unitName)"
+        } else {
+            unitNameString = ""
+        }
+        let amountString: String
+        if let amount {
+            amountString = amount.cleanAmount
+        } else {
+            amountString = ""
+        }
+        return "\(amountString)\(unitString)\(unitNameString)"
+    }
+}
+
+extension HeaderText.Serving.EquivalentSize: CustomStringConvertible {
+    public var description: String {
+        let unitString: String
+        if let unit {
+            unitString = " \(unit.description)"
+        } else {
+            unitString = ""
+        }
+        let unitNameString: String
+        if let unitName {
+            unitNameString = " \(unitName)"
+        } else {
+            unitNameString = ""
+        }
+        return "\(amount.cleanAmount)\(unitString)\(unitNameString)"
+    }
+}

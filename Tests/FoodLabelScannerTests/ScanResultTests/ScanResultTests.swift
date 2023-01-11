@@ -4,14 +4,20 @@ import XCTest
 import PrepDataTypes
 
 final class ScanResultTests: XCTestCase {
-    
-        
-    func _testScanResultFast() async throws {
-        try await testScanResult(mode: .fast)
-    }
 
-    func testScanResultComprehensive() async throws {
-        try await testScanResult(mode: .comprehensive)
+    var config: TestConfiguration {
+        TestConfiguration(
+            mode: .fast,
+            focusedTestCaseId: "5A9CFFFD-1469-469F-A0DC-2A79507F945E")
+    }
+    
+    func testScanResult() async throws {
+        if let mode = config.mode {
+            try await testScanResult(mode: mode)
+        } else {
+            try await testScanResult(mode: .fast)
+            try await testScanResult(mode: .comprehensive)
+        }
     }
 
     func testScanResult(mode: TestMode) async throws {
@@ -19,6 +25,9 @@ final class ScanResultTests: XCTestCase {
         print("👨🏽‍🔬 〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰")
         self.continueAfterFailure = true
         for testCase in testCases {
+            if let testCaseId = config.focusedTestCaseId {
+                guard testCase.id == testCaseId else { continue }
+            }
             print("👨🏽‍🔬 Testing \(testCase.id)")
             try await testScanResultTestCase(testCase, mode: mode)
         }
@@ -193,7 +202,12 @@ extension ScanResultTests {
 //MARK: - ScanResult
 
 extension ScanResultTests {
+    
     func assertEqual(actual: ScanResult, expected: ScanResult, id: String) throws {
+        
+        /// Classifier
+        try assertClassifiersEqual(actual: actual.classifier, expected: expected.classifier, id: id)
+
         /// Servings
         try assertServingsEqual(actual: actual.serving, expected: expected.serving, id: id)
         
@@ -203,6 +217,14 @@ extension ScanResultTests {
         
         /// Nutrient rows
         try assertNutrientRowsEqual(actual: actual, expected: expected, id: id)
+    }
+    
+    func assertClassifiersEqual(actual: Classifier?, expected: Classifier?, id: String) throws {
+        print("  👨🏽‍🔬 Asserting that Classifier's are equal")
+        let expected = try XCTUnwrap(expected, "\(id) – expected classifier missing")
+        let actual = try XCTUnwrap(actual, "\(id) – actual classifier missing")
+        XCTAssertEqual(actual, expected, "\(id) – classifier ≠")
+        print("    👨🏽‍🔬 ✓ classifier [\(expected.description)]")
     }
     
     //MARK: - Servings
@@ -354,112 +376,10 @@ extension ScanResultTests {
     }
 }
 
-extension ScanResult.Serving: CustomStringConvertible {
-    public var description: String {
-        let unitString: String
-        if let unitText {
-            unitString = " \(unitText.unit.description)"
-        } else {
-            unitString = ""
-        }
-        let unitNameString: String
-        if let unitNameText {
-            unitNameString = " \(unitNameText.string)"
-        } else {
-            unitNameString = ""
-        }
-        let amountString: String
-        if let amountText {
-            amountString = amountText.double.cleanAmount
-        } else {
-            amountString = ""
-        }
-        return "\(amountString)\(unitString)\(unitNameString)"
-    }
+struct TestConfiguration {
+    let mode: TestMode?
+    let focusedTestCaseId: String?
 }
-
-extension ScanResult.Serving.EquivalentSize: CustomStringConvertible {
-    public var description: String {
-        let unitString: String
-        if let unitText {
-            unitString = " \(unitText.unit.description)"
-        } else {
-            unitString = ""
-        }
-        let unitNameString: String
-        if let unitNameText {
-            unitNameString = " \(unitNameText.string)"
-        } else {
-            unitNameString = ""
-        }
-        return "\(amount.cleanAmount)\(unitString)\(unitNameString)"
-    }
-}
-
-extension ScanResult.Serving.PerContainer: CustomStringConvertible {
-    public var description: String {
-        let nameString: String
-        if let nameText {
-            nameString = " \(nameText.string)"
-        } else {
-            nameString = ""
-        }
-        return "\(amountText.double.cleanAmount)\(nameString)"
-    }
-}
-
-extension HeaderText.Serving: CustomStringConvertible {
-    public var description: String {
-        let unitString: String
-        if let unit {
-            unitString = " \(unit.description)"
-        } else {
-            unitString = ""
-        }
-        let unitNameString: String
-        if let unitName {
-            unitNameString = " \(unitName)"
-        } else {
-            unitNameString = ""
-        }
-        let amountString: String
-        if let amount {
-            amountString = amount.cleanAmount
-        } else {
-            amountString = ""
-        }
-        return "\(amountString)\(unitString)\(unitNameString)"
-    }
-}
-
-extension HeaderText.Serving.EquivalentSize: CustomStringConvertible {
-    public var description: String {
-        let unitString: String
-        if let unit {
-            unitString = " \(unit.description)"
-        } else {
-            unitString = ""
-        }
-        let unitNameString: String
-        if let unitName {
-            unitNameString = " \(unitName)"
-        } else {
-            unitNameString = ""
-        }
-        return "\(amount.cleanAmount)\(unitString)\(unitNameString)"
-    }
-}
-
-extension Array where Element == ScanResult.Nutrients.Row {
-    func contains(attribute: Attribute) -> Bool {
-        contains(where: { $0.attribute == attribute })
-    }
-    
-    func row(forAttribute attribute: Attribute) -> ScanResult.Nutrients.Row? {
-        first(where: { $0.attribute == attribute })
-    }
-}
-
 
 enum TestMode: String {
     /// Uses the `RecognizedTextSet` included with the test case, skipping the steps of loading the image and recognizing its texts.

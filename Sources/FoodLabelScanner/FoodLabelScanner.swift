@@ -21,6 +21,16 @@ public enum Classifier: Int, Codable {
     case table = 1
     case inline
     case paragraph
+    var description: String {
+        switch self {
+        case .table:
+            return "table"
+        case .inline:
+            return "inline"
+        case .paragraph:
+            return "paragraph"
+        }
+    }
 }
 
 extension RecognizedTextSet {
@@ -48,7 +58,6 @@ extension RecognizedTextSet {
             nutrientObservations = inline
         }
         var headerObservations = tabularHeaderObservations(for: tabular)
-        
         headerObservations.populateMissingHeaderObservations(from: self)
         
         let scanResult = ScanResult(
