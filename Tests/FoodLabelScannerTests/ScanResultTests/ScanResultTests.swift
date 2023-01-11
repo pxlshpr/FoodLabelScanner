@@ -9,8 +9,8 @@ final class ScanResultTests: XCTestCase {
         TestConfiguration(
 //            mode: nil,
             mode: .fast,
-            focusedTestCaseId: "B5FFA432-519D-4767-9856-DC49CA40B544"
-//            focusedTestCaseId: nil
+//            focusedTestCaseId: "B5FFA432-519D-4767-9856-DC49CA40B544"
+            focusedTestCaseId: nil
         )
     }
     
