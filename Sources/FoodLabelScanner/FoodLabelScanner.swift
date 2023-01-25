@@ -114,7 +114,10 @@ extension Array where Element == Observation {
     }
     
     var nutrientsCount: Int {
-        filter({ $0.attribute.isNutrientAttribute }).count
+        filter({
+            $0.attribute.isNutrientAttribute
+            && ($0.value1 != nil || $0.value2 != nil)
+        }).count
     }
     
     /**
