@@ -221,7 +221,7 @@ extension ExtractedColumn {
             }
             return attributeRect.minY < value1Rect.minY
             &&
-            attributeRect.maxY > value1Rect.maxY
+            attributeRect.maxY > value1Rect.minY /// bottom of attribute should be passed start of value
             &&
             attributeRect.minX > value1Rect.minX
         }
