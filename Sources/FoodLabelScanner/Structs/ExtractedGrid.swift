@@ -215,6 +215,11 @@ extension ExtractedColumn {
     
     mutating func removeRowsWithNotInlineValues() {
         rows.removeAll { row in
+            /// Ignore empty rows
+            guard !row.valuesTexts.isEmpty else {
+                return false
+            }
+            
             let attributeRect = row.attributeText.allTextsRect
             guard let value1Rect = row.valuesTexts[0]?.text.rect else {
                 return false
