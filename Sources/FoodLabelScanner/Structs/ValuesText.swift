@@ -3,13 +3,26 @@ import VisionSugar
 import CoreGraphics
 import PrepDataTypes
 
+extension RecognizedText {
+    /// Returns the first non-empty set of `FoodLabelValue`s detected from all the candidate strings
+    var detectedValues: [FoodLabelValue] {
+        for candidate in candidates {
+            let values = FoodLabelValue.detect(in: candidate)
+            if !values.isEmpty {
+                return values
+            }
+        }
+        return []
+    }
+}
+
 struct ValuesText {
 
     var values: [FoodLabelValue]
     let text: RecognizedText
     
     init?(_ text: RecognizedText) {
-        let values = FoodLabelValue.detect(in: text.string)
+        let values = text.detectedValues
         guard values.count > 0 else {
             return nil
         }
