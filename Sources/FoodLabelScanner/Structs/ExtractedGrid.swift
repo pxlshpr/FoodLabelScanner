@@ -219,9 +219,13 @@ extension ExtractedColumn {
             guard let value1Rect = row.valuesTexts[0]?.text.rect else {
                 return false
             }
+            
+            /// bottom of attribute should be passed start of value
+            if attributeRect.maxY > value1Rect.minY {
+                return true
+            }
+            
             return attributeRect.minY < value1Rect.minY
-            &&
-            attributeRect.maxY > value1Rect.minY /// bottom of attribute should be passed start of value
             &&
             attributeRect.minX > value1Rect.minX
         }
