@@ -59,9 +59,11 @@ struct ExtractedGrid {
         /// Do this after fixing the single invalid macro or energy so that we don't fix a child row based on invalid data
         fixInvalidChildRows()
         
-        removeEmptyValues()
-        removeRowsWithMultipleValues()
-        removeRowsWithNotInlineValues()
+        /// **Note** We're not doing the following removals any longer so that the rows remain for the user to correct or fill in in the Extractor,
+        /// removing the need for them to manually add them
+//        removeEmptyValues()
+//        removeRowsWithMultipleValues()
+//        removeRowsWithNotInlineValues()
 
         fillInMissingUnits()
 
