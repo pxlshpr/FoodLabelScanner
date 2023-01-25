@@ -276,3 +276,28 @@ public extension NutrientType {
     }
 }
 
+public extension ScanResult {
+
+    func nutrientsTexts(includeAttributes: Bool = false) -> [RecognizedText] {
+        var texts: [RecognizedText] = []
+        texts = headerTexts
+        for nutrient in nutrients.rows {
+            if includeAttributes {
+                texts.append(nutrient.attributeText.text)
+            }
+            if let text = nutrient.valueText1?.text {
+                texts.append(text)
+            }
+            if let text = nutrient.valueText2?.text {
+                texts.append(text)
+            }
+        }
+        return texts
+    }
+
+    func nutrientsBoundingBox(includeAttributes: Bool) -> CGRect {
+        nutrientsTexts(includeAttributes: true)
+            .filter { $0.id != defaultUUID }
+            .boundingBox
+    }
+}
