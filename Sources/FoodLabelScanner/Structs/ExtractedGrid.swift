@@ -63,7 +63,7 @@ struct ExtractedGrid {
         /// removing the need for them to manually add them
 //        removeEmptyValues()
 //        removeRowsWithMultipleValues()
-//        removeRowsWithNotInlineValues()
+        removeRowsWithNotInlineValues()
 
         fillInMissingUnits()
 
