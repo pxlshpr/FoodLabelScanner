@@ -221,7 +221,7 @@ extension ExtractedColumn {
             }
             
             /// bottom of attribute should be passed start of value
-            if attributeRect.maxY > value1Rect.minY {
+            if attributeRect.maxY < value1Rect.minY {
                 return true
             }
             
