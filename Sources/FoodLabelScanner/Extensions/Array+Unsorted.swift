@@ -439,9 +439,20 @@ extension Array where Element == [RecognizedText] {
     var firstValue: (FoodLabelValue, RecognizedText)? {
         for column in self {
             for text in column {
-                if let value = FoodLabelValue.detectSingleValue(in: text.string) {
+                if let value = text.firstValue {
                     return (value, text)
                 }
+            }
+        }
+        return nil
+    }
+}
+
+extension RecognizedText {
+    var firstValue: FoodLabelValue? {
+        for candidate in candidates {
+            if let value = FoodLabelValue.detectSingleValue(in: candidate) {
+                return value
             }
         }
         return nil
