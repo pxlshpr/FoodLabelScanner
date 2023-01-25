@@ -1,7 +1,7 @@
 import Foundation
 import VisionSugar
 
-extension ScanResult {
+public extension ScanResult {
 
     func columnsTexts(includeAttributes: Bool = false) -> [RecognizedText] {
         var texts: [RecognizedText] = []
