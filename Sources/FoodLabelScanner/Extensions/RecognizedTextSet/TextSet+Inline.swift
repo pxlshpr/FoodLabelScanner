@@ -55,12 +55,15 @@ extension RecognizedTextSet {
                 continue
             }
 
+            let attributeText = AttributeText(attribute: attribute, text: text)
+
             let inlineTextsColumns = texts.inlineTextColumns(as: text, allowOverlapping: true)
             guard !inlineTextsColumns.isEmpty, let tuple = inlineTextsColumns.firstValue else {
+                /// Add the `Attribute` even if we failed to get a value, so that it appears in the Extractor's UI
+                observations.append(Observation(attributeText: attributeText))
                 continue
             }
             
-            let attributeText = AttributeText(attribute: attribute, text: text)
             let correctedValue = tuple.0.withCorrectUnit(for: attributeText)
             let valueText = ValueText(value: correctedValue, text: tuple.1, attributeText: text)
             let observation = Observation(attributeText: attributeText, valueText1: valueText)
