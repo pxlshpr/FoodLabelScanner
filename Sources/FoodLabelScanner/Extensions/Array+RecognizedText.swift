@@ -99,9 +99,17 @@ extension Array where Element == RecognizedText {
             if row[column].count > 3 {
                 row[column] = Array(row[column][0...2])
             }
+            /// Sort by minX
             row[column] = row[column].sorted(by: { text1, text2 in
                 text1.rect.minX < text2.rect.minX
             })
+            /// Sort by distance to midY
+            row[column] = row[column].sorted(by: { text1, text2 in
+                let distance1 = abs(text1.rect.midY - recognizedText.rect.midY)
+                let distance2 = abs(text2.rect.midY - recognizedText.rect.midY)
+                return distance1 < distance2
+            })
+
         }
         
         return row
