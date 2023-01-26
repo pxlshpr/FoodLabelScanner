@@ -94,6 +94,8 @@ extension Array where Element == RecognizedText {
         
         /// ** Heuristic ** Pick the first 3, and order them by the minX value so that we're picking the closest one
         for column in row.indices {
+            /// ** Heuristic ** Remove any texts that may contain "2,000"
+            row[column] = row[column].filter { !$0.string.contains("2,000") }
             if row[column].count > 3 {
                 row[column] = Array(row[column][0...2])
             }
