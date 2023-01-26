@@ -35,9 +35,11 @@ struct ExtractedGrid {
         self.columns = columns
         self.numberOfValues = columns.first?.rows.first?.valuesTexts.count ?? 0
 
-        insertMissingColumnForMultipleValuedColumns()
+        /// ** Removed ** We're not inserting calculated values any longer
+//        insertMissingColumnForMultipleValuedColumns()
         
-        findSingleEnergyValueIfMissing(in: textSet)
+        /// ** Removed ** We're not inserting calculated values any longer
+//        findSingleEnergyValueIfMissing(in: textSet)
         
         removeValuesOutsideColumnRects()
         removeExtraneousValues()
@@ -50,7 +52,8 @@ struct ExtractedGrid {
         handleMultipleEnergyValuesWithinColumn()
         handleMultipleValues(using: validRatio)
 
-        fillInRowsWithOneMissingValue()
+        /// ** Removed ** We're not inserting calculated values any longer
+//        fillInRowsWithOneMissingValue()
         fixInvalidRows()
         fixInvalidRowsContainingLessThanPrefix()
 
@@ -59,7 +62,7 @@ struct ExtractedGrid {
         /// Do this after fixing the single invalid macro or energy so that we don't fix a child row based on invalid data
         fixInvalidChildRows()
         
-        /// **Note** We're not doing the following removals any longer so that the rows remain for the user to correct or fill in in the Extractor,
+        /// **Removed** We're not doing the following removals any longer so that the rows remain for the user to correct or fill in in the Extractor,
         /// removing the need for them to manually add them
 //        removeEmptyValues()
 //        removeRowsWithMultipleValues()
@@ -69,7 +72,9 @@ struct ExtractedGrid {
 
         addMissingEnergyValuesIfNeededAndAvailable()
         convertMismatchedEnergyUnits()
-        addMissingMacroOrEnergyValuesIfPossible()
+        
+        /// ** Removed ** We're not inserting calculated values any longer
+//        addMissingMacroOrEnergyValuesIfPossible()
     }
     
     var values: [[[FoodLabelValue?]]] {
