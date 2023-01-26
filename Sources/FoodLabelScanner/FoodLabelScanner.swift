@@ -19,7 +19,7 @@ extension RecognizedTextSet {
             
             /// ... and any inline observations the tabular algorithm might not have picked
             for observation in inlineObservations {
-                if !tabular.contains(where: { $0.attribute == observation.attribute }) {
+                if !tabular.containsAtLeastOneValue(for: observation.attribute) {
                     nutrientObservations.append(observation)
                 }
             }
@@ -74,6 +74,12 @@ extension Array where Element == Observation {
         }
     }
     
+    func containsAtLeastOneValue(for attribute: Attribute) -> Bool {
+        guard let observation = first(where: { $0.attribute == attribute }) else {
+            return false
+        }
+        return observation.value1 != nil || observation.value2 != nil
+    }
     
     var containingBothValuesCount: Int {
         filter({ $0.valueText2 != nil }).count
