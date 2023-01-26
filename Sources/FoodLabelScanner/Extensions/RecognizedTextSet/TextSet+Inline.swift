@@ -1,12 +1,14 @@
 import VisionSugar
 import Foundation
+import OrderedCollections
 
 extension RecognizedText {
     /// Goes through all the detected nutrients in each of the candidate strings—and uniquely adds them to an array in a dictionary storing them against their attributes.
-    var nutrientCandidates: [Attribute: [Nutrient]] {
+    var nutrientCandidates: OrderedDictionary<Attribute, [Nutrient]> {
         let strings = self.candidates
-        var candidates: [Attribute: [Nutrient]] = [:]
-        
+//        var candidates: [Attribute: [Nutrient]] = [:]
+        var candidates: OrderedDictionary<Attribute, [Nutrient]> = [:]
+
         for string in strings {
             for nutrient in string.nutrients {
                 var nutrients = candidates[nutrient.attribute] ?? []
@@ -19,7 +21,7 @@ extension RecognizedText {
     }
 }
 
-extension Dictionary where Key == Attribute, Value == [Nutrient] {
+extension OrderedDictionary where Key == Attribute, Value == [Nutrient] {
     /// Returns an array of the best candidates from each set of nutrients (for each attribute)
     var bestCandidateNutrients: [Nutrient] {
         var candidates: [Nutrient] = []
