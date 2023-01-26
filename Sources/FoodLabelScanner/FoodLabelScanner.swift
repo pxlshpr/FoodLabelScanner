@@ -8,7 +8,7 @@ extension RecognizedTextSet {
         let servingObservations = servingObservations
         
         let inline = inlineObservations
-        let tabular = tabularObservations
+        var tabular = tabularObservations
         
         var nutrientObservations: [Observation]
         let classifier: Classifier
@@ -19,8 +19,14 @@ extension RecognizedTextSet {
             
             /// ... and any inline observations the tabular algorithm might not have picked
             for observation in inlineObservations {
-                if !tabular.containsAtLeastOneValue(for: observation.attribute) {
+                guard let index = tabular.firstIndex(where: { $0.attribute == observation.attribute }) else {
                     nutrientObservations.append(observation)
+                    continue
+                }
+                
+                /// If we have an empty placeholder for the attribute, swap in the observation for it (so we don't get duplicates)
+                if tabular[index].value1 == nil && tabular[index].value2 == nil {
+                    tabular[index] = observation
                 }
             }
         } else {
@@ -74,12 +80,6 @@ extension Array where Element == Observation {
         }
     }
     
-    func containsAtLeastOneValue(for attribute: Attribute) -> Bool {
-        guard let observation = first(where: { $0.attribute == attribute }) else {
-            return false
-        }
-        return observation.value1 != nil || observation.value2 != nil
-    }
     
     var containingBothValuesCount: Int {
         filter({ $0.valueText2 != nil }).count
