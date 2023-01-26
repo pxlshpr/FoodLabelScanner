@@ -99,6 +99,7 @@ extension Array where Element == RecognizedText {
             if row[column].count > 3 {
                 row[column] = Array(row[column][0...2])
             }
+            
             /// Sort by minX
             row[column] = row[column].sorted(by: { text1, text2 in
                 text1.rect.minX < text2.rect.minX
