@@ -361,10 +361,10 @@ extension Attribute {
     
     init?(fromString string: String) {
         
-//        let stringsToIgnorePattern = #"from fat"#
-//        guard !string.matchesRegex(stringsToIgnorePattern) else {
-//            return nil
-//        }
+        let stringsToIgnorePattern = #"from fat"#
+        guard !string.matchesRegex(stringsToIgnorePattern) else {
+            return nil
+        }
         
         var pickedAttribute: Attribute? = nil
         for attribute in Self.allCases {

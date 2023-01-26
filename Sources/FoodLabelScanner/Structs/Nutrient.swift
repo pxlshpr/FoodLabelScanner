@@ -96,6 +96,7 @@ extension String {
             }
         }
         suffixReplace(["Og", "O g"], with: "0g")
+        suffixReplace(["O%", "O %"], with: "0%")
         suffixReplace(["Omg", "O mg"], with: "0mg")
         suffixReplace(["Omcg", "O mcg"], with: "0mcg")
 
@@ -108,11 +109,18 @@ extension String {
                 }
             }
         }
-//        if string == "O" {
-//            string = "0"
-//        }
-        replace(["O"], with: "0")
-        replace(["O a"], with: "0g")
+        replace(["O", "o"], with: "0")
+        replace(["O a", "o a"], with: "0g")
+        
+        func occurrenceReplace(_ incorrects: [String], with correct: String) {
+            for incorrect in incorrects {
+                string = string.replacingOccurrences(of: incorrect, with: correct)
+            }
+        }
+        occurrenceReplace([" O ", " o "], with: " 0 ")
+        occurrenceReplace([" O% ", " o% ", " O % ", " o % "], with: " 0% ")
+        occurrenceReplace([" Omg ", " O mg ", " omg ", " o mg "], with: "0mg")
+        occurrenceReplace([" Omcg ", " O mcg ", " omcg ", " o mcg "], with: "0mcg")
 
         while string.count > 0 {
             /// First check if we have a value at the start of the string
