@@ -59,6 +59,10 @@ extension Array where Element == RecognizedText {
             $0.rect.minX < $1.rect.minX
         }
         
+        /// ** Note ** We're exiting early and simply returning the ordered result of `candidates` as if its in one column  here, because:
+        ///     - In the Peanut Butter case we ended up incorrectly ordering inline texts
+        ///     - We wrote this before we had the tabular classifier, which should now handle situations that this was trying to capture
+        return candidates.map { [$0] }
 
         /// Deal with multiple recognizedText we may have grabbed from the same column due to them both overlapping with `recognizedText` by choosing the one that intersects with it the most
         for candidate in candidates {
