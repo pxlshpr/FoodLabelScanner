@@ -92,6 +92,14 @@ extension Array where Element == RecognizedText {
             row.append(columnElementsAndIntersections.map { $0.recognizedText })
         }
         
+        /// ** Heuristic ** Pick the first 3, and order them by the minX value so that we're picking the closest one
+        for column in row.indices {
+            row[column] = Array(row[column][0...2])
+            row[column] = row[column].sorted(by: { text1, text2 in
+                text1.rect.minX < text2.rect.minX
+            })
+        }
+        
         return row
     }
     
