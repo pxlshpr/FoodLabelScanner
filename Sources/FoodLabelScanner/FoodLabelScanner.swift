@@ -8,7 +8,7 @@ extension RecognizedTextSet {
         let servingObservations = servingObservations
         
         let inline = inlineObservations
-        var tabular = tabularObservations
+        let tabular = tabularObservations
         
         var nutrientObservations: [Observation]
         let classifier: Classifier
@@ -25,8 +25,8 @@ extension RecognizedTextSet {
                 }
                 
                 /// If we have an empty placeholder for the attribute, swap in the observation for it (so we don't get duplicates)
-                if tabular[index].value1 == nil && tabular[index].value2 == nil {
-                    tabular[index] = observation
+                if nutrientObservations[index].value1 == nil && nutrientObservations[index].value2 == nil {
+                    nutrientObservations[index] = observation
                 }
             }
         } else {
