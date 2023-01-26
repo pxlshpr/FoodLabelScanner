@@ -29,7 +29,9 @@ extension String {
     var valueSubstringAtStart: String? {
         //TODO: Modularize this and substringUpToFirstNumeral handling not capturing the entire strings with a workaround
         let regex = FoodLabelValue.Regex.atStartOfString
-        let groups = trimmingWhitespaces.capturedGroups(using: regex, allowCapturingEntireString: true)
+        let groups = trimmingWhitespaces
+            .replacingDashesWithSpaces /// We're doing this to aid with the regex
+            .capturedGroups(using: regex, allowCapturingEntireString: true)
         let substring: String?
         if groups.count > 1 {
             substring = groups[1]
@@ -41,6 +43,11 @@ extension String {
         return substring?.trimmingWhitespaces
     }
 
+    var replacingDashesWithSpaces: String {
+        let string = self.replacingOccurrences(of: "-", with: " ")
+        return string
+    }
+    
     var numberSubstringAtStart: String? {
         let regex = #"^([0-9]+[0-9.:,\/]*)"#
         let groups = trimmingWhitespaces.capturedGroups(using: regex, allowCapturingEntireString: true)
