@@ -35,6 +35,30 @@ extension OrderedDictionary where Key == Attribute, Value == [Nutrient] {
     }
 }
 
+extension Observation {
+    var containsAValue: Bool {
+        value1 != nil || value2 != nil
+    }
+}
+
+extension Array where Element == Observation {
+    func containsValue(for attribute: Attribute) -> Bool {
+        contains(where: {
+            $0.attribute == attribute
+            && $0.containsAValue
+        })
+    }
+
+    func containsAttributeWithoutValue(for attribute: Attribute) -> Bool {
+        indexOfAttributeWithoutValue(for: attribute) != nil
+    }
+    
+    func indexOfAttributeWithoutValue(for attribute: Attribute) -> Int? {
+        firstIndex(where: { $0.attribute == attribute && !$0.containsAValue })
+    }
+
+}
+
 extension RecognizedTextSet {
     var inlineObservations: [Observation] {
         var observations: [Observation] = []
@@ -52,7 +76,8 @@ extension RecognizedTextSet {
             
             guard let attribute = Attribute.detect(in: text.string).first,
                   attribute.isNutrientAttribute,
-                  !observations.contains(attribute: attribute)
+//                  !observations.contains(attribute: attribute)
+                  !observations.containsValue(for: attribute)
             else {
                 continue
             }
@@ -62,14 +87,27 @@ extension RecognizedTextSet {
             let inlineTextsColumns = texts.inlineTextColumns(as: text, allowOverlapping: true)
             guard !inlineTextsColumns.isEmpty, let tuple = inlineTextsColumns.firstValue else {
                 /// Add the `Attribute` even if we failed to get a value, so that it appears in the Extractor's UI
-                observations.append(Observation(attributeText: attributeText))
+                if !observations.containsAttributeWithoutValue(for: attribute) {
+                    /// Ensure we don't have duplicate value-less attributes
+                    observations.append(Observation(attributeText: attributeText))
+                }
                 continue
             }
             
             let correctedValue = tuple.0.withCorrectUnit(for: attributeText)
             let valueText = ValueText(value: correctedValue, text: tuple.1, attributeText: text)
             let observation = Observation(attributeText: attributeText, valueText1: valueText)
-            observations.append(observation)
+            
+            /// If we already have this attribute without any values
+            if let index = observations.indexOfAttributeWithoutValue(for: attribute) {
+                
+                /// Replace it with this as it has values
+                observations[index] = observation
+            } else {
+                
+                /// Otherwise simply append
+                observations.append(observation)
+            }
         }
         return observations
     }    
