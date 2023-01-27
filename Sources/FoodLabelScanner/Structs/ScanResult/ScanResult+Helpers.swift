@@ -300,7 +300,7 @@ public extension ScanResult {
     }
 
     func nutrientsBoundingBox(includeAttributes: Bool) -> CGRect {
-        nutrientsTexts(includeAttributes: true)
+        nutrientsTexts(includeAttributes: includeAttributes)
             .filter { $0.id != defaultUUID }
             .boundingBox
     }
