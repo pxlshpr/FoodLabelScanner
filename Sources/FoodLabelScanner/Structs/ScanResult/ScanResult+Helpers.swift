@@ -282,6 +282,10 @@ public extension ScanResult {
         var texts: [RecognizedText] = []
         texts = headerTexts
         for nutrient in nutrients.rows {
+            /// Only use nutrients that have at least one value
+            guard nutrient.valueText1 != nil || nutrient.valueText2 != nil else {
+                continue
+            }
             if includeAttributes {
                 texts.append(nutrient.attributeText.text)
             }
