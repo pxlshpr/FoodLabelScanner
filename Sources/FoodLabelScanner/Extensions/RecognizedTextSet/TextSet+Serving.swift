@@ -139,9 +139,10 @@ extension RecognizedTextSet {
                 continue
             }
 
-            guard recognizedText.isNotTooFarFrom(inlineText) else {
-                continue
-            }
+            /// ** Removing this temporarily ** Until we find a case that warrants having it again.
+//            guard recognizedText.isNotTooFarFrom(inlineText) else {
+//                continue
+//            }
 
             let (extractedObservations, _) = extractObservations(of: inlineText, startingWith: observation.attributeText)
             for observation in extractedObservations {
