@@ -62,6 +62,16 @@ extension Array where Element == Observation {
 extension RecognizedTextSet {
     var inlineObservations: [Observation] {
         var observations: [Observation] = []
+        
+        func addObservation(_ observation: Observation) {
+            /// Checks if we already have a value-less observation, and if so—replaces it with this
+            if let index = observations.firstIndex(where: { $0.attribute == observation.attribute && !$0.containsAValue }) {
+                observations[index] = observation
+            } else {
+                observations.append(observation)
+            }
+        }
+        
         for text in texts {
             
             /// First get all the nutrients for each of the candidates
@@ -69,8 +79,8 @@ extension RecognizedTextSet {
             if !nutrientCandidates.isEmpty {
                 for nutrient in nutrientCandidates {
                     guard !observations.containsValue(for: nutrient.attribute) else { continue }
-//                    guard !observations.contains(attribute: nutrient.attribute) else { continue }
-                    observations.append(nutrient.observation(forInlineText: text))
+//                    observations.append(nutrient.observation(forInlineText: text))
+                    addObservation(nutrient.observation(forInlineText: text))
                 }
                 continue
             }
@@ -90,7 +100,8 @@ extension RecognizedTextSet {
                 /// Add the `Attribute` even if we failed to get a value, so that it appears in the Extractor's UI
                 if !observations.containsAttributeWithoutValue(for: attribute) {
                     /// Ensure we don't have duplicate value-less attributes
-                    observations.append(Observation(attributeText: attributeText))
+//                    observations.append(Observation(attributeText: attributeText))
+                    addObservation(Observation(attributeText: attributeText))
                 }
                 continue
             }
@@ -107,7 +118,8 @@ extension RecognizedTextSet {
             } else {
                 
                 /// Otherwise simply append
-                observations.append(observation)
+//                observations.append(observation)
+                addObservation(observation)
             }
         }
         return observations
