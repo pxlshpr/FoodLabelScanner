@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/PrepDataTypes",
       "state" : {
-        "revision" : "ffa9bafdee2949fe195f193397990e6272e12e91",
-        "version" : "0.0.245"
+        "revision" : "5d1e3c4d0017d06d78686f9fe73628a66ada0fba",
+        "version" : "0.0.256"
       }
     },
     {
@@ -46,12 +46,21 @@
       }
     },
     {
+      "identity" : "swiftui-introspect",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/siteline/SwiftUI-Introspect",
+      "state" : {
+        "revision" : "f2616860a41f9d9932da412a8978fec79c06fe24",
+        "version" : "0.1.4"
+      }
+    },
+    {
       "identity" : "swiftuisugar",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/SwiftUISugar",
       "state" : {
-        "revision" : "17211a9d8b550ddf260a181ffa6ce09b789a71e7",
-        "version" : "0.0.215"
+        "revision" : "0d046a1051d22f8bacb3e0b416f1e09389fb5d8f",
+        "version" : "0.0.367"
       }
     },
     {
@@ -59,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/VisionSugar",
       "state" : {
-        "revision" : "58fafbf2054881b26400c80110ff470ab731cd4e",
-        "version" : "0.0.77"
+        "revision" : "badb046c757441e1523b1a7b04b37a4fb8827438",
+        "version" : "0.0.78"
       }
     }
   ],
