@@ -53,7 +53,7 @@ extension Attribute {
             /// Include `hidangan` because "Serving Size" in Malay is `Saiz Hidangan` which may be misread as `Salz Hidangan`, so this rules it out.
             return #"(?<!less of )(salt|salz|[^A-z]sel|sare)(?! hidangan)([^,]|\/|$)"#
         case .sodium:
-            return #"sodium"#
+            return #"(sodium|sodlum)"#
         case .sugar:
             return Regex.sugar
         case .addedSugar:
