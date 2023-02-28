@@ -270,7 +270,7 @@ public extension NutrientType {
             return .salt
             
         case .phosphorus:
-            return .phosphorous
+            return .phosphorus
             
         /// No support (yet) for remaining ones, add entry into `Attribute` First
             
