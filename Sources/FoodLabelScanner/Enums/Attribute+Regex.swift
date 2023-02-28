@@ -62,8 +62,12 @@ extension Attribute {
             return #"calcium(?! citrate)"#
         case .iron:
             return #"(^| )iron"#
+            
         case .potassium:
-            return #"potas"#
+//            return #"potas"#
+            /// Match `potas` but not when present with `phos` (to rule out `Potassium Phosphate`)
+            return #"^(?=potas)(?!.*phos).*$"#
+            
         case .magnesium:
             return #"magnesium"#
         case .zinc:
