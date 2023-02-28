@@ -10,7 +10,7 @@ extension Attribute {
         case .nutrientLabelTotal:
             return #"^[- ]*total$"#
         case .servingsPerContainerAmount:
-            return #"(?:servings |serving5 |)per (container|pack(age|)|tub|pot)"#
+            return #"(?:servings |serving5 |)per (container|pack(age|)|tub|pot|bottle)"#
         case .servingAmount:
             return #"((serving size|size:|dose de referencia|takaran)|^size$)"#
             /// Legacy, in case things break — TODO: Write tests for this and the other serving attributes
