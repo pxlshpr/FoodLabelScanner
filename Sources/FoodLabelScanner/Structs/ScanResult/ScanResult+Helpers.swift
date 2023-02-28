@@ -269,7 +269,11 @@ public extension NutrientType {
         case .salt:
             return .salt
             
-        //TODO: No support for remaining ones
+        case .phosphorus:
+            return .phosphorous
+            
+        /// No support (yet) for remaining ones, add entry into `Attribute` First
+            
         default:
             return nil
         }
