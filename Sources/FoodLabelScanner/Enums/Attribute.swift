@@ -70,6 +70,7 @@ public enum Attribute: String, CaseIterable, Codable {
     case selenium
     case manganese
     case chromium
+    case phosphorous
     
     case thiamin
     case folate
@@ -299,7 +300,7 @@ extension Attribute {
         case .dietaryFibre, .solubleFibre, .insolubleFibre, .saturatedFat, .polyunsaturatedFat, .monounsaturatedFat, .transFat, .sugar, .addedSugar, .gluten, .starch, .polyols:
             return [.g, .mg, .mcg]
             
-        case .cholesterol, .sodium, .calcium, .iron, .potassium, .cobalamin, .vitaminA, .vitaminC, .vitaminD, .vitaminB6, .zinc, .iodine, .selenium, .magnesium, .manganese, .chromium, .thiamin, .folate, .biotin, .pantothenicAcid, .riboflavin, .niacin, .vitaminB1, .vitaminB3, .vitaminE, .vitaminK, .vitaminK2, .taurine, .caffeine, .vitaminB2:
+        case .cholesterol, .sodium, .calcium, .iron, .potassium, .cobalamin, .vitaminA, .vitaminC, .vitaminD, .vitaminB6, .zinc, .iodine, .selenium, .magnesium, .manganese, .chromium, .thiamin, .folate, .biotin, .pantothenicAcid, .riboflavin, .niacin, .vitaminB1, .vitaminB3, .vitaminE, .vitaminK, .vitaminK2, .taurine, .caffeine, .vitaminB2, .phosphorous:
             return [.mg, .mcg, .p, .g]
             
         case .folicAcid, .vitaminB12:
@@ -584,6 +585,8 @@ extension Attribute: CustomStringConvertible {
             return "Vitamin K"
         case .vitaminK2:
             return "Vitamin K2"
+        case .phosphorous:
+            return "Phosphorous"
             
         case .taurine:
             return "Taurine"

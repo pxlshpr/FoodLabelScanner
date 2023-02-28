@@ -123,6 +123,9 @@ extension Attribute {
         case .caffeine:
             return #"caffeine"#
             
+        case .phosphorous:
+            return #"phosphorous"#
+            
         default:
             return nil
         }
