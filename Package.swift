@@ -15,7 +15,7 @@ let package = Package(
             targets: ["FoodLabelScanner"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/pxlshpr/SwiftSugar", from: "0.0.86"),
+        .package(url: "https://github.com/pxlshpr/SwiftSugar", from: "0.0.88"),
         .package(url: "https://github.com/pxlshpr/VisionSugar", from: "0.0.78"),
         .package(url: "https://github.com/pxlshpr/PrepDataTypes", from: "0.0.256"),
         .package(url: "https://github.com/apple/swift-collections", from: "1.0.4"),

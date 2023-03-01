@@ -1517,11 +1517,7 @@ extension Double {
         var string = "\(Int(self))"
         string.insert(".", at: string.index(string.startIndex, offsetBy: 1))
         return Double(string)
-    }
-    
-    var isInteger: Bool {
-        floor(self) == self
-    }
+    }    
 }
 
 extension Array where Element == ExtractedRow {
