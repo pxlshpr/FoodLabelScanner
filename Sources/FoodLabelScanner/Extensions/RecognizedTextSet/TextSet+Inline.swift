@@ -74,8 +74,6 @@ extension RecognizedTextSet {
         
         for text in texts {
             
-            print("⚓️ processing: \(text.string)")
-            
             /// First get all the nutrients for each of the candidates
             let nutrientCandidates = text.nutrientCandidates.bestCandidateNutrients
             if !nutrientCandidates.isEmpty {

@@ -143,8 +143,6 @@ extension String {
         while string.count > 0, loopCount < MaxLoopCount {
             loopCount += 1
 
-            print("loopCount: \(loopCount)")
-
             /// First check if we have a value at the start of the string
             if let valueSubstring = string.valueSubstringAtStart,
                /// If we do, extract it from the string and add its corresponding `Value` to the array
