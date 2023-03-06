@@ -172,7 +172,7 @@ extension String {
                     /// We've also got another safeguard against the infinite recursion at the while loop which caps this loop at
                     /// running no more than x times.
                     let valueSubstringWithDashes = valueSubstring.replacingSpacesWithDashes
-//                    string = string.replacingFirstOccurrence(of: valueSubstringWithDashes, with: "")
+                    string = string.replacingFirstOccurrence(of: valueSubstringWithDashes, with: "")
                 }
                 
                 
