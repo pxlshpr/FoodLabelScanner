@@ -122,7 +122,29 @@ extension String {
         occurrenceReplace([" Omg ", " O mg ", " omg ", " o mg "], with: "0mg")
         occurrenceReplace([" Omcg ", " O mcg ", " omcg ", " o mcg "], with: "0mcg")
 
-        while string.count > 0 {
+        /// We're using this as a safeguard against infinite recursion—in case for whatever reason, the artefact
+        /// extraction halts and the string stops getting modified resulting in an endless loop.
+        ///
+        /// This happened in an instance where we had `03-A` returning `03 A` for `valueSubstringAtStart`
+        /// which was what was used in `replacingFirstOccurence(of:with:)`, which obviously never
+        /// changed the string, resulting in an infinite loop that eventually crashed.
+        ///
+        /// That issue has been mitigated (see below) but we're also adding this ceiling for how many times
+        /// this loop can run to avoid any similar unknown issues causing the infinite recursion.
+        ///
+        /// A number of `100` is chosen as a reasonable max because:
+        /// - We're making sure we're not prematurely cutting off any normal strings from having their artefacts extracted.
+        ///     (since we'd usually expect 5-10 extracts per string to be the max)
+        /// - We're not encountering much overhead, and this max is only reached in the rare case that a bug is encountered.
+        ///
+        let MaxLoopCount = 100
+        var loopCount = 0
+        
+        while string.count > 0, loopCount < MaxLoopCount {
+            loopCount += 1
+
+            print("loopCount: \(loopCount)")
+
             /// First check if we have a value at the start of the string
             if let valueSubstring = string.valueSubstringAtStart,
                /// If we do, extract it from the string and add its corresponding `Value` to the array
@@ -137,7 +159,22 @@ extension String {
                     isExpectingCalories = false
                 }
                 
+                
+                let beforeReplacing = string
                 string = string.replacingFirstOccurrence(of: valueSubstring, with: "").trimmingWhitespaces
+                
+                if string == beforeReplacing {
+                    /// This fixes an infinite recursion bug we had due to `valueSubstringAtStart` not always returning
+                    /// the exact string that was extracted when we replace dashes. So `03-A` would be returned as `03 A`
+                    /// which wouldn't get detected in the string, which causes an infinite recursion.
+                    /// So we're putting in this check which replaces any whitespaces (which would be internal, since we're
+                    /// trimming them in `valueSubstringAtStart`), with dashes, to try and match the previous string.
+                    /// We've also got another safeguard against the infinite recursion at the while loop which caps this loop at
+                    /// running no more than x times.
+                    let valueSubstringWithDashes = valueSubstring.replacingSpacesWithDashes
+//                    string = string.replacingFirstOccurrence(of: valueSubstringWithDashes, with: "")
+                }
+                
                 
                 let artefact = NutrientArtefact(value: value, textId: id)
                 array.append(artefact)

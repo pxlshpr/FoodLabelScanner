@@ -47,7 +47,12 @@ extension String {
         let string = self.replacingOccurrences(of: "-", with: " ")
         return string
     }
-    
+
+    var replacingSpacesWithDashes: String {
+        let string = self.replacingOccurrences(of: " ", with: "-")
+        return string
+    }
+
     var numberSubstringAtStart: String? {
         let regex = #"^([0-9]+[0-9.:,\/]*)"#
         let groups = trimmingWhitespaces.capturedGroups(using: regex, allowCapturingEntireString: true)
