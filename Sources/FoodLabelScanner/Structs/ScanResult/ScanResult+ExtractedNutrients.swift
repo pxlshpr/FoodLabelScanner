@@ -3,7 +3,7 @@ import Foundation
 import FoodDataTypes
 import VisionSugar
 
-extension ScanResult {
+public extension ScanResult {
     
     func extractedNutrientsForColumn(
         _ column: Int,
