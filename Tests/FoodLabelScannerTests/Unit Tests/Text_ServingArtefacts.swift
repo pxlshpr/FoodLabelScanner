@@ -1,6 +1,5 @@
 import XCTest
 import TabularData
-import PrepDataTypes
 import VisionSugar
 
 @testable import FoodLabelScanner

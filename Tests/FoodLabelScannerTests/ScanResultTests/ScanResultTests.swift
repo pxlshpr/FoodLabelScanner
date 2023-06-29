@@ -1,8 +1,6 @@
 import XCTest
 @testable import FoodLabelScanner
 
-import PrepDataTypes
-
 final class ScanResultTests: XCTestCase {
 
     var config: TestConfiguration {

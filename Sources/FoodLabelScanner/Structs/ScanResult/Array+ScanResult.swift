@@ -1,5 +1,4 @@
 import SwiftSugar
-import PrepDataTypes
 
 public extension ScanResult {
     
