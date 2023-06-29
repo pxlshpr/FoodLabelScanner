@@ -40,9 +40,9 @@ extension HeaderType: CustomStringConvertible {
     public var description: String {
         switch self {
         case .per100g:
-            return "Per 100g"
+            return "Per 100 g"
         case .per100ml:
-            return "Per 100ml"
+            return "Per 100 mL"
         case .perServing:
             return "Per Serving"
         }
