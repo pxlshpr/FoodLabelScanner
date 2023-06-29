@@ -1,5 +1,5 @@
 import Foundation
-import PrepDataTypes
+import FoodDataTypes
 
 extension Observation {
     var unitText: UnitText? {

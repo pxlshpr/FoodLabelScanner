@@ -17,8 +17,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/pxlshpr/SwiftSugar", from: "0.0.97"),
         .package(url: "https://github.com/pxlshpr/VisionSugar", from: "0.0.80"),
-//        .package(url: "https://github.com/pxlshpr/PrepDataTypes", from: "0.0.256"),
-        .package(url: "https://github.com/pxlshpr/PrepDataTypes", from: "0.0.317"),
+        .package(url: "https://github.com/pxlshpr/FoodDataTypes", from: "0.0.9"),
         .package(url: "https://github.com/apple/swift-collections", from: "1.0.4"),
     ],
     targets: [
@@ -27,9 +26,9 @@ let package = Package(
         .target(
             name: "FoodLabelScanner",
             dependencies: [
-                .product(name: "SwiftSugar", package: "swiftsugar"),
-                .product(name: "VisionSugar", package: "visionsugar"),
-                .product(name: "PrepDataTypes", package: "prepdatatypes"),
+                .product(name: "SwiftSugar", package: "SwiftSugar"),
+                .product(name: "VisionSugar", package: "VisionSugar"),
+                .product(name: "FoodDataTypes", package: "FoodDataTypes"),
                 .product(name: "Collections", package: "swift-collections")
             ]
         ),

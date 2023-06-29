@@ -1,6 +1,7 @@
 import Foundation
-import VisionSugar
 
+import VisionSugar
+import FoodDataTypes
 
 extension DoubleText {
     public init(_ valueText: ValueText) {
@@ -177,12 +178,12 @@ public extension ScanResult {
 }
 
 public extension Attribute {
-    var nutrientType: NutrientType? {
-        NutrientType.allCases.first(where: { $0.attribute == self })
+    var micro: Micro? {
+        Micro.allCases.first(where: { $0.attribute == self })
     }
 }
 
-public extension NutrientType {
+public extension Micro {
     var attribute: Attribute? {
         switch self {
         case .saturatedFat:
@@ -320,7 +321,6 @@ public extension ScanResult {
 }
 
 import VisionSugar
-import PrepDataTypes
 
 public extension RecognizedText {
     

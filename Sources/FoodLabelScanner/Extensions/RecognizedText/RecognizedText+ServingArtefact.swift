@@ -1,6 +1,6 @@
 import VisionSugar
 import Foundation
-import PrepDataTypes
+import FoodDataTypes
 
 extension Double {
     var digits: [Int] { cleanAmount.compactMap{ $0.wholeNumberValue } }

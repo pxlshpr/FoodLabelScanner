@@ -1,6 +1,6 @@
 import SwiftUI
 import VisionSugar
-import PrepDataTypes
+import FoodDataTypes
 
 extension ValuesText {
     var containsLessThanPrefix: Bool {

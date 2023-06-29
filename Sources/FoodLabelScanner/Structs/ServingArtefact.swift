@@ -1,6 +1,6 @@
 import Foundation
 import VisionSugar
-import PrepDataTypes
+import FoodDataTypes
 
 public struct ServingArtefact {
     public let text: RecognizedText

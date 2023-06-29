@@ -1,5 +1,5 @@
 import SwiftSugar
-import PrepDataTypes
+import FoodDataTypes
 
 public enum Attribute: String, CaseIterable, Codable {
     

@@ -126,7 +126,7 @@ extension RecognizedTextSet {
     }    
 }
 
-import PrepDataTypes
+import FoodDataTypes
 
 extension FoodLabelValue {
     

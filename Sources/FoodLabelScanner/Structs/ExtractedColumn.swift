@@ -1,7 +1,7 @@
 import SwiftUI
 import VisionSugar
 import TabularData
-import PrepDataTypes
+import FoodDataTypes
 
 struct ExtractedColumn {
     

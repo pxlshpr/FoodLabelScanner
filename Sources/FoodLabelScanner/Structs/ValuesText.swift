@@ -1,7 +1,7 @@
 import Foundation
 import VisionSugar
 import CoreGraphics
-import PrepDataTypes
+import FoodDataTypes
 
 extension RecognizedText {
     /// Returns the first non-empty set of `FoodLabelValue`s detected from all the candidate strings

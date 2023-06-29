@@ -1,7 +1,7 @@
 import SwiftUI
 import VisionSugar
 import SwiftSugar
-import PrepDataTypes
+import FoodDataTypes
 
 let RatioErrorPercentageThreshold = 17.0
 let MacroOrEnergyErrorPercentageThreshold = 20.0
