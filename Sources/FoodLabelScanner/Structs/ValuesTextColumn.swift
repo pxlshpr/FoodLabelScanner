@@ -1,6 +1,8 @@
 import VisionSugar
 import SwiftUI
 
+import FoodDataTypes
+
 //TODO: Create test cases for it starting with spicy chips
 struct ValuesTextColumn {
 

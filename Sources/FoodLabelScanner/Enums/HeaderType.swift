@@ -1,5 +1,7 @@
 import Foundation
 
+import FoodDataTypes
+
 public enum HeaderType: String, CaseIterable, Codable {
     case per100g
     case per100ml

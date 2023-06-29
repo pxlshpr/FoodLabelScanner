@@ -1,6 +1,8 @@
 import XCTest
 import TabularData
 
+import FoodDataTypes
+
 @testable import FoodLabelScanner
 
 final class String_AttributeTests: XCTestCase {

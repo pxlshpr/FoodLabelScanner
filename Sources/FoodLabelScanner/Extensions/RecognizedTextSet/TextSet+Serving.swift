@@ -1,5 +1,7 @@
 import VisionSugar
 
+import FoodDataTypes
+
 extension RecognizedTextSet {
     
     var servingObservations: [Observation] {

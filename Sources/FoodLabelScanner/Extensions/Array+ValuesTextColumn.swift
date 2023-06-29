@@ -1,6 +1,8 @@
 import Foundation
 import VisionSugar
 
+import FoodDataTypes
+
 extension Array where Element == ValuesTextColumn {
 
     mutating func insertNilForMissingValues() {

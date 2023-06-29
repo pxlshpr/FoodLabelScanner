@@ -1,5 +1,6 @@
 import Foundation
 import VisionSugar
+import FoodDataTypes
 
 extension RecognizedTextSet {
     func columnsOfAttributes() -> [[AttributeText]] {

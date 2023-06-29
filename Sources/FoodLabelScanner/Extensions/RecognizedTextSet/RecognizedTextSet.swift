@@ -1,6 +1,8 @@
 import VisionSugar
 import Foundation
 
+import FoodDataTypes
+
 extension RecognizedTextSet {
     var mostAreInline: Bool {
         var attributes: [Attribute] = []

@@ -1,6 +1,8 @@
 import SwiftUI
 import VisionSugar
 
+import FoodDataTypes
+
 public struct AttributeText: Codable {
     public let attribute: Attribute
     public let text: RecognizedText

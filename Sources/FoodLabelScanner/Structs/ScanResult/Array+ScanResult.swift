@@ -1,5 +1,7 @@
 import SwiftSugar
 
+import FoodDataTypes
+
 public extension ScanResult {
     
     func containsValue(for attribute: Attribute, at column: Int) -> Bool {

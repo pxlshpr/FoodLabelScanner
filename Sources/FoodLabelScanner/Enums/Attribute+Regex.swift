@@ -1,5 +1,7 @@
 import Foundation
 
+import FoodDataTypes
+
 extension Attribute {
     var regex: String? {
         switch self {
