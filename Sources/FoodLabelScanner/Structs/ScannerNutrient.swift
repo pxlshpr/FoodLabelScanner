@@ -2,7 +2,7 @@ import Foundation
 import VisionSugar
 import FoodDataTypes
 
-struct Nutrient: Equatable {
+struct ScannerNutrient: Equatable {
     let attribute: Attribute
     let value: FoodLabelValue
 }
@@ -12,16 +12,16 @@ extension String {
         !nutrients.isEmpty
     }
     
-    var nutrients: [Nutrient] {
+    var nutrients: [ScannerNutrient] {
         
-        var nutrients: [Nutrient] = []
+        var nutrients: [ScannerNutrient] = []
         var setAsideAttribute: Attribute? = nil
         var setAsideValue: FoodLabelValue? = nil
         var saveNextValue: Bool = false
         let artefacts = self.nutrientArtefacts(textId: defaultUUID)
         
         func appendNutrientWith(attribute: Attribute, value: FoodLabelValue) {
-            nutrients.append(Nutrient(attribute: attribute, value: value))
+            nutrients.append(ScannerNutrient(attribute: attribute, value: value))
             setAsideAttribute = nil
             setAsideValue = nil
         }
@@ -210,7 +210,7 @@ extension String {
     }
 }
 
-extension Nutrient: CustomStringConvertible {
+extension ScannerNutrient: CustomStringConvertible {
     var description: String {
         "\(attribute.rawValue): \(value.description)"
     }
@@ -225,7 +225,7 @@ extension NutrientArtefact {
     }
 }
 
-extension Nutrient {
+extension ScannerNutrient {
     func observation(forInlineText text: RecognizedText) -> Observation {
         let attributeText = AttributeText(attribute: attribute, text: text)
         let valueText = ValueText(value: value, text: text)

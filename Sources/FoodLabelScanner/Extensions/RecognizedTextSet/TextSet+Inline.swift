@@ -4,10 +4,10 @@ import OrderedCollections
 
 extension RecognizedText {
     /// Goes through all the detected nutrients in each of the candidate strings—and uniquely adds them to an array in a dictionary storing them against their attributes.
-    var nutrientCandidates: OrderedDictionary<Attribute, [Nutrient]> {
+    var nutrientCandidates: OrderedDictionary<Attribute, [ScannerNutrient]> {
         let strings = self.candidates
 //        var candidates: [Attribute: [Nutrient]] = [:]
-        var candidates: OrderedDictionary<Attribute, [Nutrient]> = [:]
+        var candidates: OrderedDictionary<Attribute, [ScannerNutrient]> = [:]
 
         for string in strings {
             for nutrient in string.nutrients {
@@ -21,10 +21,10 @@ extension RecognizedText {
     }
 }
 
-extension OrderedDictionary where Key == Attribute, Value == [Nutrient] {
+extension OrderedDictionary where Key == Attribute, Value == [ScannerNutrient] {
     /// Returns an array of the best candidates from each set of nutrients (for each attribute)
-    var bestCandidateNutrients: [Nutrient] {
-        var candidates: [Nutrient] = []
+    var bestCandidateNutrients: [ScannerNutrient] {
+        var candidates: [ScannerNutrient] = []
         for key in keys {
             guard let candidate = self[key]?.bestCandidate else {
                 continue
@@ -149,14 +149,14 @@ extension FoodLabelValue {
 }
 
 
-extension Array where Element == Nutrient {
+extension Array where Element == ScannerNutrient {
     /**
      Returns the best candidate from an array of possible candidates for a text.
      
      For instance—if we have ["60", "6g"] for the attribute of "Saturated Fat"—we'll pick "6g" over "60" because it
         - has a unit that is compatible with that attribute
     */
-    var bestCandidate: Nutrient? {
+    var bestCandidate: ScannerNutrient? {
         for candidate in self {
             if let unit = candidate.value.unit, candidate.attribute.supportsUnit(unit) {
                 return candidate

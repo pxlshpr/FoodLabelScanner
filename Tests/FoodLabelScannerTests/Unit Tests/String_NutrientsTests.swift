@@ -4,13 +4,13 @@ import FoodDataTypes
 
 @testable import FoodLabelScanner
 
-func n(_ attribute: Attribute, _ amount: Double, _ unit: FoodLabelUnit? = nil) -> Nutrient {
-    Nutrient(attribute: attribute, value: FoodLabelValue(amount: amount, unit: unit))
+func n(_ attribute: Attribute, _ amount: Double, _ unit: FoodLabelUnit? = nil) -> ScannerNutrient {
+    ScannerNutrient(attribute: attribute, value: FoodLabelValue(amount: amount, unit: unit))
 }
 
 final class String_NutrientsTests: XCTestCase {
 
-    let testCases: [(input: String, nutrients: [Nutrient])] = [
+    let testCases: [(input: String, nutrients: [ScannerNutrient])] = [
         
         ("Total Fat 3g", [n(.fat, 3, .g)]),
         ("Calories 150", [n(.energy, 150, .kcal)]),

@@ -177,108 +177,108 @@ public extension ScanResult {
     
 }
 
-public extension Attribute {
-    var micro: Micro? {
-        Micro.allCases.first(where: { $0.attribute == self })
-    }
-}
-
-public extension Micro {
-    var attribute: Attribute? {
-        switch self {
-        case .saturatedFat:
-            return .saturatedFat
-        case .monounsaturatedFat:
-            return .monounsaturatedFat
-        case .polyunsaturatedFat:
-            return .polyunsaturatedFat
-        case .transFat:
-            return .transFat
-        case .cholesterol:
-            return .cholesterol
-        case .dietaryFiber:
-            return .dietaryFibre
-        case .solubleFiber:
-            return .solubleFibre
-        case .insolubleFiber:
-            return .insolubleFibre
-        case .sugars:
-            return .sugar
-        case .addedSugars:
-            return .addedSugar
-        case .calcium:
-            return .calcium
-        case .chromium:
-            return .chromium
-        case .iodine:
-            return .iodine
-        case .iron:
-            return .iron
-        case .magnesium:
-            return .magnesium
-        case .manganese:
-            return .manganese
-        case .potassium:
-            return .potassium
-        case .selenium:
-            return .selenium
-        case .sodium:
-            return .sodium
-        case .zinc:
-            return .zinc
-        case .vitaminA:
-            return .vitaminA
-        case .vitaminB6_pyridoxine:
-            return .vitaminB6
-        case .vitaminB12_cobalamin:
-            return .vitaminB12
-        case .vitaminC_ascorbicAcid:
-            return .vitaminC
-        case .vitaminD_calciferol:
-            return .vitaminD
-        case .vitaminE:
-            return .vitaminE
-        case .vitaminK1_phylloquinone:
-            return .vitaminK
-        case .vitaminB7_biotin:
-            return .biotin
-        case .vitaminB9_folate:
-            return .folate
-        case .vitaminB3_niacin:
-            return .niacin
-        case .vitaminB5_pantothenicAcid:
-            return .pantothenicAcid
-        case .vitaminB2_riboflavin:
-            return .riboflavin
-        case .vitaminB1_thiamine:
-            return .thiamin
-        case .vitaminB9_folicAcid:
-            return .folicAcid
-        case .vitaminK2_menaquinone:
-            return .vitaminK2
-        case .caffeine:
-            return .caffeine
-        case .taurine:
-            return .taurine
-        case .polyols:
-            return .polyols
-        case .gluten:
-            return .gluten
-        case .starch:
-            return .starch
-        case .salt:
-            return .salt
-            
-        case .phosphorus:
-            return .phosphorus
-            
-        /// No support (yet) for remaining ones, add entry into `Attribute` First
-            
-        default:
-            return nil
-        }
-    }
-}
+//public extension Attribute {
+//    var micro: Micro? {
+//        Micro.allCases.first(where: { $0.attribute == self })
+//    }
+//}
+//
+//public extension Micro {
+//    var attribute: Attribute? {
+//        switch self {
+//        case .saturatedFat:
+//            return .saturatedFat
+//        case .monounsaturatedFat:
+//            return .monounsaturatedFat
+//        case .polyunsaturatedFat:
+//            return .polyunsaturatedFat
+//        case .transFat:
+//            return .transFat
+//        case .cholesterol:
+//            return .cholesterol
+//        case .dietaryFiber:
+//            return .dietaryFibre
+//        case .solubleFiber:
+//            return .solubleFibre
+//        case .insolubleFiber:
+//            return .insolubleFibre
+//        case .sugars:
+//            return .sugar
+//        case .addedSugars:
+//            return .addedSugar
+//        case .calcium:
+//            return .calcium
+//        case .chromium:
+//            return .chromium
+//        case .iodine:
+//            return .iodine
+//        case .iron:
+//            return .iron
+//        case .magnesium:
+//            return .magnesium
+//        case .manganese:
+//            return .manganese
+//        case .potassium:
+//            return .potassium
+//        case .selenium:
+//            return .selenium
+//        case .sodium:
+//            return .sodium
+//        case .zinc:
+//            return .zinc
+//        case .vitaminA:
+//            return .vitaminA
+//        case .vitaminB6_pyridoxine:
+//            return .vitaminB6
+//        case .vitaminB12_cobalamin:
+//            return .vitaminB12
+//        case .vitaminC_ascorbicAcid:
+//            return .vitaminC
+//        case .vitaminD_calciferol:
+//            return .vitaminD
+//        case .vitaminE:
+//            return .vitaminE
+//        case .vitaminK1_phylloquinone:
+//            return .vitaminK
+//        case .vitaminB7_biotin:
+//            return .biotin
+//        case .vitaminB9_folate:
+//            return .folate
+//        case .vitaminB3_niacin:
+//            return .niacin
+//        case .vitaminB5_pantothenicAcid:
+//            return .pantothenicAcid
+//        case .vitaminB2_riboflavin:
+//            return .riboflavin
+//        case .vitaminB1_thiamine:
+//            return .thiamin
+//        case .vitaminB9_folicAcid:
+//            return .folicAcid
+//        case .vitaminK2_menaquinone:
+//            return .vitaminK2
+//        case .caffeine:
+//            return .caffeine
+//        case .taurine:
+//            return .taurine
+//        case .polyols:
+//            return .polyols
+//        case .gluten:
+//            return .gluten
+//        case .starch:
+//            return .starch
+//        case .salt:
+//            return .salt
+//            
+//        case .phosphorus:
+//            return .phosphorus
+//            
+//        /// No support (yet) for remaining ones, add entry into `Attribute` First
+//            
+//        default:
+//            return nil
+//        }
+//    }
+//}
 
 public extension ScanResult {
 
