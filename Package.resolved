@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pxlshpr/FoodDataTypes",
       "state" : {
-        "revision" : "c7588f281ee35c98ae9b6b9a93ffacbfe90abfa3",
-        "version" : "0.0.25"
+        "revision" : "c417e3f8781e94354d0e6b3646805b44a9a21e2d",
+        "version" : "0.0.26"
       }
     },
     {
