@@ -1,6 +1,6 @@
 import SwiftUI
 import VisionSugar
-import FoodDataTypes
+import PrepShared
 
 //TODO: Remove any used ones
 //MARK: [[AttributeText]]

@@ -1,6 +1,6 @@
 import XCTest
 import TabularData
-import FoodDataTypes
+import PrepShared
 
 @testable import FoodLabelScanner
 

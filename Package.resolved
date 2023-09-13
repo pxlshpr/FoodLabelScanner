@@ -1,12 +1,30 @@
 {
   "pins" : [
     {
-      "identity" : "fooddatatypes",
+      "identity" : "colorkit",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/pxlshpr/FoodDataTypes",
+      "location" : "https://github.com/pxlshpr/ColorKit",
       "state" : {
-        "revision" : "c04b452cd7f05dfdaaf3ca7e582f2288a37adeb9",
-        "version" : "0.0.31"
+        "revision" : "d45ed513998a88230316f8b0ca57230311394896",
+        "version" : "1.2.1"
+      }
+    },
+    {
+      "identity" : "colorsugar",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pxlshpr/ColorSugar",
+      "state" : {
+        "revision" : "ca642a18e471e0be2bda54f752fc1ad51e8d827a",
+        "version" : "0.0.8"
+      }
+    },
+    {
+      "identity" : "prepshared",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pxlshpr/PrepShared",
+      "state" : {
+        "revision" : "a0edcce9a15685654710662a624dbf631b8cee38",
+        "version" : "0.0.18"
       }
     },
     {
@@ -34,6 +52,15 @@
       "state" : {
         "revision" : "603c843e2482d44233259a4eb38012114c859054",
         "version" : "0.0.80"
+      }
+    },
+    {
+      "identity" : "zip",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/marmelroy/Zip",
+      "state" : {
+        "revision" : "67fa55813b9e7b3b9acee9c0ae501def28746d76",
+        "version" : "2.1.2"
       }
     }
   ],

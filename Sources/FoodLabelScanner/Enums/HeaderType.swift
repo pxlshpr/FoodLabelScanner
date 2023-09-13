@@ -1,6 +1,6 @@
 import Foundation
 
-import FoodDataTypes
+import PrepShared
 
 public enum HeaderType: String, CaseIterable, Codable {
     case per100g

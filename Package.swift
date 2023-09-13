@@ -17,7 +17,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/pxlshpr/SwiftSugar", from: "0.0.97"),
         .package(url: "https://github.com/pxlshpr/VisionSugar", from: "0.0.80"),
-        .package(url: "https://github.com/pxlshpr/FoodDataTypes", from: "0.0.28"),
+        .package(url: "https://github.com/pxlshpr/PrepShared", from: "0.0.18"),
         .package(url: "https://github.com/apple/swift-collections", from: "1.0.4"),
     ],
     targets: [
@@ -28,7 +28,7 @@ let package = Package(
             dependencies: [
                 .product(name: "SwiftSugar", package: "SwiftSugar"),
                 .product(name: "VisionSugar", package: "VisionSugar"),
-                .product(name: "FoodDataTypes", package: "FoodDataTypes"),
+                .product(name: "PrepShared", package: "PrepShared"),
                 .product(name: "Collections", package: "swift-collections")
             ]
         ),

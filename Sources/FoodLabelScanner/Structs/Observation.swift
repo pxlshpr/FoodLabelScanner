@@ -1,5 +1,5 @@
 import Foundation
-import FoodDataTypes
+import PrepShared
 
 struct Observation {
     var attributeText: AttributeText

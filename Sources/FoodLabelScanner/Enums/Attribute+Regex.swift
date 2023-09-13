@@ -1,6 +1,6 @@
 import Foundation
 
-import FoodDataTypes
+import PrepShared
 
 extension Attribute {
     var regex: String? {

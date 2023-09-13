@@ -126,7 +126,7 @@ extension RecognizedTextSet {
     }    
 }
 
-import FoodDataTypes
+import PrepShared
 
 extension FoodLabelValue {
     

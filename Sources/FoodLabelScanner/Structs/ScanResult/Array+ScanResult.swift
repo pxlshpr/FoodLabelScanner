@@ -1,6 +1,6 @@
 import SwiftSugar
 
-import FoodDataTypes
+import PrepShared
 
 public extension ScanResult {
     

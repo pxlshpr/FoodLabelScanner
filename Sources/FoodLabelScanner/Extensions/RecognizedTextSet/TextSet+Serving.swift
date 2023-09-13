@@ -1,6 +1,6 @@
 import VisionSugar
 
-import FoodDataTypes
+import PrepShared
 
 extension RecognizedTextSet {
     

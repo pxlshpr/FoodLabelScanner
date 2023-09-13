@@ -1,5 +1,5 @@
 import Foundation
-import FoodDataTypes
+import PrepShared
 
 public extension ScanResult.Serving {
     var amount: Double? { amountText?.double }

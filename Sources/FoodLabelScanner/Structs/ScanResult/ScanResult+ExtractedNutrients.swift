@@ -1,6 +1,6 @@
 import Foundation
 
-import FoodDataTypes
+import PrepShared
 import VisionSugar
 
 public extension ScanResult {

@@ -1,6 +1,6 @@
 import Foundation
 import VisionSugar
-import FoodDataTypes
+import PrepShared
 
 let CurrentRevision = 1
 

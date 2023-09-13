@@ -1,7 +1,7 @@
 import SwiftUI
 import VisionSugar
 import CoreMedia
-import FoodDataTypes
+import PrepShared
 
 extension RecognizedTextSet {
     public var scanResult: ScanResult {

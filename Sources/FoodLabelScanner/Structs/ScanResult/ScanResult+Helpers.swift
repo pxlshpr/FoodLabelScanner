@@ -1,7 +1,7 @@
 import Foundation
 
 import VisionSugar
-import FoodDataTypes
+import PrepShared
 
 extension DoubleText {
     public init(_ valueText: ValueText) {

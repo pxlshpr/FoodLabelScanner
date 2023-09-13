@@ -1,7 +1,7 @@
 import VisionSugar
 import Foundation
 
-import FoodDataTypes
+import PrepShared
 
 extension RecognizedTextSet {
     var mostAreInline: Bool {

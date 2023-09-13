@@ -1,7 +1,7 @@
 import VisionSugar
 import SwiftUI
 
-import FoodDataTypes
+import PrepShared
 
 //TODO: Create test cases for it starting with spicy chips
 struct ValuesTextColumn {

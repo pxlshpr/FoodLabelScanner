@@ -1,6 +1,6 @@
 import Foundation
 import VisionSugar
-import FoodDataTypes
+import PrepShared
 
 extension Array where Element == Observation {
     mutating func populateMissingHeaderObservations(from textSet: RecognizedTextSet) {

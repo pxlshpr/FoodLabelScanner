@@ -1,6 +1,6 @@
 import SwiftSugar
 
-import FoodDataTypes
+import PrepShared
 
 extension Attribute {
     static var vitamins: [Attribute] {

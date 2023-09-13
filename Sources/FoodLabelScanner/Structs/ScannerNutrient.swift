@@ -1,6 +1,6 @@
 import Foundation
 import VisionSugar
-import FoodDataTypes
+import PrepShared
 
 struct ScannerNutrient: Equatable {
     let attribute: Attribute

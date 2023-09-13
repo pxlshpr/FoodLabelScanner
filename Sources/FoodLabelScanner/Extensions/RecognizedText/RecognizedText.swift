@@ -1,6 +1,6 @@
 import VisionSugar
 import Foundation
-import FoodDataTypes
+import PrepShared
 
 extension RecognizedText {
     var isValueBasedAttribute: Bool {

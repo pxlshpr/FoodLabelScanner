@@ -1,7 +1,7 @@
 import SwiftUI
 import VisionSugar
 
-import FoodDataTypes
+import PrepShared
 
 public struct AttributeText: Codable {
     public let attribute: Attribute
